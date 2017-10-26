@@ -127,18 +127,11 @@ if (isEnabled() && global.DeploymentConfig.authType !== 'aad') {
   throw new Error('Unknown auth type: ' + global.DeploymentConfig.authType);
 }
 
-let currentUri = window.location.href;
-console.log("currentUri: " + currentUri);
-let hashPos = currentUri.indexOf('#');
-if (hashPos >= 0) {
-  currentUri = currentUri.substr(0, hashPos);
-}
-
 let authContext = new AuthenticationContext({
   instance: aadInstance,
   tenant: tenantId,
   clientId: clientId,
-  redirectUri: currentUri,
+  redirectUri: window.location.origin,
   postLogoutRedirectUri: window.location.href
 });
 
