@@ -55,11 +55,11 @@ function ajax(url, options) {
   // header is not valid, to tell the CSRF protection to allow
   // this request through (assuming that Auth is not mandatory,
   // e.g. during development).
-  //options.headers['Csrf-Token'] = 'nocheck';
+  options.headers['Csrf-Token'] = 'nocheck';
 
   auth.getAccessToken(accessToken => {
     if (accessToken) {
-      //options.headers['Authorization'] = 'Bearer ' + accessToken;
+      options.headers['Authorization'] = 'Bearer ' + accessToken;
     }
   });
 
