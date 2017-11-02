@@ -316,7 +316,7 @@ class ManageFiltersFlyout extends React.Component {
                         cond.Value = evt.target.value || '';
                         if (cond.type === 'Number') cond.Value = (+cond.Value);
                         editingState.valuesEditingState[idx] = {
-                          emptyValue: typeof cond.Value === 'String' && cond.Value.trim() === ''
+                          emptyValue: typeof cond.Value === 'string' && cond.Value.trim() === ''
                         };
                         this.setEditingState(group.Id, editingState);
                       }}
