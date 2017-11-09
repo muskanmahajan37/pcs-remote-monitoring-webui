@@ -3,6 +3,17 @@
 @import '../../styles/variables/colors';
 @import '../../styles/fonts/font-variables';
 
+#map {
+  width:100%;
+  height:356px;
+  overflow: hidden;
+  position: relative;
+}
+
+.mapbox-missing-css { display: none; }
+
+.mapboxgl-missing-css { display: none; }
+
 .map-container {
   font-family: $fontSelawik;
 
