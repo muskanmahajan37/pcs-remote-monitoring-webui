@@ -76,11 +76,11 @@ class DeviceScheduleFlyout extends React.Component {
     const deviceIds = this.props.devices
       .map(({ Id }) => `'${Id}'`).join(',');
     const payload = {
-      JobId: this.state.jobInputValue ? this.state.jobInputValue + '-' + uuid(): uuid(),
-      QueryCondition: `deviceId in [${deviceIds}]`,
-      MaxExecutionTimeInSeconds: 0,
-      MethodParameter: {
-        Name: this.state.methodValue
+      jobId: this.state.jobInputValue ? this.state.jobInputValue + '-' + uuid(): uuid(),
+      queryCondition: `deviceId in [${deviceIds}]`,
+      maxExecutionTimeInSeconds: 0,
+      methodParameter: {
+        name: this.state.methodValue
       }
     };
     this.setState({ showSpinner: true });
