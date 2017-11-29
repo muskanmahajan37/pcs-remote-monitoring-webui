@@ -200,7 +200,7 @@ const lang = {
   ORGANIZEMYDEVICE: 'Organize my devices',
   PHYSICAL: 'Physical',
   PLEASE_CHOOSE_DEVICES_WITH_COMMON_TAGS: 'Please choose devices with common tags',
-  PREVIEWNOTICE: 'Notice: This remote monitoring solution is in preview mode and additional functionality will be added in the coming weeks. Click here to learn about what\'s coming soon!',
+  PREVIEWNOTICE: 'Welcome to the IoT Remote Monitoring Preview. New functionality will be added in the coming weeks. Check out our article to learn more.',
   PRIMARYKEY: 'Primary Key',
   PRIMARYTHUMBPRINT: 'Primary thumbprint',
   PROPERTIES: 'Properties',
