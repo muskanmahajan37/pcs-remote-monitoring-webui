@@ -187,7 +187,7 @@ class DeviceMap extends Component {
         <Row>
           <RegionDetails {...this.props} />
           <Col md={9} className="bing-map">
-            <LbsMap />
+            <LbsMap {...this.props} />
           </Col>
         </Row>
       </DashboardPanel>

@@ -1,18 +1,17 @@
 import React, { Component, PropTypes } from 'react';
-import MapboxGl from 'mapbox-gl/dist/mapbox-gl.js';
-import mapboxgl from 'mapbox-gl';
+import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
 import * as clusterIcons from './clusterIcons';
 import './deviceMap.css';
 
 class LbsMap extends Component {
 
   componentDidMount() {
-    MapboxGl.accessToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
-    const map=  new MapboxGl.Map({
-      container: this.container,
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
+    const map=  new mapboxgl.Map({
+      container: 'map',
       style: 'mapbox://styles/mapbox/dark-v9'
     });
-
+    map.addControl(new mapboxgl.NavigationControl());
     map.on('load', function() {
     map.addSource("earthquakes", {
         type: "geojson",
@@ -21,6 +20,7 @@ class LbsMap extends Component {
         clusterMaxZoom: 40, // Max zoom to cluster points on
         clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
     });
+
     map.addLayer({
         id: "clusters",
         type: "circle",
@@ -77,10 +77,9 @@ class LbsMap extends Component {
 
   render() {
     return (
-      <div>
-        <div className="mapbox-missing-css">Missing CSS</div>
-        <div id='map' ref={(x) => { this.container = x }}></div>
-      </div>
+
+        <div id='map'></div>
+
     )
   }
 }
