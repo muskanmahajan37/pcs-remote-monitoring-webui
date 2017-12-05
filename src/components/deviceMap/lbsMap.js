@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import * as clusterIcons from './clusterIcons';
 import './deviceMap.css';
 

@@ -30,7 +30,7 @@ class DeviceMap extends Component {
   //   }
   // }
   //
-  
+
   componentWillReceiveProps(nextProps) {
     this.applyPropsToState(nextProps);
   }
@@ -79,7 +79,7 @@ class DeviceMap extends Component {
          },
          "geometry": {
              "type": "Point",
-             "coordinates": [latitude, longitude ]
+             "coordinates": [longitude, latitude ]
          }
       };
     });
