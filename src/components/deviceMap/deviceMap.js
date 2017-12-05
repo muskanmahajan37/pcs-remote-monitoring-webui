@@ -14,17 +14,11 @@ import DashboardPanel from '../dashboardPanel/dashboardPanel';
 import './deviceMap.css';
 
 class DeviceMap extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   window.loadMap = () => {
-  //     MapPane.init(this.props.BingMapKey);
-  //     if (this.props.BingMapKey && this.props.BingMapKey !== config.STATUS_CODES.STATIC) {
-  //        this.showMap(this.props);
-  //      }
-  //   };
-  //   this.state = { mapCallbackComplete: false, showNoDataOverlay: false };
-  // }
-  //
+  constructor(props) {
+    super(props);
+    this.state = { geoJson: null };
+  }
+
   // componentDidMount() {
   //   this.addScript(this.props);
   // }
@@ -36,16 +30,62 @@ class DeviceMap extends Component {
   //   }
   // }
   //
-  // componentWillReceiveProps(nextProps) {
-  //   const {devices, telemetryByDeviceGroup, alarmList, BingMapKey} = nextProps;
-  //   if (!devices || !telemetryByDeviceGroup || !alarmList || !BingMapKey) return;  //the data is not loaded yet, return
-  //   this.addScript(nextProps);
-  //   if (BingMapKey && BingMapKey !== config.STATUS_CODES.STATIC) {
-  //      this.showMap(nextProps);
-  //   }
-  //   this.setState({ showNoDataOverlay: (!alarmList.length && !devices.length && !telemetryByDeviceGroup.Items.length) });
-  // }
-  //
+  
+  componentWillReceiveProps(nextProps) {
+    this.applyPropsToState(nextProps);
+  }
+
+  componentWillMount() {
+    this.applyPropsToState(this.props);
+  }
+
+  applyPropsToState(props) {
+    const {devices, telemetryByDeviceGroup, alarmList, BingMapKey} = props;
+    if (!devices || !telemetryByDeviceGroup || !alarmList) return;  //the data is not loaded yet, return
+    const geoJson = {type: "FeatureCollection", features: []};
+      //If control reaches here, that means map is loaded and also the data is also loaded.
+    geoJson.features = devices.items.map(device => {
+      let latitude, longitude, severity;
+      telemetryByDeviceGroup.Items.some(telemetryGroup => {
+        /**
+        Bing Map renders the devices only if the devices have longitude and latitude.
+        If not we are not showing the devices on Map (all devices don't have the longitude and latitude).
+        */
+        if (device.Id === telemetryGroup.DeviceId) {
+          if (
+            telemetryGroup.Data &&
+            telemetryGroup.Data.latitude &&
+            telemetryGroup.Data.longitude
+          ) {
+            latitude = telemetryGroup.Data.latitude;
+            longitude = telemetryGroup.Data.longitude;
+          } else if (device.Properties.Reported) {
+            latitude = device.Properties.Reported.Latitude;
+            longitude = device.Properties.Reported.Longitude;
+          }
+          return true; //stop looping
+        }
+      });
+      alarmList.some(alarm => {
+        if (device.Id === alarm.DeviceId) {
+          severity = alarm.Rule.Severity;
+        }
+        return true; //stop looping
+      });
+      return {
+        "type": "Feature",
+         "properties": {
+           severity: severity
+         },
+         "geometry": {
+             "type": "Point",
+             "coordinates": [latitude, longitude ]
+         }
+      };
+    });
+    this.setState({ geoJson : geoJson });
+  }
+
   // showMap(props) {
   //   this.setState({ mapCallbackComplete: true });
   //   const { devices, telemetryByDeviceGroup, alarmList, actions } = props;
@@ -180,15 +220,17 @@ class DeviceMap extends Component {
   // }
 
   render() {
-    // const { BingMapKey } = this.props;
     return (
       <DashboardPanel title={lang.DEVICELOCATION}
         className="map-container">
         <Row>
           <RegionDetails {...this.props} />
-          <Col md={9} className="bing-map">
-            <LbsMap {...this.props} />
-          </Col>
+          {
+            this.state.geoJson !== null &&
+            <Col md={9} className="bing-map">
+              <LbsMap geoJson={this.state.geoJson} />
+            </Col>
+          }
         </Row>
       </DashboardPanel>
     );
