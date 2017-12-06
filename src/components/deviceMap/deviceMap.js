@@ -7,9 +7,7 @@ import * as actions from '../../actions';
 import LbsMap from './lbsMap';
 import RegionDetails from '../../components/deviceMap/regionDetails.js';
 import { Row, Col } from 'react-bootstrap';
-import StaticMapWithOutDevices from '../../assets/icons/staticMapWithOutDevices.png';
 import lang from '../../common/lang';
-import config from '../../common/config';
 import DashboardPanel from '../dashboardPanel/dashboardPanel';
 
 import './deviceMap.css';
@@ -29,7 +27,7 @@ class DeviceMap extends Component {
   }
 
   applyPropsToState(props) {
-    const {devices, telemetryByDeviceGroup, alarmList, BingMapKey} = props;
+    const {devices, telemetryByDeviceGroup, alarmList} = props;
     if (!devices || !telemetryByDeviceGroup || !alarmList) return;  //the data is not loaded yet, return
     const geoJson = {type: "FeatureCollection", features: []};
       //If control reaches here, that means map is loaded and also the data is also loaded.
@@ -55,6 +53,7 @@ class DeviceMap extends Component {
           }
           return true; //stop looping
         }
+        return false;
       });
       alarmList.some(alarm => {
         if (device.Id === alarm.DeviceId) {
