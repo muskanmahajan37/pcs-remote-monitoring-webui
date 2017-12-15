@@ -10,6 +10,7 @@ const lang = {
   ADDCONDITIONS: 'Add Conditions',
   ADDDEVICES: '+ Provision',
   ADD_TAG: 'Add tag',
+  ADD_NEW_PROPERTY: 'Add new property',
   ADJUST_TAGS: 'Adjust Tags',
   AFFECTEDDEVICES: 'devices affected by this rule',
   AFFECTED_DEVICES: 'Affected devices',

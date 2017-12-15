@@ -12,8 +12,11 @@ import * as actions from '../../actions';
 
 import CancelX from '../../assets/icons/CancelX.svg';
 import Apply from '../../assets/icons/Apply.svg';
+import Add from '../../assets/icons/Add.svg';
 import ApiService from '../../common/apiService';
 import Config from '../../common/config';
+import Select from 'react-select';
+import Trash from '../../assets/icons/Trash.svg';
 import {sanitizeJobName} from '../../common/utils';
 import Spinner from '../spinner/spinner';
 import DeepLinkSection from '../deepLinkSection/deepLinkSection';
@@ -30,17 +33,31 @@ const getRelatedJobs = (devices, propertyUpdateJobs) => {
   return propertyUpdateJobs.filter(job => devices.some(({ Id }) => job.deviceIds.indexOf(Id) !== -1));
 }
 
+const typeOptions = [
+  {
+    value: 'Number',
+    label: lang.NUMBER
+  },
+  {
+    value: 'Text',
+    label: lang.TEXT
+  }
+];
+
 class DeviceReconfigureFlyout extends React.Component {
   constructor() {
     super();
     this.inputReference = {};
     this.state = {
       commonConfiguration: [],
+      newReconfigure: [], //{name, value, type}
       jobInputValue: '',
       jobApplied: false,
       jobId: ''
     };
 
+    this.addNewReconfigure = this.addNewReconfigure.bind(this);
+    this.deleteNewReconfigure = this.deleteNewReconfigure.bind(this);
     this.commonConfigValueChanged = this.commonConfigValueChanged.bind(this);
     this.onChangeInput = this.onChangeInput.bind(this);
     this.applyDeviceConfigureJobsData =this.applyDeviceConfigureJobsData.bind(this);
@@ -168,6 +185,12 @@ class DeviceReconfigureFlyout extends React.Component {
     this.setState({ commonConfiguration });
   }
 
+  addNewReconfigure() {
+    this.setState({
+      newReconfigure: [{ name: '', value: '', type: 'String' }, ...this.state.newReconfigure]
+    });
+  }
+
   commonConfigValueChanged(reportedProp, value) {
     const { commonConfiguration } = this.state;
     commonConfiguration.some(item => {
@@ -182,6 +205,14 @@ class DeviceReconfigureFlyout extends React.Component {
 
   onChangeInput(event) {
     this.setState({ jobInputValue: sanitizeJobName(event.target.value || '') });
+  }
+
+  deleteNewReconfigure(idx) {
+    let { newReconfigure } = this.state;
+    newReconfigure.splice(idx, 1);
+    this.setState({
+      newReconfigure: newReconfigure
+    });
   }
 
   applyDeviceConfigureJobsData() {
@@ -215,6 +246,54 @@ class DeviceReconfigureFlyout extends React.Component {
     });
   }
 
+  setReconfigureProperty(reconfigure, property, value) {
+    reconfigure[property] = value;
+    this.setState({});
+  }
+
+  renderNewReconfigure() {
+  	const { newReconfigure } = this.state;
+  	return (
+  		<div>
+  			{newReconfigure.map((reconfigure, idx) =>
+  				<div key={idx}>
+  					<div className="all-conditions">
+  						<input
+  							type="text"
+  							className="condition-name"
+  							value={reconfigure.name}
+  							onChange={evt => this.setReconfigureProperty(reconfigure, 'name', evt.target.value)}
+  							placeholder={lang.NAME}
+  						/>
+  						<input
+  							type="text"
+  							className="condition-value"
+  							value={reconfigure.value}
+  							onChange={evt => this.setReconfigureProperty(reconfigure, 'value', evt.target.value)}
+  							placeholder={lang.VALUE}
+  						/>
+  						<span className="device-tag-type">
+  							<Select
+  								autofocus
+  								options={typeOptions}
+  								value={reconfigure.type}
+  								simpleValue
+  								onChange={val => this.setReconfigureProperty(reconfigure, 'type', val)}
+  								searchable={true}
+  								placeholder={lang.TYPE}
+  								className="select-style-manage"
+  							/>
+  						</span>
+  						<span>
+  							<img src={Trash} onClick={() => this.deleteNewReconfigure(idx)} alt={`${Trash}`} className="delete-icon" />
+  						</span>
+  					</div>
+  				</div>
+  			)}
+  		</div>
+  	);
+  }
+
   commonReconfigure() {
     const { commonConfiguration } = this.state;
     if (!commonConfiguration || !commonConfiguration.length) {
@@ -242,6 +321,15 @@ class DeviceReconfigureFlyout extends React.Component {
           <span className="device-configuration-items">
             {lang.TYPE}
           </span>
+        </div>
+        <div className="device-reconfigure-inner-conditions">
+          <div className="add-icon-name-container" onClick={this.addNewReconfigure}>
+            <img src={Add} alt={`${Add}`} className="add-icon" />
+            <span className="add-device-reconfigure">
+              {lang.ADD_NEW_PROPERTY}
+            </span>
+          </div>
+          {this.renderNewReconfigure()}
         </div>
         {commonConfiguration.map((item, idx) =>
           <div className="device-configuration-row name-value-type" key={item.label} onClick={() => {this.inputReference[idx] && this.inputReference[idx].focus()}}>

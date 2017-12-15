@@ -117,7 +117,90 @@
       font-size: 12px;
       width: 33.33%;
       overflow: hidden;
-      padding-left: 5px;
+      padding-left: 16px;
     }
   }
+}
+
+.device-reconfigure-inner-conditions {
+  background-color: $gridTileDark;
+  margin-top: 16px;
+  width: 400px;
+
+  .add-icon-name-container {
+    margin-left: 16px;
+    padding-top: 10px;
+    height: 40px;
+
+    .add-icon {
+      width: 10px;
+      margin-right: 3px;
+      margin-bottom: 5px;
+    }
+
+    .add-device-reconfigure { font-size: 14px; }
+  }
+
+  .all-conditions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    .condition-name,
+    .condition-value,
+    .condition-type {
+      margin-top: 16px;
+      margin-bottom: 10px;
+      background-color: $gridTileDark;
+      height: 40px;
+      padding: 10px;
+      color: $lightestGray;
+      font-size: 12px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      width: 85px !important;
+      margin-right: 10px;
+      border: 1px solid #3e4145;
+      padding-left: 5px;
+
+      &:hover { border: 1px solid $lightestGray; }
+    }
+
+    .delete-icon { margin-top: 28px; }
+  }
+}
+
+.device-tag-type {
+  width: 80px;
+  height: 40px;
+  font-size: 12px;
+  display: inline-block;
+  vertical-align: center;
+  border: 1px solid #3e4145;
+  margin-top: 0px;
+  margin-top: 15px;
+
+  .Select-menu-outer {
+    border: 1px solid $lightestGray;
+    width: 80px;
+    padding-top: 3px;
+    margin-left: 1px;
+  }
+
+  .Select-clear-zone { display: none; }
+
+  .Select-arrow-zone { padding-top: 0px; }
+
+  .Select,
+  .Select div,
+  .Select input,
+  .Select span {
+    background-color: $gridTileDark;
+    color: $lightestGray;
+    font-weight: normal;
+    margin-top: 0px;
+  }
+
+  .Select--single > .Select-control .Select-value { background-color: $gridTileDark; }
 }
