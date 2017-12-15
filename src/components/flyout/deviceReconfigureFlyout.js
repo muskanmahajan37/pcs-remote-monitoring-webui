@@ -222,6 +222,9 @@ class DeviceReconfigureFlyout extends React.Component {
     this.state.commonConfiguration.forEach(item => {
       reportedProps[item.label] = item.value;
     });
+    this.state.newReconfigure.forEach(reconfigure => {
+      reportedProps[reconfigure.name] = reconfigure.value;
+    });
     const payload = {
       JobId: this.state.jobInputValue ? this.state.jobInputValue + '-' + uuid() : uuid(),
       QueryCondition: `deviceId in [${deviceIds}]`,
