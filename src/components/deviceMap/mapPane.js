@@ -156,7 +156,7 @@ let setDeviceLocationData = function setDeviceLocationData(
       //Create a ClusterLayer with options and add it to the map.
       let clusterLayer = new window.Microsoft.Maps.ClusterLayer(allPins, {
         clusteredPinCallback: createCustomClusteredPin,
-        gridSize: 80
+        gridSize: 10
       });
 
       map.layers.insert(clusterLayer);
