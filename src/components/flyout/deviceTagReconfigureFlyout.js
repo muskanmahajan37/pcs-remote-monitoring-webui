@@ -1,4 +1,4 @@
-mergeReconfigure// Copyright (c) Microsoft. All rights reserved.
+// Copyright (c) Microsoft. All rights reserved.
 
 import React from 'react';
 import { connect } from 'react-redux';
