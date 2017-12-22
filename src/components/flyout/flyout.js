@@ -7,7 +7,7 @@ import DeviceTagFlyout from './deviceTagFlyout';
 import DeviceDeletionFlyout from './deviceDeletionFlyout';
 import RuleOverviewFlyout from '../ruleOverview/ruleOverview';
 import DeviceScheduleFlyout from './deviceScheduleFlyout';
-import DeviceTagReconfigureFlyout from './deviceReconfigureFlyout';
+import DeviceReconfigureFlyout from './deviceReconfigureFlyout';
 import RuleEditor from '../ruleEditor/ruleEditor';
 import DeviceProvisioningWorkflow from '../deviceProvisioningWorkflow/deviceProvisioningWorkflow';
 import SettingFlyout from '../settingFlyout/settingFlyout';
@@ -37,7 +37,7 @@ const getFlyout = (content, onClose) => {
       return <RuleEditor content={content} onClose={onClose} />;
 
     case 'Reconfigure':
-      return <DeviceTagReconfigureFlyout content={content} onClose={onClose} />;
+      return <DeviceReconfigureFlyout content={content} onClose={onClose} />;
 
     case 'New device':
       return <DeviceProvisioningWorkflow content={content} onClose={onClose} />;
