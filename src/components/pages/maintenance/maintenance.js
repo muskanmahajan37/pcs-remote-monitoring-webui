@@ -87,7 +87,7 @@ class MaintenancePage extends Component {
   }
 
   componentDidMount() {
-    const deviceIds = ((this.props.devices || {}).items || []).map(({Id}) => Id) || [];
+    const deviceIds = ((this.props.devices || {}).Items || []).map(({Id}) => Id) || [];
     this.props.actions.loadMaintenanceData({
       from: `NOW-${this.state.timerange}`,
       to: 'NOW',
@@ -102,7 +102,7 @@ class MaintenancePage extends Component {
   }
 
   refreshData() {
-    const deviceIds = ((this.props.devices || {}).items || []).map(({Id}) => Id) || [];
+    const deviceIds = ((this.props.devices || {}).Items || []).map(({Id}) => Id) || [];
     this.props.actions.loadMaintenanceData({
       from: `NOW-${this.state.timerange}`,
       to: 'NOW',
@@ -252,9 +252,10 @@ class MaintenancePage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { devices } = nextProps;
-    if (devices && devices.items.length && !_.isEqual(devices, this.props.devices)) {
-      const deviceIds = devices.items.map(({Id}) => Id);
+    const { devices, params } = nextProps;
+    if (!params.id && !params.JobId) this.setState({ contextBtns: true });
+    if (devices && devices.Items.length && !_.isEqual(devices, this.props.devices)) {
+      const deviceIds = devices.Items.map(({Id}) => Id);
       this.props.actions.loadMaintenanceData({
         from: `NOW-${this.state.timerange}`,
         to: 'NOW',
@@ -266,19 +267,19 @@ class MaintenancePage extends Component {
 
   // Retrieving the deviceIds from "queryCondition": "deviceId in ['Simulated.prototype-01.0','Simulated.prototype-01.1']".
   selectJobAndSetState(props) {
-    if (!props.params || !props.params.jobId) {
+    if (!props.params || !props.params.JobId) {
       return;
     }
-    ApiService.getJobStatus(props.params.jobId)
+    ApiService.getJobStatus(props.params.JobId)
       .then(jobDetails => {
         const { Devices } = jobDetails;
         const systemStatusDetailsDevices = Devices.map(device => ({
           deviceId: device.DeviceId,
-          startTimeUtc: device.StartTimeUtc,
-          status: device.Status,
-          endTimeUtc: device.EndTimeUtc,
-          jobId: jobDetails.jobId,
-          methodName: (jobDetails.methodParameter || {}).name || ''
+          StartTimeUtc: device.StartTimeUtc,
+          Status: device.Status,
+          EndTimeUtc: device.EndTimeUtc,
+          JobId: jobDetails.JobId,
+          methodName: (jobDetails.MethodParameter || {}).Name || ''
         }));
         this.setState({ systemStatusDetailsDevices, jobDetails });
       });
@@ -287,8 +288,8 @@ class MaintenancePage extends Component {
   onDeviceJobSoftSelectChange({deviceId}) {
     const selectedDeviceIdInJob = deviceId;
     let deviceJob;
-    if (!this.props.devices || !this.props.devices.items) { return false; }
-    this.props.devices.items.some(device => {
+    if (!this.props.devices || !this.props.devices.Items) { return false; }
+    this.props.devices.Items.some(device => {
       if (device.Id === selectedDeviceIdInJob) {
         deviceJob = device;
         return true;
@@ -344,14 +345,14 @@ class MaintenancePage extends Component {
     });
       breadcrumbs = <span>{parentLink} <img src={ChevronRight} alt="ChevronRight" className="chevron-right" /> {this.props.params.name}</span>;
     } else if (pathName.indexOf('/job/') > 0) {
-      breadcrumbs = <span>{parentLink} <img src={ChevronRight} alt="ChevronRight" className="chevron-right" />{this.props.params.jobId}</span>;
+      breadcrumbs = <span>{parentLink} <img src={ChevronRight} alt="ChevronRight" className="chevron-right" />{this.props.params.JobId}</span>;
     } else {
       breadcrumbs = lang.MAINTENANCE;
     }
     const pcsBtn = (props, visible = true) => visible ? <PcsBtn {...props} /> : '';
     const showContextBtns = this.state.contextBtns === '';
     const showActionBtns = this.state.selectedRulesActions.length > 0;
-    const devicesList = this.props.devices && this.props.devices.items ? this.props.devices.items : [];
+    const devicesList = this.props.devices && this.props.devices.Items ? this.props.devices.Items : [];
     const alarmListProps = {
       alarms: (this.props.alarmsGridData || [])
         .map(row => row[row.Rule.Id])
@@ -371,8 +372,8 @@ class MaintenancePage extends Component {
     return (
       <PageContainer>
         <TopNav breadcrumbs={breadcrumbs} projectName={lang.AZUREPROJECTNAME} />
-        <ContextFilters disableDeviceFilter={(this.props.params || {}).id !== undefined}>
-          <div className="timerange-selection">
+        <ContextFilters disableDeviceFilter={((this.props.params || {}).id || (this.props.params || {}).JobId) !== undefined}>
+          <div className="timerange-selection" onClick={this.props.actions.hideFlyout}>
             <span className="last-refreshed-text"> {`${lang.LAST_REFRESHED} | `} </span>
             <div className="last-refreshed-time">{this.state.lastRefreshed.toLocaleString()}</div>
             <div onClick={this.refreshData} className="refresh-icon icon-sm" />
@@ -430,7 +431,9 @@ const mapStateToProps = state => {
     alarmsGridData: state.maintenanceReducer.alarmsByRuleGridRowData,
     jobs: state.systemStatusJobReducer.jobs,
     jobsLoadingInProgress: state.systemStatusJobReducer.loadingInProgress,
-    selectedDevices: state.flyoutReducer.devices
+    selectedDevices: state.flyoutReducer.devices,
+    flyout: state.flyoutReducer,
+    modal: state.modalReducer
   };
 };
 
