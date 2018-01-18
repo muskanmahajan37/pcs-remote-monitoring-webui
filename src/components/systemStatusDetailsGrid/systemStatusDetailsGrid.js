@@ -49,7 +49,7 @@ class SystemStatusDetailsGrid extends Component {
 
   onSoftSelectDeviceGrid(device) {
     this.setState({ softSelectedDeviceId: device.Id });
-    this.props.btnActions.onSoftSelectDeviceGrid(device);
+    this.props.btnActions.onDeviceJobSoftSelectChange(device);
   }
 
   componentDidMount() {
@@ -101,7 +101,7 @@ class SystemStatusDetailsGrid extends Component {
     const hasJobs = (detailsDevices || []).length > 0;
     const deviceIds = new Set(detailsDevices.map(({ deviceId }) => deviceId));
     const devicesGridProps = {
-      rowData: devices.filter(({ Id }) => deviceIds.has(Id)),
+      rowData: systemStatusGridSelectedDevices,
       onSoftSelectChange: this.onSoftSelectDeviceGrid,
       onContextMenuChange: btnActions.onContextMenuChange,
       softSelectId: this.state.softSelectedDeviceId,
