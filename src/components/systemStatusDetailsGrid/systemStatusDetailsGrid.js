@@ -97,9 +97,8 @@ class SystemStatusDetailsGrid extends Component {
   }
 
   render() {
-    const { detailsDevices, jobDetails, systemStatusGridSelectedDevices, btnActions, devices } = this.props;
+    const { detailsDevices, jobDetails, systemStatusGridSelectedDevices, btnActions } = this.props;
     const hasJobs = (detailsDevices || []).length > 0;
-    const deviceIds = new Set(detailsDevices.map(({ deviceId }) => deviceId));
     const devicesGridProps = {
       rowData: systemStatusGridSelectedDevices,
       onSoftSelectChange: this.onSoftSelectDeviceGrid,
