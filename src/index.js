@@ -1,5 +1,11 @@
 // Copyright (c) Microsoft. All rights reserved.
 
+/*
+// Uncomment to switch to new architecture
+import './src_new/index';
+// and comment out everything below
+*/
+
 import React from "react";
 import ReactDOM from "react-dom";
 import { Router, Route, IndexRoute, browserHistory } from "react-router";
