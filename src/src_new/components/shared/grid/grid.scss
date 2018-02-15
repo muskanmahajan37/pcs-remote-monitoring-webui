@@ -3,7 +3,7 @@ This file contains a class pcs-ag-dark that when combined with the ag-dark
 theme from AgGrid updates the ag-dark theme to match the PCS grid theme
 */
 
-@import '../../styles/fonts/font-variables';
+@import 'src_new/styles/variables';
 
 $darkBgColor: #121416;
 $rowBgColor: #1b1d1f;
@@ -14,7 +14,7 @@ $rowHeightWithPadding: ($rowHeight + 8px);
 $headerColor: #9fa8b1;
 $checkboxPadding: 8px;
 
-.pcs-grid-container.ag-dark.pcs-ag-dark {
+.grid-container.ag-dark.pcs-ag-dark {
   background-color: $darkBgColor;
   position: relative;
   font-family: $fontSelawik;
@@ -32,7 +32,7 @@ $checkboxPadding: 8px;
 
   ::-webkit-scrollbar-corner { background: #242628; }
 
-  > .pcs-grid-loading-container {
+  > .grid-loading-container {
     display: flex;
     align-content: center;
     justify-content: center;

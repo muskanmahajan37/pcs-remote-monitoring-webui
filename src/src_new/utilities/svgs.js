@@ -11,11 +11,21 @@ import PlusIconPath from 'assets/icons/plus.svg';
 import RadioSelectedIconPath from 'assets/icons/radioSelected.svg';
 import RadioUnselectedIconPath from 'assets/icons/radioUnselected.svg';
 import SettingsIconPath from 'assets/icons/settings.svg';
-import XIconPath from 'assets/icons/x.svg';
+import TabDashboardIconPath from 'assets/icons/tabDashboard.svg';
+import TabDevicesIconPath from 'assets/icons/tabDevices.svg';
+import TabMaintenanceIconPath from 'assets/icons/tabMaintenance.svg';
+import TabRulesIconPath from 'assets/icons/tabRules.svg';
 import TrashPath from 'assets/icons/trash.svg';
+import XIconPath from 'assets/icons/x.svg';
 
 /** A helper object mapping svg names to their paths */
 export const svgs = {
+  tabs: {
+    dashboard: TabDashboardIconPath,
+    devices: TabDevicesIconPath,
+    maintenance: TabMaintenanceIconPath,
+    rules: TabRulesIconPath
+  },
   carat: CaratIconPath,
   colon: ColonIconPath,
   contoso: ContosoIconPath,

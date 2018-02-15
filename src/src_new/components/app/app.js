@@ -18,7 +18,16 @@ import  {
   PageNotFound
 } from 'components/pages';
 
+import { svgs } from 'utilities';
+
 import './app.css';
+
+/** The navigation tab configurations */
+const dashboardTab   = { to: '/dashboard',   svg: svgs.tabs.dashboard,   labelId: 'tabs.dashboard' };
+const devicesTab     = { to: '/devices',     svg: svgs.tabs.devices,     labelId: 'tabs.devices' };
+const rulesTab       = { to: '/rules',       svg: svgs.tabs.rules,       labelId: 'tabs.rules' };
+const maintenanceTab = { to: '/maintenance', svg: svgs.tabs.maintenance, labelId: 'tabs.maintenance' };
+const tabConfigs = [ dashboardTab, devicesTab, rulesTab, maintenanceTab ];
 
 /** The base component for the app */
 class App extends Component {
@@ -32,16 +41,16 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        <Navigation />
+        <Navigation tabs={tabConfigs} t={this.props.t} />
         <Main>
           <Header logout={this.props.logout} t={this.props.t} />
           <PageContent>
             <Switch>
-              <Redirect exact from="/" to="/dashboard" />
-              <Route exact path="/dashboard" component={DashboardPage} />
-              <Route exact path="/devices" component={DevicesPage} />
-              <Route exact path="/rules" component={RulesPage} />
-              <Route exact path="/maintenance" component={MaintenancePage} />
+              <Redirect exact from="/" to={dashboardTab.to} />
+              <Route exact path={dashboardTab.to} component={DashboardPage} />
+              <Route exact path={devicesTab.to} component={DevicesPage} />
+              <Route exact path={rulesTab.to} component={RulesPage} />
+              <Route exact path={maintenanceTab.to} component={MaintenancePage} />
               <Route component={PageNotFound} />
             </Switch>
           </PageContent>

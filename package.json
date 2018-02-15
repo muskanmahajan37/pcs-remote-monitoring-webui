@@ -3,8 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "ag-grid": "11.0.0",
-    "ag-grid-react": "11.0.0",
     "bootstrap": "3.3.7",
     "c3": "0.4.14",
     "chart.js": "2.6.0",
@@ -18,6 +16,8 @@
     "uuid": "3.1.0",
 
     "adal-angular": "1.0.15",
+    "ag-grid": "11.0.0",
+    "ag-grid-react": "11.0.0",
     "i18next": "10.3.0",
     "i18next-browser-languagedetector": "2.1.0",
     "i18next-xhr-backend": "1.5.1",

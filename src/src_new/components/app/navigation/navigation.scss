@@ -36,6 +36,8 @@ $companySvgSize: 23px;
       svg { @include square-px-rem($svgSize); }
     }
 
+    &.company .nav-item-icon svg { @include square-px-rem($companySvgSize); }
+
     .nav-item-text {
       display: none;
       flex-grow: 1;
@@ -75,7 +77,9 @@ $companySvgSize: 23px;
     .nav-item {
       color: themed('colorHighest');
 
-      .nav-item-icon svg { fill: themed('colorLightestFirst');}
+      .nav-item-icon svg { fill: themed('colorLightestFirst'); }
+
+      &.company .nav-item-icon svg { fill: themed('colorHighest'); }
     }
 
     a.nav-item,

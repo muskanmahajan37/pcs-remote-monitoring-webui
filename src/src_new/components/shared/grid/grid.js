@@ -2,13 +2,14 @@
 
 import React, { Component } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import { isFunction } from '../../common/utils';
-import Spinner from '../spinner/spinner';
 import Rx from 'rxjs';
 
-import '../../../node_modules/ag-grid/dist/styles/ag-grid.css';
-import '../../../node_modules/ag-grid/dist/styles/theme-dark.css';
-import './pcsGrid.css';
+import { isFunc } from 'utilities';
+import { Indicator } from '../indicator/indicator';
+
+import '../../../../../node_modules/ag-grid/dist/styles/ag-grid.css';
+import '../../../../../node_modules/ag-grid/dist/styles/theme-dark.css';
+import './grid.css';
 
 const ROW_HEIGHT = 48;
 
@@ -23,13 +24,13 @@ const ROW_HEIGHT = 48;
  *  onSoftSelectChange: Fires when a row is soft selected
  * TODO (stpryor): Add design pagination
  */
-export class PcsGrid extends Component {
+export class Grid extends Component {
 
   constructor(props) {
     super(props);
     this.state = { currentSoftSelectId: '' };
 
-    this.defaultPcsGridProps = {
+    this.defaultGridProps = {
       domLayout: 'autoHeight',
       suppressCellSelection: true,
       suppressClickEdit: true,
@@ -64,7 +65,7 @@ export class PcsGrid extends Component {
   /** Save the gridApi locally on load */
   onGridReady = gridReadyEvent => {
     this.gridApi = gridReadyEvent.api;
-    if (isFunction(this.props.onGridReady)) {
+    if (isFunc(this.props.onGridReady)) {
       this.props.onGridReady(gridReadyEvent);
     }
   }
@@ -79,10 +80,10 @@ export class PcsGrid extends Component {
   /** Computes the CSS classes to apply to each row, including soft select */
   getRowClass = params => {
     let rowClasses = '';
-    if (isFunction(this.props.getSoftSelectId)) {
+    if (isFunc(this.props.getSoftSelectId)) {
       rowClasses = this.props.getSoftSelectId(params.data) === this.props.softSelectId ? 'pcs-row-soft-selected' : '';
     }
-    if (isFunction(this.props.getRowClass)) {
+    if (isFunc(this.props.getRowClass)) {
       rowClasses += ` ${this.props.getRowClass(params)}`;
     }
     return rowClasses;
@@ -91,10 +92,10 @@ export class PcsGrid extends Component {
   /** When a row is hard selected, try to fire a hard select event, plus any props callbacks */
   onSelectionChanged = () => {
     const { onHardSelectChange, onSelectionChanged } = this.props;
-    if (isFunction(onHardSelectChange)) {
+    if (isFunc(onHardSelectChange)) {
       onHardSelectChange(this.gridApi.getSelectedRows());
     }
-    if (isFunction(onSelectionChanged)) {
+    if (isFunc(onSelectionChanged)) {
       onSelectionChanged();
     }
   };
@@ -104,8 +105,8 @@ export class PcsGrid extends Component {
     this.clickStream.next(
       () => {
         const { onSoftSelectChange, onRowClicked } = this.props;
-        if (isFunction(onSoftSelectChange)) onSoftSelectChange(rowEvent.data, rowEvent);
-        if (isFunction(onRowClicked)) onRowClicked(rowEvent);
+        if (isFunc(onSoftSelectChange)) onSoftSelectChange(rowEvent.data, rowEvent);
+        if (isFunc(onRowClicked)) onRowClicked(rowEvent);
       }
     );
   };
@@ -114,14 +115,14 @@ export class PcsGrid extends Component {
     this.clickStream.next(
       () => {
         const { onRowDoubleClicked } = this.props;
-        if (isFunction(onRowDoubleClicked)) onRowDoubleClicked(rowEvent);
+        if (isFunc(onRowDoubleClicked)) onRowDoubleClicked(rowEvent);
       }
     );
   };
 
   render() {
     const gridParams = {
-      ...this.defaultPcsGridProps,
+      ...this.defaultGridProps,
       ...this.props,
       headerHeight: ROW_HEIGHT,
       rowHeight: ROW_HEIGHT,
@@ -135,17 +136,15 @@ export class PcsGrid extends Component {
     const { rowData, pcsLoadingTemplate } = this.props;
 
     const loadingContainer =
-      <div className="pcs-grid-loading-container">
-        { !pcsLoadingTemplate ? <Spinner /> : pcsLoadingTemplate }
+      <div className="grid-loading-container">
+        { !pcsLoadingTemplate ? <Indicator /> : pcsLoadingTemplate }
       </div>;
 
     return (
-      <div className="pcs-grid-container ag-dark pcs-ag-dark">
+      <div className="grid-container ag-dark pcs-ag-dark">
         { !rowData ? loadingContainer : ''}
         <AgGridReact {...gridParams} />
       </div>
     );
   }
 }
-
-export default PcsGrid;

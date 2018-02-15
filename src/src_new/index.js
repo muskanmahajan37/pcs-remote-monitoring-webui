@@ -25,7 +25,7 @@ AuthService.onLoad(() => {
   // Create the redux store and redux-observable streams
   const store = configureStore();
 
-  // Initialize the app redux data
+  // Initialize the app redux state
   store.dispatch(appEpics.actions.initializeApp());
 
   // Create the React app

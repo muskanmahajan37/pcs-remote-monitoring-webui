@@ -1,21 +1,12 @@
 // Copyright (c) Microsoft. All rights reserved.
 
 import React, { Component } from 'react';
-import { translate } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { Svg } from 'components/shared';
 
 import { svgs } from 'utilities';
 
 import './navigation.css';
-
-/** The navigation tab configurations */
-const navLinks = [
-  { to: '/dashboard', svg: svgs.contoso, labelId: 'tabs.dashboard' },
-  { to: '/devices', svg: svgs.contoso, labelId: 'tabs.devices' },
-  { to: '/rules', svg: svgs.contoso, labelId: 'tabs.rules' },
-  { to: '/maintenance', svg: svgs.contoso, labelId: 'tabs.maintenance' }
-];
 
 /** A window size less than this will automatically collapse the left nav */
 const minExpandedNavWindowWidth = 800;
@@ -36,8 +27,6 @@ const TabLink = (props) => (
     <div className="nav-item-text">{props.t(props.labelId)}</div>
   </NavLink>
 );
-
-const TransTabLink = translate()(TabLink);
 
 /** The navigation component for the left navigation */
 class Navigation extends Component {
@@ -72,10 +61,14 @@ class Navigation extends Component {
     const isExpanded = !this.state.collapsed;
     return (
       <nav className={`app-nav ${isExpanded && 'expanded'}`}>
+        <div className="nav-item company">
+          <NavIcon path={svgs.contoso} />
+          <div className="nav-item-text">{this.props.t('companyName')}</div>
+        </div>
         <button className="nav-item hamburger" onClick={this.toggleExpanded}>
           <NavIcon path={svgs.hamburger} />
         </button>
-        { navLinks.map((navProps, i) => <TransTabLink {...navProps} key={i} />) }
+        { this.props.tabs.map((tabProps, i) => <TabLink {...tabProps} t={this.props.t} key={i} />) }
       </nav>
     );
   }
