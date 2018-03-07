@@ -33,12 +33,28 @@
       "deviceType": "Device Type",
       "firmware": "Firmware",
       "lastConnection": "Last Connection",
-      "no":  "no",
+      "no": "no",
       "offline": "offline",
       "simulated": "Simulated",
       "status": "Status",
       "telemetry": "Telemetry",
-      "yes":  "yes"
+      "yes": "yes"
+    },
+    "details": {
+      "name": "Name",
+      "value": "Value",
+      "properties": {
+        "title": "Properties",
+        "description": "Selected properties on device"
+      },
+      "methods": {
+        "title": "Methods",
+        "description": "All methods available for device"
+      },
+      "tags": {
+        "title": "Tags",
+        "description": "Tags applied to device"
+      }
     }
   },
   "rules": {
