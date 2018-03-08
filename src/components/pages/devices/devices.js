@@ -6,7 +6,6 @@ import { Btn, RefreshBar } from 'components/shared';
 import { DeviceDetails } from './flyouts';
 
 import './devices.css';
-import { DeviceDetailsTemp } from 'components/pages/devices/flyouts/deviceDetails/deviceDetailsTemp';
 
 const closedFlyoutState = {
   flyoutOpen: false,
@@ -14,12 +13,6 @@ const closedFlyoutState = {
 };
 
 export class Devices extends Component {
-  constructor(props) {
-    super(props);
-    if (this.props.devices) {
-      this.state = { currentSelectedDevice: this.props.devices[0] };
-    }
-  }
 
   constructor(props) {
     super(props);
@@ -34,7 +27,7 @@ export class Devices extends Component {
   }
 
   changeDeviceGroup = () => {
-    const { changeDeviceGroup, deviceGroups } = this.props;
+    const { changeDeviceGroup, deviceGroups }  = this.props;
     changeDeviceGroup(deviceGroups[1].id);
   }
 
@@ -62,12 +55,12 @@ export class Devices extends Component {
         {
           !!error &&
           <span className="status">
-            {t('errorFormat', { message: t(error.message, { message: error.errorMessage }) })}
+            { t('errorFormat', { message: t(error.message, { message: error.errorMessage }) }) }
           </span>
         }
         { !error && <DevicesGrid {...gridProps} /> }
         <Btn onClick={this.changeDeviceGroup}>Refresh Device Groups</Btn>
-        { this.state.flyoutOpen && <DeviceDetails onClose={this.closeFlyout} device={entities[this.state.selectedDeviceId]} /> }
+        { this.state.flyoutOpen && <DeviceDetails t={t} onClose={this.closeFlyout} device={entities[this.state.selectedDeviceId]} /> }
       </div>
     );
   }

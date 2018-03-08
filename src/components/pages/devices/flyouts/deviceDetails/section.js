@@ -9,7 +9,9 @@ export const Section = (props) => (
   <FormSection>
     <SectionHeader>{props.title}</SectionHeader>
     <SectionDesc>{props.description}</SectionDesc>
-    {props.children}
+    <div className="section-content">
+      {props.children}
+    </div>
   </FormSection>
 );
 

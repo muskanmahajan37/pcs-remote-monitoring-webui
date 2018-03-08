@@ -41,6 +41,7 @@
       "yes": "yes"
     },
     "details": {
+      "title": "Device Details",
       "name": "Name",
       "value": "Value",
 

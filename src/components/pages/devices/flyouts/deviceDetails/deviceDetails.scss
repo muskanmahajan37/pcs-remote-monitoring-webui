@@ -4,28 +4,27 @@
 @import 'src/styles/themes';
 
 .device-details-container {
-  padding: 20px;
   display: flex;
   flex-flow: column nowrap;
 
   .form-section {
-    padding: 5px 0 0 5px;
 
     .section-header {
       border-top-style: solid;
       border-top-width: 1px;
-      margin-top: 10px;
+      padding: 0.25rem 0 0 0;
     }
+
+    .section-content { padding: 0 1rem 0 1rem; }
 
     .property-row {
       display: flex;
 
       .property-name {
-        padding-inline-end: 4px;
+        padding-inline-end: 0.5rem;
         width: 30% !important;
       }
       .property-value {
-        padding-inline-end: 4px;
         width: 70% !important;
       }
       .property-header { font-family: $fontSelawikBold; }
