@@ -3,18 +3,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './devicesDetail.css';
-import { SectionHeader, SectionDesc, FormSection } from 'components/shared';
+import { FormSection, SectionHeader, SectionDesc } from 'components/shared';
 
-export const DevicesDetailSection = (props) => (
-  <div className='devices-detail-section'>
+export const Section = (props) => (
+  <FormSection>
     <SectionHeader>{props.title}</SectionHeader>
     <SectionDesc>{props.description}</SectionDesc>
-    <FormSection>{props.children}</FormSection>
-  </div>
+    {props.children}
+  </FormSection>
 );
 
-SectionHeader.propTypes = {
+Section.propTypes = {
   children: PropTypes.node,
   description: PropTypes.string,
   title: PropTypes.string

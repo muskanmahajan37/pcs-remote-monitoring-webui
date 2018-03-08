@@ -1,0 +1,40 @@
+// Copyright (c) Microsoft. All rights reserved.
+
+@import 'src/styles/mixins';
+@import 'src/styles/themes';
+
+.device-details-container {
+  padding: 20px;
+  display: flex;
+  flex-flow: column nowrap;
+
+  .form-section {
+    padding: 5px 0 0 5px;
+
+    .section-header {
+      border-top-style: solid;
+      border-top-width: 1px;
+      margin-top: 10px;
+    }
+
+    .property-row {
+      display: flex;
+
+      .property-name {
+        padding-inline-end: 4px;
+        width: 30% !important;
+      }
+      .property-value {
+        padding-inline-end: 4px;
+        width: 70% !important;
+      }
+      .property-header { font-family: $fontSelawikBold; }
+    }
+  }
+
+  @include themify($themes) {
+    .form-section .section-header {
+      border-top-color: themed('colorContentTextDim');
+    }
+  }
+}

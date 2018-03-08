@@ -43,17 +43,22 @@
     "details": {
       "name": "Name",
       "value": "Value",
-      "properties": {
-        "title": "Properties",
-        "description": "Selected properties on device"
-      },
+
       "methods": {
         "title": "Methods",
         "description": "All methods available for device"
       },
+      "properties": {
+        "title": "Properties",
+        "description": "Selected properties on device"
+      },
       "tags": {
         "title": "Tags",
         "description": "Tags applied to device"
+      },
+      "telemetry": {
+        "title": "Telemetry",
+        "description": null
       }
     }
   },
