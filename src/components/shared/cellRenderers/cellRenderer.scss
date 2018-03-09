@@ -22,6 +22,10 @@ $iconSize: 14px;
     text-overflow: ellipsis;
 
     &.uppercase { text-transform: uppercase; }
+
+    >.icon-only {
+      display: none !important;
+    }
   }
 
   @include themify($themes) {

@@ -3,10 +3,15 @@
 @import 'src/styles/themes';
 @import 'src/styles/mixins';
 
-.form-section {
+.flyout-section {
   @include rem-fallback(padding-top, 32px);
 
-  .section-header { @include rem-fallback(margin-bottom, 12px); }
+  .section-header {
+    border-top-style: solid;
+    border-top-width: 1px;
+    @include rem-fallback(margin-bottom, 12px);
+    @include rem-fallback(padding-top, 4px)
+   }
 
   .section-desc {
     @include rem-font-size(14px);
@@ -14,7 +19,11 @@
   }
 
   @include themify($themes) {
-    .section-header { color: themed('colorContentText'); }
+    .section-header {
+      color: themed('colorContentText');
+      border-top-color: themed('colorContentTextDim');
+    }
+
     .section-desc { color: themed('colorContentTextDim'); }
   }
 }

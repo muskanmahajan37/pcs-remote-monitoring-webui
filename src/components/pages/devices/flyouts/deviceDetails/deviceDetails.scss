@@ -7,33 +7,20 @@
   display: flex;
   flex-flow: column nowrap;
 
-  .form-section {
-
-    .section-header {
-      border-top-style: solid;
-      border-top-width: 1px;
-      padding: 0.25rem 0 0 0;
-    }
-
-    .section-content { padding: 0 1rem 0 1rem; }
+  .flyout-section {
+    .section-content { @include rem-fallback(padding, 0px, 12px, 0px, 12px) }
 
     .property-row {
       display: flex;
 
       .property-name {
-        padding-inline-end: 0.5rem;
-        width: 30% !important;
+        @include rem-fallback(padding-right, 12px);
+        width: 30%;
       }
-      .property-value {
-        width: 70% !important;
-      }
-      .property-header { font-family: $fontSelawikBold; }
-    }
-  }
 
-  @include themify($themes) {
-    .form-section .section-header {
-      border-top-color: themed('colorContentTextDim');
+      .property-value { width: 70%; }
+
+      .property-header { font-family: $fontSelawikBold; }
     }
   }
 }

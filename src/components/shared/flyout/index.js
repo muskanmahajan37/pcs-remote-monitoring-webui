@@ -7,3 +7,4 @@ export * from './flyoutHeader';
 export * from './flyoutTitle';
 export * from './flyoutCloseBtn';
 export * from './flyoutContent';
+export * from './flyoutSection';

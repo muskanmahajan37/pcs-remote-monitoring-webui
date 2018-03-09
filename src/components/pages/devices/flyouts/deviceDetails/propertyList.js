@@ -3,11 +3,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { joinClasses } from 'utilities';
+
 export class PropertyList extends Component {
   render() {
-    const { t, pairs } = this.props;
+    const { className, t, pairs } = this.props;
     if (pairs) {
-      var pairList = Object.entries(pairs).map(([key, value]) => {
+      const pairList = Object.entries(pairs).map(([key, value]) => {
         return (
           <div key={key} className="property-row">
             <div className="property-name">{key}</div>
@@ -18,7 +20,7 @@ export class PropertyList extends Component {
         );
       });
       return (
-        <div>
+        <div className={joinClasses('property-list', className)}>
           <div className="property-row">
             <div className="property-name property-header">{t('devices.details.name')}</div>
             <div className="property-value property-header">{t('devices.details.value')}</div>

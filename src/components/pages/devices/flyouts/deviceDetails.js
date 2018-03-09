@@ -6,13 +6,15 @@ import {
   FlyoutHeader,
   FlyoutTitle,
   FlyoutCloseBtn,
-  FlyoutContent
+  FlyoutContent,
+  FlyoutSection,
+  SectionHeader,
+  SectionDesc
 } from 'components/shared';
-
-import './deviceDetails/deviceDetails.css';
-import { Section } from './deviceDetails/section';
 import { MethodList } from './deviceDetails/methodList';
 import { PropertyList } from './deviceDetails/propertyList';
+
+import './deviceDetails/deviceDetails.css';
 
 export class DeviceDetails extends Component {
   render() {
@@ -25,24 +27,44 @@ export class DeviceDetails extends Component {
         </FlyoutHeader>
         <FlyoutContent>
           {
-          !!device &&
-          <div className="device-details-container">
-            <Section title="Rules">
-              <div>TODO: Add Rules Grid. Remove section.</div>
-            </Section>
-            <Section title={t('devices.details.telemetry.title')} description={t('devices.details.telemetry.description')}>
-              <div>TODO: Add chart when able.</div>
-            </Section>
-            <Section title={t('devices.details.tags.title')} description={t('devices.details.tags.description')}>
-              <PropertyList t={t} pairs={device.tags} />
-            </Section>
-            <Section title={t('devices.details.methods.title')} description={t('devices.details.methods.description')}>
-              <MethodList t={t} list={!!device.methods && device.methods.split(',')} />
-            </Section>
-            <Section title={t('devices.details.properties.title')} description={t('devices.details.properties.description')}>
-              <PropertyList t={t} pairs={device.properties} />
-            </Section>
-          </div>
+            !device &&
+            <div className="device-details-container">{t("devices.details.noDevice")}</div>
+          }
+          {
+            !!device &&
+            <div className="device-details-container">
+
+              TODO: Add Rules Grid.
+
+              <FlyoutSection>
+                <SectionHeader>{t('devices.details.telemetry.title')}</SectionHeader>
+                TODO: Add chart when able..
+              </FlyoutSection>
+
+              <FlyoutSection>
+                <SectionHeader>{t('devices.details.tags.title')}</SectionHeader>
+                <SectionDesc>{t('devices.details.tags.description')}</SectionDesc>
+                <PropertyList className="section-content" t={t} pairs={device.tags} />
+              </FlyoutSection>
+
+              <FlyoutSection>
+                <SectionHeader>{t('devices.details.methods.title')}</SectionHeader>
+                <SectionDesc>{t('devices.details.methods.description')}</SectionDesc>
+                <MethodList className="section-content" list={(device.methods || '').split(',')} />
+              </FlyoutSection>
+
+              <FlyoutSection>
+                <SectionHeader>{t('devices.details.properties.title')}</SectionHeader>
+                <SectionDesc>{t('devices.details.properties.description')}</SectionDesc>
+                <PropertyList className="section-content" t={t} pairs={device.properties} />
+              </FlyoutSection>
+
+              <FlyoutSection>
+                <SectionHeader>{t('devices.details.diagnostics.title')}</SectionHeader>
+                <SectionDesc>{t('devices.details.diagnostics.description')}</SectionDesc>
+                TODO: Add diagnostics.
+              </FlyoutSection>
+            </div>
           }
         </FlyoutContent>
       </Flyout>

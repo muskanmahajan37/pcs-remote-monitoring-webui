@@ -42,9 +42,14 @@
     },
     "details": {
       "title": "Device Details",
+      "noDevice": "Oops, we were not able to find the device.",
       "name": "Name",
       "value": "Value",
 
+      "diagnostics": {
+        "title": "Diagnostics",
+        "description": "Diagnostic information from device"
+      },
       "methods": {
         "title": "Methods",
         "description": "All methods available for device"
@@ -58,8 +63,7 @@
         "description": "Tags applied to device"
       },
       "telemetry": {
-        "title": "Telemetry",
-        "description": null
+        "title": "Telemetry"
       }
     }
   },

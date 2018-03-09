@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved.
 
+import React from "react";
+
 import {
   SeverityRenderer,
   RuleStatusRenderer,
@@ -30,6 +32,12 @@ export const rulesColumnDefs = {
     field: 'severity',
     filter: 'text',
     cellRendererFramework: SeverityRenderer
+  },
+  severityIconOnly: {
+    headerName: 'rules.grid.severity',
+    field: 'severity',
+    filter: 'text',
+    cellRendererFramework: props => <SeverityRenderer {...props} iconOnly={true} />
   },
   filter: {
     headerName: 'rules.grid.filter',
