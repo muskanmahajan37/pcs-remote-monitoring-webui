@@ -8,19 +8,23 @@
   flex-flow: column nowrap;
 
   .flyout-section {
-    .section-content { @include rem-fallback(padding, 0px, 12px, 0px, 12px) }
+    .section-content { @include rem-fallback(padding, 0px, 12px, 0px, 12px); }
+  }
 
-    .property-row {
-      display: flex;
+  .device-icon svg {
+    @include rem-fallback(height, 72px);
+    @include rem-fallback(margin-right, 24px);
+  }
 
-      .property-name {
-        @include rem-fallback(padding-right, 12px);
-        width: 30%;
-      }
+  .device-details-header {
+    @include rem-fallback(padding, 12px, 12px, 12px, 12px);
 
-      .property-value { width: 70%; }
+    .device-name { @include rem-fallback(font-size, 18px); }
+    .device-simulated { @include rem-fallback(font-size, 10px); }
+    .device-connected { @include rem-fallback(font-size, 14px); }
+  }
 
-      .property-header { font-family: $fontSelawikBold; }
-    }
+  @include themify($themes) {
+    .device-icon svg { fill: themed('colorContentTextDim'); }
   }
 }

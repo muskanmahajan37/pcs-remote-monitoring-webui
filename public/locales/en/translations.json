@@ -43,9 +43,10 @@
     "details": {
       "title": "Device Details",
       "noDevice": "Oops, we were not able to find the device.",
-      "name": "Name",
-      "value": "Value",
-
+      "connected": "Connected",
+      "notConnected": "Disconnected",
+      "simulated": "Simulated",
+      "notSimulated": "Physical",
       "diagnostics": {
         "title": "Diagnostics",
         "description": "Diagnostic information from device"
@@ -56,11 +57,15 @@
       },
       "properties": {
         "title": "Properties",
-        "description": "Selected properties on device"
+        "description": "Selected properties on device",
+        "keyHeader": "PROPERTY",
+        "valueHeader": "VALUE"
       },
       "tags": {
         "title": "Tags",
-        "description": "Tags applied to device"
+        "description": "Tags applied to device",
+        "keyHeader": "KEY",
+        "valueHeader": "VALUE"
       },
       "telemetry": {
         "title": "Telemetry"
