@@ -4,6 +4,10 @@ MAINTAINER Devis Lucato (https://github.com/dluc)
 
 LABEL Tags="Azure,IoT,Solutions,React,SPA"
 
+ARG user=pcsuser
+
+RUN adduser -D -h /home/$user -s /bin/bash $user $user
+
 COPY ./ /app
 WORKDIR /app
 
@@ -19,9 +23,14 @@ RUN apk update && apk upgrade \
  && apk add --no-cache nginx \
  && apk del --force --purge alpine-keys apk-tools \
  && rm -rf /var/cache/apk /etc/apk /lib/apk \
- && mkdir /app/logs
+ && mkdir /app/logs \
+ && chown -R $user:$user /app \
+ && mkdir -p /var/lib/nginx /var/cache/nginx /var/tmp/nginx /var/log/nginx \
+ && chown -R $user:$user /var/lib/nginx /var/cache/nginx /var/tmp/nginx /var/log/nginx
 
-EXPOSE 80 443
+EXPOSE 8080 8443
 VOLUME /app/logs
 
 ENTRYPOINT ["/bin/sh", "/app/run.sh"]
+
+USER $user
