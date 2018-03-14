@@ -58,14 +58,14 @@
       "properties": {
         "title": "Properties",
         "description": "Selected properties on device",
-        "keyHeader": "PROPERTY",
-        "valueHeader": "VALUE"
+        "keyHeader": "Property",
+        "valueHeader": "Value"
       },
       "tags": {
         "title": "Tags",
         "description": "Tags applied to device",
-        "keyHeader": "KEY",
-        "valueHeader": "VALUE"
+        "keyHeader": "Key",
+        "valueHeader": "Value"
       },
       "telemetry": {
         "title": "Telemetry"

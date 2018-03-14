@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft. All rights reserved.
 
 import CaratIconPath from 'assets/icons/carat.svg';
+import ChevronIconPath from 'assets/icons/chevron.svg';
 import ChevronRightIconPath from 'assets/icons/chevronRight.svg';
 import ColonIconPath from 'assets/icons/colon.svg';
 import ContosoIconPath from 'assets/icons/contoso.svg';
 import CriticalIconPath from 'assets/icons/critical.svg';
 import DeviceChillerIconPath from 'assets/icons/deviceChiller.svg';
-import DeviceDefaultIconPath from 'assets/icons/deviceIcon.svg';
+import DeviceGenericIconPath from 'assets/icons/deviceIcon.svg';
 import DeviceElevatorIconPath from 'assets/icons/deviceElevator.svg';
 import DeviceEngineIconPath from 'assets/icons/deviceEngine.svg';
 import DevicePrototypingIconPath from 'assets/icons/devicePrototyping.svg';
@@ -44,7 +45,7 @@ export const svgs = {
     rules: TabRulesIconPath
   },
   devices: {
-    default: DeviceDefaultIconPath,
+    generic: DeviceGenericIconPath,
     chiller: DeviceChillerIconPath,
     elevator: DeviceElevatorIconPath,
     engine: DeviceEngineIconPath,
@@ -52,6 +53,7 @@ export const svgs = {
     truck: DeviceTruckIconPath
   },
   carat: CaratIconPath,
+  chevron: ChevronIconPath,
   chevronRight: ChevronRightIconPath,
   colon: ColonIconPath,
   contoso: ContosoIconPath,

@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 
 import { joinClasses } from 'utilities';
 
-import './styles/basicGrid.css';
+import './propertyGrid.css';
 
-export const BasicHeaderCell = (props) => (
-  <div className={joinClasses('basic-cell basic-cell-header', props.className)}>{props.children}</div>
+export const PropertyRow = (props) => (
+  <div className={joinClasses('row', props.className)}>{props.children}</div>
 );
 
-BasicHeaderCell.propTypes = {
+PropertyRow.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string
 };

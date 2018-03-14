@@ -6,5 +6,5 @@ import { Svg } from 'components/shared';
 import { svgs } from 'utilities';
 
 export const DeviceIcon = ({ type }) => (
-  <Svg path={svgs.devices[(type || "default").toLowerCase()]} className="device-icon" />
+  <Svg path={svgs.devices[(type || "generic").toLowerCase()]} className="device-icon" />
 );

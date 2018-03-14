@@ -3,17 +3,12 @@
 @import 'src/styles/mixins';
 @import 'src/styles/themes';
 
-.basic-grid-container {
-  .basic-row {
+.grid-container {
+  .row {
     display: flex;
     flex-direction: row;
 
-    .basic-cell-header {
-      font-family: $fontSelawikBold;
-      @include rem-fallback(font-size, 10px);
-    }
-
-    .basic-cell {
+    .cell {
       display: flex;
       flex-basis: 50%;
       flex-grow: 1;

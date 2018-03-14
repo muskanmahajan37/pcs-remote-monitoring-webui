@@ -4,22 +4,17 @@
 @import 'src/styles/themes';
 
 .device-details-container {
-  @include rem-font-size(14px);
-  @include rem-fallback(line-height, 17px);
   display: flex;
   flex-flow: column nowrap;
+  @include rem-font-size(14px);
 
   .flyout-section {
     .section-content {
       @include rem-fallback(padding, 0px, 12px, 0px, 12px);
 
       .basic-row {  @include rem-fallback(padding-top, 16px); }
+      .basic-cell { @include rem-fallback(line-height, 17px); }
     }
-  }
-
-  .device-icon svg {
-    @include rem-fallback(height, 72px);
-    @include rem-fallback(margin-right, 24px);
   }
 
   .device-details-header {
@@ -28,9 +23,30 @@
     .device-name { @include rem-fallback(font-size, 18px); }
     .device-simulated { @include rem-fallback(font-size, 10px); }
     .device-connected { @include rem-fallback(font-size, 14px); }
+
+    .device-icon svg {
+      @include rem-fallback(height, 72px);
+      @include rem-fallback(margin-right, 24px);
+    }
   }
 
   @include themify($themes) {
-    .device-icon svg { fill: themed('colorContentTextDim'); }
+    .device-details-header {
+      .device-icon svg { fill: themed('colorContentTextDim'); }
+    }
+  }
+
+  .grid-container {
+    .row {
+      .cell-header {
+        font-family: $fontSelawikBold;
+        text-transform: uppercase;
+        @include rem-fallback(font-size, 10px);
+      }
+
+      @include themify($themes) {
+        .cell-header { color: themed('colorContentTextDim'); }
+      }
+    }
   }
 }

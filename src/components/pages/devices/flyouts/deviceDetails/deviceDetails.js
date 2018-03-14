@@ -12,21 +12,25 @@ import {
   FlyoutTitle,
   FlyoutCloseBtn,
   FlyoutContent,
-  FlyoutSection,
-  SectionHeader,
-  SectionDesc,
-  BasicGrid as Grid,
-  BasicRow as Row,
-  BasicHeaderCell as HeaderCell,
-  BasicCell as Cell
+  FlyoutSection
 } from 'components/shared';
+import {
+  PropertyGrid as Grid,
+  PropertyRow as Row,
+  PropertyHeaderCell as HeaderCell,
+  PropertyCell as Cell
+} from './propertyGrid';
 
 import './deviceDetails.css';
 
 export class DeviceDetails extends Component {
   constructor(props) {
     super(props);
-    this.state = { alarms: undefined, isAlarmsPending: false, alarmsError: undefined };
+    this.state = {
+      alarms: undefined,
+      isAlarmsPending: false,
+      alarmsError: undefined
+    };
     this.columnDefs = [
       rulesColumnDefs.ruleName,
       rulesColumnDefs.severity,
@@ -36,11 +40,17 @@ export class DeviceDetails extends Component {
 
   componentDidMount() {
     if (!this.props.rulesLastUpdated) this.props.fetchRules();
-    this.fetchAlarms((this.props.device || {}).id)
+    this.fetchAlarms((this.props.device || {}).id);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.fetchAlarms((nextProps.device || {}).id)
+    if ((this.props.device || {}).id === nextProps.device.id) {
+      this.fetchAlarms((nextProps.device || {}).id);
+    }
+  }
+
+  componentWillUnmount() {
+    this.getAlarmsObsvStream.unsubscribe();
   }
 
   applyRuleNames = (alarms, rules) =>
@@ -51,11 +61,14 @@ export class DeviceDetails extends Component {
 
   fetchAlarms = (deviceId) => {
     this.setState({ isAlarmsPending: true });
-    TelemetryService.getAlarms({
-      limit: 5,
-      order: "desc",
-      devices: deviceId
-    })
+    const getAlarmsObsv =
+      TelemetryService.getAlarms({
+        limit: 5,
+        order: "desc",
+        devices: deviceId
+      });
+
+    this.getAlarmsObsvStream = getAlarmsObsv
       .subscribe(
       alarms => this.setState({ alarms, isAlarmsPending: false, alarmsError: undefined }),
       alarmsError => this.setState({ alarmsError, isAlarmsPending: false })
@@ -98,66 +111,57 @@ export class DeviceDetails extends Component {
 
               {(!this.state.isAlarmsPending && this.state.alarms && (this.state.alarms.length > 0)) && <RulesGrid {...rulesGridProps} />}
 
-              <FlyoutSection>
-                <SectionHeader>{t('devices.details.telemetry.title')}</SectionHeader>
+              <FlyoutSection title={t('devices.details.telemetry.title')}>
                 TODO: Add chart when able.
               </FlyoutSection>
 
-              <FlyoutSection>
-                <SectionHeader>{t('devices.details.tags.title')}</SectionHeader>
-                <SectionDesc>{t('devices.details.tags.description')}</SectionDesc>
-                <Grid className="section-content">
+              <FlyoutSection title={t('devices.details.tags.title')} decription={t('devices.details.tags.description')}>
+                <Grid>
                   <Row>
                     <HeaderCell className="col-3">{t('devices.details.tags.keyHeader')}</HeaderCell>
                     <HeaderCell className="col-7">{t('devices.details.tags.valueHeader')}</HeaderCell>
                   </Row>
                   {
-                    (Object.entries(device.tags) || []).map((item, idx) =>
+                    (Object.entries(device.tags) || []).map(([tagName, tagValue], idx) =>
                       <Row key={idx}>
-                        <Cell className="col-3">{item[0]}</Cell>
-                        <Cell className="col-7">{item[1].toString()}</Cell>
+                        <Cell className="col-3">{tagName}</Cell>
+                        <Cell className="col-7">{tagValue.toString()}</Cell>
                       </Row>
                     )
                   }
                 </Grid>
               </FlyoutSection>
 
-              <FlyoutSection>
-                <SectionHeader>{t('devices.details.methods.title')}</SectionHeader>
-                <SectionDesc>{t('devices.details.methods.description')}</SectionDesc>
-                <Grid className="section-content">
+              <FlyoutSection title={t('devices.details.methods.title')} decription={t('devices.details.methods.description')}>
+                <Grid>
                   {
-                    ((device.methods || '').split(',') || []).map((item, idx) =>
+                    ((device.methods || '').split(',') || []).map((methodName, idx) =>
                       <Row key={idx}>
-                        <Cell>{item}</Cell>
+                        <Cell>{methodName}</Cell>
                       </Row>
                     )
                   }
                 </Grid>
               </FlyoutSection>
 
-              <FlyoutSection>
-                <SectionHeader>{t('devices.details.properties.title')}</SectionHeader>
-                <SectionDesc>{t('devices.details.properties.description')}</SectionDesc>
-                <Grid className="section-content">
+              <FlyoutSection title={t('devices.details.properties.title')} decription={t('devices.details.properties.description')}>
+                <Grid>
                   <Row>
                     <HeaderCell className="col-3">{t('devices.details.properties.keyHeader')}</HeaderCell>
                     <HeaderCell className="col-7">{t('devices.details.properties.valueHeader')}</HeaderCell>
                   </Row>
                   {
-                    (Object.entries(device.properties) || []).map((item, idx) =>
+                    (Object.entries(device.properties) || []).map(([propertyName, propertyValue], idx) =>
                       <Row key={idx}>
-                        <Cell className="col-3">{item[0]}</Cell>
-                        <Cell className="col-7">{item[1].toString()}</Cell>
+                        <Cell className="col-3">{propertyName}</Cell>
+                        <Cell className="col-7">{propertyValue.toString()}</Cell>
                       </Row>
                     )
                   }
                 </Grid>
               </FlyoutSection>
 
-              <FlyoutSection>
-                <SectionHeader>{t('devices.details.diagnostics.title')}</SectionHeader>
-                <SectionDesc>{t('devices.details.diagnostics.description')}</SectionDesc>
+              <FlyoutSection title={t('devices.details.diagnostics.title')} decription={t('devices.details.diagnostics.description')}>
                 TODO: Add diagnostics.
               </FlyoutSection>
             </div>

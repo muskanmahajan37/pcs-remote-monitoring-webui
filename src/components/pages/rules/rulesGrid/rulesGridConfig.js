@@ -82,7 +82,7 @@ export const rulesColumnDefs = {
   explore: {
     headerName: 'rules.grid.explore',
     field: 'ruleId',
-    cellRendererFramework: props => <LinkRenderer {...props} uri={`/maintenance/rule/${props.value}`} />
+    cellRendererFramework: props => <LinkRenderer {...props} to={`/maintenance/rule/${props.value}`} />
   },
 };
 

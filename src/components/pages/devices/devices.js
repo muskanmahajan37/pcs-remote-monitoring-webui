@@ -60,7 +60,7 @@ export class Devices extends Component {
         }
         { !error && <DevicesGrid {...gridProps} /> }
         <Btn onClick={this.changeDeviceGroup}>Refresh Device Groups</Btn>
-        { this.state.flyoutOpen && <DeviceDetailsContainer t={t} onClose={this.closeFlyout} device={entities[this.state.selectedDeviceId]} /> }
+        { this.state.flyoutOpen && <DeviceDetailsContainer onClose={this.closeFlyout} device={entities[this.state.selectedDeviceId]} /> }
       </div>
     );
   }
