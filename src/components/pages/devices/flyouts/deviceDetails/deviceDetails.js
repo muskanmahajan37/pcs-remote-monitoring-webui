@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft. All rights reserved.
 
 import React, { Component } from 'react';
+
+import { TelemetryService } from 'services';
+import { DeviceIcon } from './deviceIcon';
+import { RulesGrid, rulesColumnDefs } from 'components/pages/rules/rulesGrid';
+import { translateColumnDefs } from 'utilities';
 import {
   Flyout,
   FlyoutHeader,
@@ -15,13 +20,56 @@ import {
   BasicHeaderCell as HeaderCell,
   BasicCell as Cell
 } from 'components/shared';
-import { DeviceIcon } from './deviceDetails/deviceIcon';
 
-import './deviceDetails/deviceDetails.css';
+import './deviceDetails.css';
 
 export class DeviceDetails extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { alarms: undefined, isAlarmsPending: false, alarmsError: undefined };
+    this.columnDefs = [
+      rulesColumnDefs.ruleName,
+      rulesColumnDefs.severity,
+      rulesColumnDefs.explore
+    ];
+  }
+
+  componentDidMount() {
+    if (!this.props.rulesLastUpdated) this.props.fetchRules();
+    this.fetchAlarms((this.props.device || {}).id)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.fetchAlarms((nextProps.device || {}).id)
+  }
+
+  applyRuleNames = (alarms, rules) =>
+    alarms.map(alarm => ({
+      ...alarm,
+      name: (rules[alarm.ruleId] || {}).name
+    }));
+
+  fetchAlarms = (deviceId) => {
+    this.setState({ isAlarmsPending: true });
+    TelemetryService.getAlarms({
+      limit: 5,
+      order: "desc",
+      devices: deviceId
+    })
+      .subscribe(
+      alarms => this.setState({ alarms, isAlarmsPending: false, alarmsError: undefined }),
+      alarmsError => this.setState({ alarmsError, isAlarmsPending: false })
+      );
+  }
+
   render() {
     const { t, onClose, device } = this.props;
+    const isPending = this.state.isAlarmsPending && this.props.isRulesPending;
+    const rulesGridProps = {
+      rowData: isPending ? undefined : this.applyRuleNames(this.state.alarms || [], this.props.rules || []),
+      t: this.props.t,
+      columnDefs: translateColumnDefs(this.props.t, this.columnDefs)
+    };
     return (
       <Flyout>
         <FlyoutHeader>
@@ -41,14 +89,14 @@ export class DeviceDetails extends Component {
                 <Row>
                   <Cell className="col-3"><DeviceIcon type={device.type} /></Cell>
                   <Cell className="col-7">
-                      <div class="device-name">{device.id}</div>
-                      <div class="device-simulated">{device.isSimulated ? t('devices.details.simulated') : t('devices.details.notSimulated')}</div>
-                      <div class="device-connected">{device.connected ? t('devices.details.connected') : t('devices.details.notConnected')}</div>
+                    <div className="device-name">{device.id}</div>
+                    <div className="device-simulated">{device.isSimulated ? t('devices.details.simulated') : t('devices.details.notSimulated')}</div>
+                    <div className="device-connected">{device.connected ? t('devices.details.connected') : t('devices.details.notConnected')}</div>
                   </Cell>
                 </Row>
               </Grid>
 
-              TODO: Add Rules Grid.
+              {(!this.state.isAlarmsPending && this.state.alarms && (this.state.alarms.length > 0)) && <RulesGrid {...rulesGridProps} />}
 
               <FlyoutSection>
                 <SectionHeader>{t('devices.details.telemetry.title')}</SectionHeader>

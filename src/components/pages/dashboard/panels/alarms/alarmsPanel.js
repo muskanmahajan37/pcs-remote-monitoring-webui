@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft. All rights reserved.
 
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
-
-import { Svg } from 'components/shared';
-import { svgs } from 'utilities';
 
 import {
   Panel,
@@ -28,14 +24,7 @@ export class AlarmsPanel extends Component {
         headerName: 'rules.grid.count',
         field: 'count'
       },
-      {
-        headerName: 'Explore',
-        field: 'ruleId',
-        cellRendererFramework: ({ value }) =>
-          <NavLink to={`/maintenance/rule/${value}`} className="alarms-explore-link">
-            <Svg path={svgs.ellipsis} />
-          </NavLink>
-      }
+      rulesColumnDefs.explore
     ];
   }
 

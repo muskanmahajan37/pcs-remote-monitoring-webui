@@ -6,7 +6,8 @@ import {
   SeverityRenderer,
   RuleStatusRenderer,
   CountRenderer,
-  LastTriggerRenderer
+  LastTriggerRenderer,
+  LinkRenderer
 } from 'components/shared/cellRenderers';
 export const LAST_TRIGGER_DEFAULT_WIDTH = 310;
 
@@ -77,7 +78,12 @@ export const rulesColumnDefs = {
     field: 'lastTrigger',
     cellRendererFramework: LastTriggerRenderer,
     width: LAST_TRIGGER_DEFAULT_WIDTH
-  }
+  },
+  explore: {
+    headerName: 'rules.grid.explore',
+    field: 'ruleId',
+    cellRendererFramework: props => <LinkRenderer {...props} uri={`/maintenance/rule/${props.value}`} />
+  },
 };
 
 export const defaultRulesGridProps = {
