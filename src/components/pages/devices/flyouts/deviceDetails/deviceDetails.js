@@ -100,7 +100,7 @@ export class DeviceDetails extends Component {
 
               <FlyoutSection>
                 <SectionHeader>{t('devices.details.telemetry.title')}</SectionHeader>
-                TODO: Add chart when able..
+                TODO: Add chart when able.
               </FlyoutSection>
 
               <FlyoutSection>

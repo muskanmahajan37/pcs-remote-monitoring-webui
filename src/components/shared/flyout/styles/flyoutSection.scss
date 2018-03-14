@@ -4,18 +4,20 @@
 @import 'src/styles/mixins';
 
 .flyout-section {
-  @include rem-fallback(padding-top, 32px);
+  @include rem-fallback(padding, 12px, 0px, 12px, 0px);
 
   .section-header {
+    @include rem-font-size(16px);
+    @include rem-fallback(line-height, 19px);
     border-top-style: solid;
     border-top-width: 1px;
-    @include rem-fallback(margin-bottom, 12px);
+    @include rem-fallback(margin-bottom, 11px);
     @include rem-fallback(padding-top, 4px)
    }
 
   .section-desc {
-    @include rem-font-size(14px);
-    @include rem-fallback(margin-bottom, 16px);
+    @include rem-font-size(12px);
+    @include rem-fallback(line-height, 15px);
   }
 
   @include themify($themes) {

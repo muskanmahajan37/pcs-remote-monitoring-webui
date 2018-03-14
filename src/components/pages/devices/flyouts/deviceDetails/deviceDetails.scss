@@ -4,11 +4,17 @@
 @import 'src/styles/themes';
 
 .device-details-container {
+  @include rem-font-size(14px);
+  @include rem-fallback(line-height, 17px);
   display: flex;
   flex-flow: column nowrap;
 
   .flyout-section {
-    .section-content { @include rem-fallback(padding, 0px, 12px, 0px, 12px); }
+    .section-content {
+      @include rem-fallback(padding, 0px, 12px, 0px, 12px);
+
+      .basic-row {  @include rem-fallback(padding-top, 16px); }
+    }
   }
 
   .device-icon svg {
