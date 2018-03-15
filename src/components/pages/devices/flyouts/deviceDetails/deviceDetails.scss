@@ -30,11 +30,7 @@
     }
   }
 
-  @include themify($themes) {
-    .device-details-header {
-      .device-icon svg { fill: themed('colorContentTextDim'); }
-    }
-  }
+
 
   .property-grid-container {
     .row {
@@ -43,10 +39,16 @@
         text-transform: uppercase;
         @include rem-fallback(font-size, 10px);
       }
+    }
+  }
 
-      @include themify($themes) {
-        .cell-header { color: themed('colorContentTextDim'); }
-      }
+  @include themify($themes) {
+    .device-details-header {
+      .device-icon svg { fill: themed('colorContentTextDim'); }
+    }
+
+    .property-grid-container {
+      .row .cell-header { color: themed('colorContentTextDim'); }
     }
   }
 }
