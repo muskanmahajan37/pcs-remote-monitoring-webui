@@ -32,9 +32,7 @@ $iconSize: 14px;
 
     &.uppercase { text-transform: uppercase; }
 
-    > .icon-only {
-      display: none !important;
-    }
+    > .icon-only { display: none !important; }
   }
 
   @include themify($themes) {

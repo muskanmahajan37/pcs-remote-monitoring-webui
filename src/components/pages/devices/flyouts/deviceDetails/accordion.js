@@ -10,9 +10,9 @@ import {
 } from 'components/shared';
 import { svgs, joinClasses } from 'utilities';
 
-import './styles/flyoutSection.css';
+import './accordion.css';
 
-export class FlyoutSection extends Component {
+export class Accordion extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,14 +30,10 @@ export class FlyoutSection extends Component {
     const { className, title, description, children } = this.props;
     const displayContent = this.state.showContent ? {} : { display: 'none' };
     return (
-      <div className={joinClasses('flyout-section', className)}>
+      <div className={joinClasses('accordion', className)}>
         <SectionHeader>
-          <div className="section-title" onClick={this.toggleContent}>{title}</div>
-          {
-            this.state.showContent
-              ? <Btn onClick={this.toggleContent} svg={svgs.chevron} className="section-toggle-btn chevron-close" />
-              : <Btn onClick={this.toggleContent} svg={svgs.chevron} className="section-toggle-btn chevron-open" />
-          }
+          <div className="accordion-title" onClick={this.toggleContent}>{title}</div>
+          <Btn onClick={this.toggleContent} svg={svgs.chevron} className={joinClasses("accordion-toggle-btn", this.state.showContent ? 'chevron-close' : 'chevron-open')} />
         </SectionHeader>
 
         <div className="section-content" style={displayContent}>
@@ -52,7 +48,7 @@ export class FlyoutSection extends Component {
   }
 }
 
-FlyoutSection.propTypes = {
+Accordion.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   children: PropTypes.node,

@@ -8,12 +8,12 @@
   flex-flow: column nowrap;
   @include rem-font-size(14px);
 
-  .flyout-section {
+  .accordion {
     .section-content {
       @include rem-fallback(padding, 0px, 12px, 0px, 12px);
 
-      .basic-row {  @include rem-fallback(padding-top, 16px); }
-      .basic-cell { @include rem-fallback(line-height, 17px); }
+      .row {  @include rem-fallback(padding-top, 16px); }
+      .cell { @include rem-fallback(line-height, 17px); }
     }
   }
 
@@ -36,7 +36,7 @@
     }
   }
 
-  .grid-container {
+  .property-grid-container {
     .row {
       .cell-header {
         font-family: $fontSelawikBold;

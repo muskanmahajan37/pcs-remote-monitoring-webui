@@ -11,8 +11,7 @@ import {
   FlyoutHeader,
   FlyoutTitle,
   FlyoutCloseBtn,
-  FlyoutContent,
-  FlyoutSection
+  FlyoutContent
 } from 'components/shared';
 import {
   PropertyGrid as Grid,
@@ -20,6 +19,7 @@ import {
   PropertyHeaderCell as HeaderCell,
   PropertyCell as Cell
 } from './propertyGrid';
+import { Accordion } from './accordion';
 
 import './deviceDetails.css';
 
@@ -44,13 +44,13 @@ export class DeviceDetails extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((this.props.device || {}).id === nextProps.device.id) {
+    if ((this.props.device || {}).id !== nextProps.device.id) {
       this.fetchAlarms((nextProps.device || {}).id);
     }
   }
 
   componentWillUnmount() {
-    this.getAlarmsObsvStream.unsubscribe();
+    this.alarmSubscription.unsubscribe();
   }
 
   applyRuleNames = (alarms, rules) =>
@@ -61,14 +61,12 @@ export class DeviceDetails extends Component {
 
   fetchAlarms = (deviceId) => {
     this.setState({ isAlarmsPending: true });
-    const getAlarmsObsv =
-      TelemetryService.getAlarms({
-        limit: 5,
-        order: "desc",
-        devices: deviceId
-      });
 
-    this.getAlarmsObsvStream = getAlarmsObsv
+    this.alarmSubscription = TelemetryService.getAlarms({
+      limit: 5,
+      order: "desc",
+      devices: deviceId
+    })
       .subscribe(
       alarms => this.setState({ alarms, isAlarmsPending: false, alarmsError: undefined }),
       alarmsError => this.setState({ alarmsError, isAlarmsPending: false })
@@ -111,11 +109,11 @@ export class DeviceDetails extends Component {
 
               {(!this.state.isAlarmsPending && this.state.alarms && (this.state.alarms.length > 0)) && <RulesGrid {...rulesGridProps} />}
 
-              <FlyoutSection title={t('devices.details.telemetry.title')}>
+              <Accordion title={t('devices.details.telemetry.title')}>
                 TODO: Add chart when able.
-              </FlyoutSection>
+              </Accordion>
 
-              <FlyoutSection title={t('devices.details.tags.title')} decription={t('devices.details.tags.description')}>
+              <Accordion title={t('devices.details.tags.title')} decription={t('devices.details.tags.description')}>
                 <Grid>
                   <Row>
                     <HeaderCell className="col-3">{t('devices.details.tags.keyHeader')}</HeaderCell>
@@ -130,9 +128,9 @@ export class DeviceDetails extends Component {
                     )
                   }
                 </Grid>
-              </FlyoutSection>
+              </Accordion>
 
-              <FlyoutSection title={t('devices.details.methods.title')} decription={t('devices.details.methods.description')}>
+              <Accordion title={t('devices.details.methods.title')} decription={t('devices.details.methods.description')}>
                 <Grid>
                   {
                     ((device.methods || '').split(',') || []).map((methodName, idx) =>
@@ -142,9 +140,9 @@ export class DeviceDetails extends Component {
                     )
                   }
                 </Grid>
-              </FlyoutSection>
+              </Accordion>
 
-              <FlyoutSection title={t('devices.details.properties.title')} decription={t('devices.details.properties.description')}>
+              <Accordion title={t('devices.details.properties.title')} decription={t('devices.details.properties.description')}>
                 <Grid>
                   <Row>
                     <HeaderCell className="col-3">{t('devices.details.properties.keyHeader')}</HeaderCell>
@@ -159,11 +157,11 @@ export class DeviceDetails extends Component {
                     )
                   }
                 </Grid>
-              </FlyoutSection>
+              </Accordion>
 
-              <FlyoutSection title={t('devices.details.diagnostics.title')} decription={t('devices.details.diagnostics.description')}>
+              <Accordion title={t('devices.details.diagnostics.title')} decription={t('devices.details.diagnostics.description')}>
                 TODO: Add diagnostics.
-              </FlyoutSection>
+              </Accordion>
             </div>
           }
         </FlyoutContent>

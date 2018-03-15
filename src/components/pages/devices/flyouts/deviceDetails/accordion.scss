@@ -3,7 +3,7 @@
 @import 'src/styles/themes';
 @import 'src/styles/mixins';
 
-.flyout-section {
+.accordion {
   @include rem-fallback(padding, 12px, 0px, 12px, 0px);
 
   .section-header {
@@ -17,12 +17,13 @@
     @include rem-fallback(margin-bottom, 11px);
     @include rem-fallback(padding-top, 4px);
 
-    .section-title {
-        @include rem-font-size(16px);
-        @include rem-fallback(line-height, 19px);
+    .accordion-title {
+      cursor: pointer;
+      @include rem-font-size(16px);
+      @include rem-fallback(line-height, 19px);
     }
 
-    .section-toggle-btn {
+    .accordion-toggle-btn {
       background-color: transparent;
       @include rem-fallback(padding, 0px);
       @include rem-fallback(margin-right, 16px);

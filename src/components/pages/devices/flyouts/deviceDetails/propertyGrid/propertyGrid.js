@@ -8,7 +8,7 @@ import { joinClasses } from 'utilities';
 import './propertyGrid.css';
 
 export const PropertyGrid = (props) => (
-  <div className={joinClasses('grid-container', props.className)}>{props.children}</div>
+  <div className={joinClasses('property-grid-container', props.className)}>{props.children}</div>
 );
 
 PropertyGrid.propTypes = {
