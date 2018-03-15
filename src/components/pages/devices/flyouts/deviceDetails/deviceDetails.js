@@ -113,12 +113,15 @@ export class DeviceDetails extends Component {
                 TODO: Add chart when able.
               </Accordion>
 
-              <Accordion title={t('devices.details.tags.title')} decription={t('devices.details.tags.description')}>
+              <Accordion title={t('devices.details.tags.title')} description={t('devices.details.tags.description')}>
                 <Grid>
-                  <Row>
-                    <HeaderCell className="col-3">{t('devices.details.tags.keyHeader')}</HeaderCell>
-                    <HeaderCell className="col-7">{t('devices.details.tags.valueHeader')}</HeaderCell>
-                  </Row>
+                  {
+                    (device.tags && device.tags.length) &&
+                    <Row>
+                      <HeaderCell className="col-3">{t('devices.details.tags.keyHeader')}</HeaderCell>
+                      <HeaderCell className="col-7">{t('devices.details.tags.valueHeader')}</HeaderCell>
+                    </Row>
+                  }
                   {
                     (Object.entries(device.tags) || []).map(([tagName, tagValue], idx) =>
                       <Row key={idx}>
@@ -130,7 +133,7 @@ export class DeviceDetails extends Component {
                 </Grid>
               </Accordion>
 
-              <Accordion title={t('devices.details.methods.title')} decription={t('devices.details.methods.description')}>
+              <Accordion title={t('devices.details.methods.title')} description={t('devices.details.methods.description')}>
                 <Grid>
                   {
                     ((device.methods || '').split(',') || []).map((methodName, idx) =>
@@ -142,12 +145,15 @@ export class DeviceDetails extends Component {
                 </Grid>
               </Accordion>
 
-              <Accordion title={t('devices.details.properties.title')} decription={t('devices.details.properties.description')}>
+              <Accordion title={t('devices.details.properties.title')} description={t('devices.details.properties.description')}>
                 <Grid>
-                  <Row>
-                    <HeaderCell className="col-3">{t('devices.details.properties.keyHeader')}</HeaderCell>
-                    <HeaderCell className="col-7">{t('devices.details.properties.valueHeader')}</HeaderCell>
-                  </Row>
+                  {
+                    (device.properties && device.properties.length) &&
+                    <Row>
+                      <HeaderCell className="col-3">{t('devices.details.properties.keyHeader')}</HeaderCell>
+                      <HeaderCell className="col-7">{t('devices.details.properties.valueHeader')}</HeaderCell>
+                    </Row>
+                  }
                   {
                     (Object.entries(device.properties) || []).map(([propertyName, propertyValue], idx) =>
                       <Row key={idx}>
@@ -159,7 +165,7 @@ export class DeviceDetails extends Component {
                 </Grid>
               </Accordion>
 
-              <Accordion title={t('devices.details.diagnostics.title')} decription={t('devices.details.diagnostics.description')}>
+              <Accordion title={t('devices.details.diagnostics.title')} description={t('devices.details.diagnostics.description')}>
                 TODO: Add diagnostics.
               </Accordion>
             </div>

@@ -4,21 +4,16 @@
 @import 'src/styles/themes';
 
 .device-details-container {
-  display: flex;
-  flex-flow: column nowrap;
   @include rem-font-size(14px);
 
   .accordion {
     .section-content {
       @include rem-fallback(padding, 0px, 12px, 0px, 12px);
-
-      .row {  @include rem-fallback(padding-top, 16px); }
-      .cell { @include rem-fallback(line-height, 17px); }
     }
   }
 
   .device-details-header {
-    @include rem-fallback(padding, 12px, 12px, 12px, 12px);
+    @include rem-fallback(padding, 12px, 0px);
 
     .device-name { @include rem-fallback(font-size, 18px); }
     .device-simulated { @include rem-fallback(font-size, 10px); }
@@ -30,14 +25,15 @@
     }
   }
 
-
-
   .property-grid-container {
     .row {
+      @include rem-fallback(padding-bottom, 12px);
+
       .cell-header {
         font-family: $fontSelawikBold;
         text-transform: uppercase;
         @include rem-fallback(font-size, 10px);
+        @include rem-fallback(padding-top, 16px);
       }
     }
   }

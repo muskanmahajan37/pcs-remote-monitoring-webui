@@ -4,6 +4,9 @@
 @import 'src/styles/themes';
 
 .property-grid-container {
+  display: flex;
+  flex-flow: column nowrap;
+
   .row {
     display: flex;
     flex-direction: row;
