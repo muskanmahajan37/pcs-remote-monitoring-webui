@@ -10,8 +10,6 @@ import {
 import { RulesGrid, rulesColumnDefs } from 'components/pages/rules/rulesGrid';
 import { translateColumnDefs } from 'utilities';
 
-import './alarmsPanel.css';
-
 export class AlarmsPanel extends Component {
 
   constructor(props) {
