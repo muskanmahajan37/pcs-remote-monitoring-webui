@@ -4,10 +4,11 @@ import { stringify } from 'query-string';
 import Config from 'app.config';
 import { HttpClient } from './httpClient';
 import {
+  toActiveAlarmsModel,
   toAlarmsForRuleModel,
   toAlarmsModel,
-  toMessagesModel,
   toRulesModel,
+  toMessagesModel
 } from './models';
 
 const ENDPOINT = Config.serviceUrls.telemetry;
@@ -30,7 +31,7 @@ export class TelemetryService {
   /** Returns a list of active alarms (open or ack) */
   static getActiveAlarms(params = {}) {
     return HttpClient.get(`${ENDPOINT}alarmsbyrule?${stringify(params)}`)
-      .map(toActicveAlarmsModel);
+      .map(toActiveAlarmsModel);
   }
 
   /** Returns a list of alarms created from a given rule */
@@ -39,6 +40,7 @@ export class TelemetryService {
       .map(toAlarmsForRuleModel);
   }
 
+  /** Returns a telemetry events */
   static getTelemetryByMessages(params = {}) {
     return HttpClient.get(`${ENDPOINT}messages?${stringify(params)}`)
       .map(toMessagesModel);

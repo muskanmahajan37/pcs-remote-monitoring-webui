@@ -26,7 +26,7 @@ export const toRulesModel = (response = {}) => (response.items || [])
     'rule.description': 'description'
   }));
 
-export const toActicveAlarmsModel = (response = {}) => (response.items || [])
+export const toActiveAlarmsModel = (response = {}) => (response.items || [])
   .map((alarm = {}) => reshape(alarm, {
     'rule.id': 'ruleId',
     'count': 'count',
