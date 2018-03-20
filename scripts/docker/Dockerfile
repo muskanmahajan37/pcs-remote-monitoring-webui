@@ -4,9 +4,9 @@ MAINTAINER Devis Lucato (https://github.com/dluc)
 
 LABEL Tags="Azure,IoT,Solutions,React,SPA"
 
-ARG user=pcsuser
+ARG user=app
 
-RUN adduser -D -h /home/$user -s /bin/bash $user $user
+RUN addgroup $user && adduser -D -G $user $user
 
 COPY ./ /app
 WORKDIR /app
@@ -28,7 +28,7 @@ RUN apk update && apk upgrade \
  && mkdir -p /var/lib/nginx /var/cache/nginx /var/tmp/nginx /var/log/nginx \
  && chown -R $user:$user /var/lib/nginx /var/cache/nginx /var/tmp/nginx /var/log/nginx
 
-EXPOSE 8080 8443
+EXPOSE 10080 10443
 VOLUME /app/logs
 
 ENTRYPOINT ["/bin/sh", "/app/run.sh"]
