@@ -3,14 +3,16 @@
 import React, { Component } from 'react';
 import { DevicesGrid } from './devicesGrid';
 import { Btn, RefreshBar, PageContent, ContextMenu } from 'components/shared';
-import { DeviceDetailsContainer } from './flyouts/deviceDetails';
+//import { DeviceDetailsContainer } from './flyouts/deviceDetails';
+import { DeviceDeleteContainer } from './flyouts/deviceDelete';
 import { svgs } from 'utilities';
 
 import './devices.css';
 
 const closedFlyoutState = {
   flyoutOpen: false,
-  selectedDeviceId: undefined
+  selectedDeviceId: undefined,
+  hardSelectedDevices: undefined
 };
 
 export class Devices extends Component {
@@ -49,14 +51,20 @@ export class Devices extends Component {
 
   getSoftSelectId = ({ id }) => id;
 
+  onHardSelectChange = (devices) => this.setState({
+    flyoutOpen: true,
+    hardSelectedDevices: devices
+  });
+
   render() {
-    const { t, devices, error, isPending, lastUpdated, entities, fetchDevices } = this.props;
+    const { t, devices, error, isPending, lastUpdated, /* entities,*/ fetchDevices } = this.props;
     const gridProps = {
       rowData: isPending ? undefined : devices || [],
       onSoftSelectChange: this.onSoftSelectChange,
       onContextMenuChange: this.onContextMenuChange,
       softSelectId: this.state.selectedDeviceId,
       getSoftSelectId: this.getSoftSelectId,
+      onHardSelectChange: this.onHardSelectChange,
       t: this.props.t
     };
     return [
@@ -74,7 +82,8 @@ export class Devices extends Component {
         }
         { !error && <DevicesGrid {...gridProps} /> }
         <Btn onClick={this.changeDeviceGroup}>Refresh Device Groups</Btn>
-        { this.state.flyoutOpen && <DeviceDetailsContainer onClose={this.closeFlyout} device={entities[this.state.selectedDeviceId]} /> }
+        {/* this.state.flyoutOpen && <DeviceDetailsContainer onClose={this.closeFlyout} device={entities[this.state.selectedDeviceId]} /> */}
+        {this.state.flyoutOpen && <DeviceDeleteContainer onClose={this.closeFlyout} devices={this.state.hardSelectedDevices} />}
       </PageContent>
     ];
   }
