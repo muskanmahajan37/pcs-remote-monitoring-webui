@@ -3,8 +3,7 @@
 import React, { Component } from 'react';
 import { DevicesGrid } from './devicesGrid';
 import { Btn, RefreshBar, PageContent, ContextMenu } from 'components/shared';
-//import { DeviceDetailsContainer } from './flyouts/deviceDetails';
-import { DeviceDeleteContainer } from './flyouts/deviceDelete';
+import { DeviceDetailsContainer } from './flyouts/deviceDetails';
 import { svgs } from 'utilities';
 
 import './devices.css';
@@ -54,7 +53,7 @@ export class Devices extends Component {
   });
 
   render() {
-    const { t, devices, error, isPending, lastUpdated, /* entities,*/ fetchDevices } = this.props;
+    const { t, devices, error, isPending, lastUpdated, entities, fetchDevices } = this.props;
     const gridProps = {
       rowData: isPending ? undefined : devices || [],
       onSoftSelectChange: this.onSoftSelectChange,
@@ -79,8 +78,7 @@ export class Devices extends Component {
         }
         { !error && <DevicesGrid {...gridProps} /> }
         <Btn onClick={this.changeDeviceGroup}>Refresh Device Groups</Btn>
-        {/* this.state.flyoutOpen && <DeviceDetailsContainer onClose={this.closeFlyout} device={entities[this.state.selectedDeviceId]} /> */}
-        {this.state.flyoutOpen && <DeviceDeleteContainer onClose={this.closeFlyout} devices={this.state.hardSelectedDevices} />}
+        { this.state.flyoutOpen && <DeviceDetailsContainer onClose={this.closeFlyout} device={entities[this.state.selectedDeviceId]} /> }
       </PageContent>
     ];
   }
