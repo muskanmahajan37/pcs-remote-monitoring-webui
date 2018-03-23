@@ -15,4 +15,9 @@ export class IoTHubManagerService {
     return HttpClient.get(`${ENDPOINT}devices?query=${query}`)
       .map(toDevicesModel);
   }
+
+  /** Deletes a device */
+  static deleteDevice(id) {
+    return HttpClient.delete(`${ENDPOINT}devices/${id}`);
+  }
 }

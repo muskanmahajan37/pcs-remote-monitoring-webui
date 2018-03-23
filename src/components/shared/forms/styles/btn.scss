@@ -3,7 +3,8 @@
 @import 'src/styles/themes';
 @import 'src/styles/mixins';
 
-$btnHeight: 28px;
+$btnHeight: 24px;
+$btnMinWidth: 120px;
 $btnIconSize: 14px;
 .btn {
   display: flex;
@@ -11,10 +12,11 @@ $btnIconSize: 14px;
   flex-shrink: 0;
   align-items: center;
   background-color: transparent;
-  border: none;
+  border: 1px transparent solid;
   cursor: pointer;
   font-family: inherit;
   @include rem-fallback(padding, 0px, $btnHeight);
+  @include rem-fallback(min-width, $btnMinWidth);
 
   .btn-icon {
     @include rem-fallback(height, $btnHeight);
@@ -34,24 +36,76 @@ $btnIconSize: 14px;
   }
 
   @include themify($themes) {
-    color: themed('colorHighest');
+    color: themed('colorBtnText');
+    background-color: themed('colorBtnBackground');
+    .btn-icon svg { fill: themed('colorBtnSvgFill'); }
 
-    .btn-icon svg { fill: themed('colorHighest'); }
+    &:focus {
+      border: 1px themed('colorBtnBorderFocus') dashed;
+    }
 
     &:hover {
-      color: themed('colorLowestSecond');
-      background-color: themed('colorLightestFirst');
+      color: themed('colorBtnTextHover');
+      background-color: themed('colorBtnBackgroundHover');
 
-      .btn-icon svg { fill: themed('colorLowestSecond'); }
+      .btn-icon svg { fill: themed('colorBtnSvgFillHover'); }
+    }
+
+    &:active {
+      color: themed('colorBtnTextActive');
+      background-color: themed('colorBtnBackgroundActive');
+      border: 1px transparent dashed;
+
+      .btn-icon svg { fill: themed('colorBtnSvgFillActive'); }
     }
 
     &:disabled {
-      background-color: transparent;
-      color: themed('colorMidFirst');
+      color: themed('colorBtnTextDisabled');
+      background-color: themed('colorBtnBackgroundDisabled');
       cursor: auto;
 
-      .btn-icon svg { fill: themed('colorMidFirst'); }
+      .btn-icon {
+        display: none;
+
+        svg { fill: themed('colorBtnSvgFillDisabled'); }
+      }
     }
 
+    &.btn-primary {
+      color: themed('colorBtnPrimaryText');
+      background-color: themed('colorBtnPrimaryBackground');
+      .btn-icon svg { fill: themed('colorBtnPrimarySvgFill'); }
+
+      &:focus {
+        border: 1px themed('colorBtnPrimaryBorderFocus') dashed;
+      }
+
+      &:hover {
+        color: themed('colorBtnPrimaryTextHover');
+        background-color: themed('colorBtnPrimaryBackgroundHover');
+
+        .btn-icon svg { fill: themed('colorBtnPrimarySvgFillHover'); }
+      }
+
+      &:active {
+        color: themed('colorBtnPrimaryTextActive');
+        background-color: themed('colorBtnPrimaryBackgroundActive');
+        border: 1px transparent dashed;
+
+        .btn-icon svg { fill: themed('colorBtnPrimarySvgFillActive'); }
+      }
+
+      &:disabled {
+        color: themed('colorBtnPrimaryTextDisabled');
+        background-color: themed('colorBtnPrimaryBackgroundDisabled');
+        cursor: auto;
+
+        .btn-icon {
+          display: none;
+
+          svg { fill: themed('colorBtnPrimarySvgFillDisabled'); }
+        }
+      }
+    }
   }
 }

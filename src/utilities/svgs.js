@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft. All rights reserved.
 
+import CancelXIconPath from 'assets/icons/cancelX.svg';
 import CaratIconPath from 'assets/icons/carat.svg';
 import ChevronIconPath from 'assets/icons/chevron.svg';
 import ChevronRightIconPath from 'assets/icons/chevronRight.svg';
@@ -52,6 +53,7 @@ export const svgs = {
     prototyping: DevicePrototypingIconPath,
     truck: DeviceTruckIconPath
   },
+  cancelX: CancelXIconPath,
   carat: CaratIconPath,
   chevron: ChevronIconPath,
   chevronRight: ChevronRightIconPath,
