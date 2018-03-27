@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft. All rights reserved.
 
-import React, { Component } from 'react';
+import React from 'react';
 
 import { IoTHubManagerService } from 'services';
 import {
@@ -38,23 +38,23 @@ const DeviceDetail = ({ label, value }) => (
   </FormSection>
 );
 
-const DeviceConnectionString = ({ label, deviceId, hostName, accessKey }) => (
-  <DeviceDetail label={label} value={`HostName=${hostName};DeviceId=${deviceId};SharedAccessKey=${accessKey}`} />
+const DeviceConnectionString = ({ label, deviceId, hostName, sharedAccessKey }) => (
+  <DeviceDetail label={label} value={`HostName=${hostName};DeviceId=${deviceId};SharedAccessKey=${sharedAccessKey}`} />
 );
 
 
 const ProvisionedDevice = ({ device, t }) => {
-  const { id: id, ioTHubHostName: hostName, authentication: { primaryKey: primaryKey }, authentication: { secondaryKey: secondaryKey } } = device;
+  const { id, ioTHubHostName: hostName, authentication: { primaryKey }, authentication: { secondaryKey } } = device;
 
   return (
     <div>
       <pre>{JSON.stringify(device, null, 2)}</pre>
 
-      <DeviceDetail label={t('device.new.deviceId')} value={id} />
-      <DeviceDetail label={t('device.new.primaryKey')} value={primaryKey} />
-      <DeviceDetail label={t('device.new.secondaryKey')} value={secondaryKey} />
-      <DeviceConnectionString label={t('device.new.primaryKeyConnection')} deviceId={id} hostName={hostName} accessKey={primaryKey} />
-      <DeviceConnectionString label={t('device.new.secondaryKeyConnection')} deviceId={id} hostName={hostName} accessKey={secondaryKey} />
+      <DeviceDetail label={t('devices.new.deviceId')} value={id} />
+      <DeviceDetail label={t('devices.new.primaryKey')} value={primaryKey} />
+      <DeviceDetail label={t('devices.new.secondaryKey')} value={secondaryKey} />
+      <DeviceConnectionString label={t('devices.new.primaryKeyConnection')} deviceId={id} hostName={hostName} sharedAccessKey={primaryKey} />
+      <DeviceConnectionString label={t('devices.new.secondaryKeyConnection')} deviceId={id} hostName={hostName} sharedAccessKey={secondaryKey} />
     </div>
   );
 };
@@ -86,6 +86,7 @@ export class DeviceNew extends LinkedComponent {
     console.log(this.state);
     console.log(this.countLink);
 
+    //TODO: Create the form to enable user input.
     this.subscription = IoTHubManagerService.provisionDevice({ "Id": "", "Authentication": {}, "IsSimulated": false })
       .subscribe(
         provisionedDevice => {
@@ -104,8 +105,6 @@ export class DeviceNew extends LinkedComponent {
     const summaryMessage = isPending ? t('devices.new.pending') : changesApplied ? t('devices.new.applySuccess') : t('devices.new.affected');
     const completedSuccessfully = changesApplied && successCount === formData.count;
 
-
-
     return (
       <Flyout>
         <FlyoutHeader>
@@ -116,11 +115,6 @@ export class DeviceNew extends LinkedComponent {
           <div className="devices-new-container">
             <div className="devices-new-header">{t('devices.new.header')}</div>
             <div className="devices-new-descr">{t('devices.new.description')}</div>
-
-            <form>
-
-            </form>
-
 
             <SummarySection title={t('devices.new.summaryHeader')}>
               <SummaryCount>{summaryCount}</SummaryCount>

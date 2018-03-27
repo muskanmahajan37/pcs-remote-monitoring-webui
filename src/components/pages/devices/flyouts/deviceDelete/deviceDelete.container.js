@@ -6,7 +6,7 @@ import { DeviceDelete } from './deviceDelete';
 import { redux as deviceRedux } from 'store/reducers/devicesReducer';
 
 // Pass the device details
-const mapStateToProps = state => ({});
+const mapStateToProps = state => null;
 
 // Wrap the dispatch method
 const mapDispatchToProps = dispatch => ({

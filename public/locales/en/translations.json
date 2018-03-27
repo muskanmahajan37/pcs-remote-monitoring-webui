@@ -129,6 +129,7 @@
     }
     ,
     "new": {
+      "contextMenuName": "New device",
       "title": "New Device",
       "header": "Provision new device",
       "description": "This action will provision one or more devices in the platform.",

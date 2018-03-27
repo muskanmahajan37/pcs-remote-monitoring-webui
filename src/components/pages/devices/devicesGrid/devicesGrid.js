@@ -20,10 +20,6 @@ export class DevicesGrid extends Component {
     // Set the initial state
     this.state = closedFlyoutState;
 
-    // Bind to this
-    this.closeFlyout = this.closeFlyout.bind(this);
-    this.openDeleteFlyout = this.openDeleteFlyout.bind(this);
-
     // Default device grid columns
     this.columnDefs = [
       { ...deviceColumnDefs.id, ...checkboxParams },
