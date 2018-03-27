@@ -119,11 +119,31 @@
       "header": "Delete device",
       "description": "This action will delete the devices permanently from the platform.",
       "simulatedNotSupported": "Deleting simulated devices is not currently supported, this action will only be taken on the physical devices.",
+      "summaryHeader": "Summary",
       "affected": "Affected devices",
       "cancel": "Cancel",
       "apply": "Delete",
+      "pending": "Deleting devices... ",
       "applySuccess": "devices deleted successfully!",
       "close": "Close"
+    }
+    ,
+    "new": {
+      "title": "New Device",
+      "header": "Provision new device",
+      "description": "This action will provision one or more devices in the platform.",
+      "summaryHeader": "Provision summary",
+      "affected": "devices to provision",
+      "cancel":"Cancel",
+      "apply":"Apply",
+      "pending": "Provisioning devices... ",
+      "applySuccess": "devices provisioned successfully!",
+      "close": "Close",
+      "deviceId": "Device ID",
+      "primaryKey": "Primary Key",
+      "primaryKeyConnection": "Connection string primary Key",
+      "secondaryKey": "Secondary Key",
+      "secondaryKeyConnection": "Connection string secondary Key"
     }
   },
   "rules": {

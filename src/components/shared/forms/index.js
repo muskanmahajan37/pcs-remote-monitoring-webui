@@ -13,3 +13,5 @@ export * from './formSection';
 export * from './radio';
 export * from './sectionDesc';
 export * from './sectionHeader';
+export * from './summaryCount';
+export * from './summarySection';

@@ -15,6 +15,9 @@ import {
   FlyoutCloseBtn,
   FlyoutContent,
   Indicator,
+  SectionDesc,
+  SummaryCount,
+  SummarySection,
   Svg
 } from 'components/shared';
 
@@ -85,7 +88,8 @@ export class DeviceDelete extends Component {
     } = this.state;
 
     const summaryCount = changesApplied ? successCount : physicalDevices.length;
-    const summaryMessage = changesApplied ? t('devices.delete.applySuccess') : t('devices.delete.affected');
+    const summaryMessage = isPending ? t('devices.delete.pending') : changesApplied ? t('devices.delete.applySuccess') : t('devices.delete.affected');
+    const completedSuccessfully = changesApplied && successCount === physicalDevices.length;
 
     return (
       <Flyout>
@@ -104,38 +108,36 @@ export class DeviceDelete extends Component {
                 {t('devices.delete.simulatedNotSupported')}
               </div>
             }
-            <div className="device-delete-summary-container">
-              <div>
-                Summary
-              </div>
-              <div className="device-delete-affected">
-                <div className="device-delete-count">{summaryCount}</div>
-                {summaryMessage}
-              </div>
-            </div>
+
+            <SummarySection title={t('devices.delete.summaryHeader')}>
+              <SummaryCount>{summaryCount}</SummaryCount>
+              <SectionDesc>{summaryMessage}</SectionDesc>
+              {this.state.isPending && <Indicator />}
+              {completedSuccessfully && <Svg className="summary-icon" path={svgs.apply}/>}
+            </SummarySection>
+
             {
               error &&
               <div className="device-delete-error">
                 <ErrorMsg>{error}</ErrorMsg>
               </div>
-            }
+              }
             {
-              !changesApplied &&
-              <BtnToolbar className="tools-preApply">
-                {this.state.isPending && <Indicator />}
-                <Btn svg={svgs.trash} primary={true} disabled={isPending || physicalDevices.length === 0} onClick={this.deleteDevices}>{t('devices.delete.apply')}</Btn>
-                <Btn svg={svgs.cancelX} onClick={onClose}>{t('devices.delete.cancel')}</Btn>
-              </BtnToolbar>
-            }
-            {
-              !!changesApplied &&
-              <BtnToolbar className="tools-postApply">
-                <Btn svg={svgs.cancelX} onClick={onClose}>{t('devices.delete.close')}</Btn>
-              </BtnToolbar>
-            }
+                !changesApplied &&
+                <BtnToolbar className="tools-preApply">
+                  <Btn svg={svgs.trash} primary={true} disabled={isPending || physicalDevices.length === 0} onClick={this.deleteDevices}>{t('devices.delete.apply')}</Btn>
+                  <Btn svg={svgs.cancelX} onClick={onClose}>{t('devices.delete.cancel')}</Btn>
+                </BtnToolbar>
+              }
+              {
+                !!changesApplied &&
+                <BtnToolbar className="tools-postApply">
+                  <Btn svg={svgs.cancelX} onClick={onClose}>{t('devices.delete.close')}</Btn>
+                </BtnToolbar>
+              }
           </div>
         </FlyoutContent>
       </Flyout>
-    );
-  }
-}
+        );
+      }
+    }

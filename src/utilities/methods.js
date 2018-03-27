@@ -62,3 +62,12 @@ export const getStatusCode = (code, t) => {
     default: return t('maintenance.jobStatus.queued');
   }
 }
+
+export const copyToClipboard = (data) => {
+  const textField = document.createElement('textarea');
+  textField.innerText = data;
+  document.body.appendChild(textField);
+  textField.select();
+  document.execCommand('copy');
+  textField.remove();
+};

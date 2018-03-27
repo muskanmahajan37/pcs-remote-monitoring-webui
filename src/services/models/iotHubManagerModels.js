@@ -7,7 +7,9 @@ import { reshape } from 'utilities';
 // TODO: Map to backend models and add links to github
 
 export const toDevicesModel = (response = {}) => (response.items || [])
-  .map((device = {}) => reshape(device, {
+  .map((device = {}) => toDeviceModel(device));
+
+export const toDeviceModel = (device = {}) => reshape(device, {
     'id': 'id',
     'lastActivity': 'lastActivity',
     'connected': 'connected',
@@ -22,8 +24,9 @@ export const toDevicesModel = (response = {}) => (response.items || [])
     'lastStatusUpdated': 'lastStatusUpdated',
     'iotHubHostName': 'iotHubHostName',
     'eTag': 'eTag',
-    'tags': 'tags'
-  }));
+    'tags': 'tags',
+    'authentication': 'authentication'
+  });
 
 export const toJobsModel = (response = []) => response.map(job => reshape(job, {
   'jobId': 'jobId',
