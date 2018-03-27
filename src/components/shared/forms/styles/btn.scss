@@ -12,7 +12,7 @@ $btnIconSize: 14px;
   flex-shrink: 0;
   align-items: center;
   background-color: transparent;
-  border: 1px transparent solid;
+  border: 0px;
   cursor: pointer;
   font-family: inherit;
   @include rem-fallback(padding, 0px, $btnHeight);
@@ -35,13 +35,20 @@ $btnIconSize: 14px;
     @include rem-font-size(14px);
   }
 
+  &:disabled {
+    cursor: auto;
+
+    .btn-icon { display: none; }
+  }
+
   @include themify($themes) {
     color: themed('colorBtnText');
     background-color: themed('colorBtnBackground');
+
     .btn-icon svg { fill: themed('colorBtnSvgFill'); }
 
     &:focus {
-      border: 1px themed('colorBtnBorderFocus') dashed;
+      outline: 1px dashed themed('colorBtnOutlineFocus');
     }
 
     &:hover {
@@ -54,7 +61,6 @@ $btnIconSize: 14px;
     &:active {
       color: themed('colorBtnTextActive');
       background-color: themed('colorBtnBackgroundActive');
-      border: 1px transparent dashed;
 
       .btn-icon svg { fill: themed('colorBtnSvgFillActive'); }
     }
@@ -62,23 +68,15 @@ $btnIconSize: 14px;
     &:disabled {
       color: themed('colorBtnTextDisabled');
       background-color: themed('colorBtnBackgroundDisabled');
-      cursor: auto;
 
-      .btn-icon {
-        display: none;
-
-        svg { fill: themed('colorBtnSvgFillDisabled'); }
-      }
+      .btn-icon svg { fill: themed('colorBtnSvgFillDisabled'); }
     }
 
     &.btn-primary {
       color: themed('colorBtnPrimaryText');
       background-color: themed('colorBtnPrimaryBackground');
-      .btn-icon svg { fill: themed('colorBtnPrimarySvgFill'); }
 
-      &:focus {
-        border: 1px themed('colorBtnPrimaryBorderFocus') dashed;
-      }
+      .btn-icon svg { fill: themed('colorBtnPrimarySvgFill'); }
 
       &:hover {
         color: themed('colorBtnPrimaryTextHover');
@@ -90,7 +88,6 @@ $btnIconSize: 14px;
       &:active {
         color: themed('colorBtnPrimaryTextActive');
         background-color: themed('colorBtnPrimaryBackgroundActive');
-        border: 1px transparent dashed;
 
         .btn-icon svg { fill: themed('colorBtnPrimarySvgFillActive'); }
       }
@@ -98,13 +95,8 @@ $btnIconSize: 14px;
       &:disabled {
         color: themed('colorBtnPrimaryTextDisabled');
         background-color: themed('colorBtnPrimaryBackgroundDisabled');
-        cursor: auto;
 
-        .btn-icon {
-          display: none;
-
-          svg { fill: themed('colorBtnPrimarySvgFillDisabled'); }
-        }
+        .btn-icon svg { fill: themed('colorBtnPrimarySvgFillDisabled'); }
       }
     }
   }

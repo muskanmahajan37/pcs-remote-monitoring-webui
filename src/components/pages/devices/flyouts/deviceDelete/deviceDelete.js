@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 
 import { IoTHubManagerService } from 'services';
 import { svgs } from 'utilities';
-import { Svg } from 'components/shared/svg/svg';
 import {
   Btn,
   BtnToolbar,
@@ -15,7 +14,8 @@ import {
   FlyoutTitle,
   FlyoutCloseBtn,
   FlyoutContent,
-  Indicator
+  Indicator,
+  Svg
 } from 'components/shared';
 
 import './deviceDelete.css';
@@ -50,8 +50,8 @@ export class DeviceDelete extends Component {
   }
 
   populateDevicesState = (devices) => {
-    const deviceArr = (devices || []);
-    const physDevices = deviceArr.filter(function (d) { return !d.isSimulated });
+    const deviceArr = devices || [];
+    const physDevices = deviceArr.filter(({ isSimulated }) => !isSimulated);
     this.setState({ physicalDevices: physDevices, containsSimulatedDevices: (physDevices.length !== deviceArr.length) });
   }
 
@@ -64,9 +64,9 @@ export class DeviceDelete extends Component {
           .map(() => id)
       )
       .subscribe(
-        next => {
+        deletedDeviceId  => {
           this.setState({ successCount: this.state.successCount + 1 });
-          return this.props.deleteDevice(next);
+          this.props.deleteDevice(deletedDeviceId);
         },
         error => this.setState({ error, isPending: false, changesApplied: true }),
         () => this.setState({ isPending: false, changesApplied: true })
@@ -76,7 +76,14 @@ export class DeviceDelete extends Component {
 
   render() {
     const { t, onClose } = this.props;
-    const { physicalDevices, containsSimulatedDevices, isPending, error, successCount, changesApplied } = this.state;
+    const {
+      physicalDevices,
+      containsSimulatedDevices,
+      isPending,
+      error,
+      successCount,
+      changesApplied
+    } = this.state;
 
     const summaryCount = changesApplied ? successCount : physicalDevices.length;
     const summaryMessage = changesApplied ? t('devices.delete.applySuccess') : t('devices.delete.affected');
@@ -95,7 +102,7 @@ export class DeviceDelete extends Component {
               containsSimulatedDevices &&
               <div className="simulated-device-selected">
                 <Svg path={svgs.infoBubble} className="info-icon" />
-                <div>{t('devices.delete.simulatedNotSupported')}</div>
+                {t('devices.delete.simulatedNotSupported')}
               </div>
             }
             <div className="device-delete-summary-container">
@@ -104,7 +111,7 @@ export class DeviceDelete extends Component {
               </div>
               <div className="device-delete-affected">
                 <div className="device-delete-count">{summaryCount}</div>
-                <div>{summaryMessage}</div>
+                {summaryMessage}
               </div>
             </div>
             {

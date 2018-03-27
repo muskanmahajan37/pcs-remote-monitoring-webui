@@ -10,8 +10,7 @@ import './devices.css';
 
 const closedFlyoutState = {
   flyoutOpen: false,
-  selectedDeviceId: undefined,
-  hardSelectedDevices: undefined
+  selectedDeviceId: undefined
 };
 
 export class Devices extends Component {
@@ -43,14 +42,12 @@ export class Devices extends Component {
     selectedDeviceId: id
   });
 
-  onContextMenuChange = contextBtns => this.setState({ contextBtns });
+  onContextMenuChange = contextBtns => this.setState({
+    contextBtns,
+    flyoutOpen: false
+  });
 
   getSoftSelectId = ({ id }) => id;
-
-  onHardSelectChange = (devices) => this.setState({
-    flyoutOpen: true,
-    hardSelectedDevices: devices
-  });
 
   render() {
     const { t, devices, error, isPending, lastUpdated, entities, fetchDevices } = this.props;
@@ -60,7 +57,6 @@ export class Devices extends Component {
       onContextMenuChange: this.onContextMenuChange,
       softSelectId: this.state.selectedDeviceId,
       getSoftSelectId: this.getSoftSelectId,
-      onHardSelectChange: this.onHardSelectChange,
       t: this.props.t
     };
     return [

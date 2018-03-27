@@ -3,7 +3,10 @@
 import React, { Component } from 'react';
 import { Btn, PcsGrid } from 'components/shared';
 import { checkboxParams, deviceColumnDefs, defaultDeviceGridProps } from './devicesGridConfig';
-import { isFunc, translateColumnDefs } from 'utilities';
+import { DeviceDeleteContainer } from '../flyouts/deviceDelete';
+import { isFunc, svgs, translateColumnDefs } from 'utilities';
+
+const closedFlyoutState = { openFlyoutName: undefined };
 
 /**
  * A grid for displaying devices
@@ -13,6 +16,15 @@ import { isFunc, translateColumnDefs } from 'utilities';
 export class DevicesGrid extends Component {
   constructor(props) {
     super(props);
+
+    // Set the initial state
+    this.state = {
+      ...closedFlyoutState
+    };
+
+    // Bind to this
+    this.closeFlyout = this.closeFlyout.bind(this);
+    this.openDeleteFlyout = this.openDeleteFlyout.bind(this);
 
     // Default device grid columns
     this.columnDefs = [
@@ -30,9 +42,13 @@ export class DevicesGrid extends Component {
       <Btn key="tag">Tag</Btn>,
       <Btn key="schedule">Schedule</Btn>,
       <Btn key="reconfigure">Reconfigure</Btn>,
-      <Btn key="delete">Delete</Btn>
+      <Btn key="delete" svg={svgs.trash} onClick={this.openDeleteFlyout}>{props.t('devices.delete.apply')}</Btn>
     ];
   }
+
+  closeFlyout = () => this.setState(closedFlyoutState);
+
+  openDeleteFlyout = () => this.setState({ openFlyoutName: "delete" });
 
   componentWillReceiveProps(nextProps) {
     const { hardSelectedDevices } = nextProps;
@@ -61,6 +77,19 @@ export class DevicesGrid extends Component {
   };
 
   /**
+   * Handles soft select props method
+   *
+   * @param {Array} selectedDevices A list of currently selected devices
+   */
+  onSoftSelectChange = (rowEventData, rowEvent) => {
+    const { onSoftSelectChange } = this.props;
+    this.setState(closedFlyoutState);
+    if (isFunc(onSoftSelectChange)) {
+      onSoftSelectChange(rowEventData, rowEvent);
+    }
+  }
+
+  /**
    * Handles context filter changes and calls any hard select props method
    *
    * @param {Array} selectedDevices A list of currently selected devices
@@ -86,11 +115,16 @@ export class DevicesGrid extends Component {
         t: this.props.t
       },
       /* Grid Events */
+      onSoftSelectChange: this.onSoftSelectChange,
       onHardSelectChange: this.onHardSelectChange,
       onGridReady: this.onGridReady
     };
-    return (
-      <PcsGrid {...gridProps} />
-    );
+    const openFlyout = (this.state.openFlyoutName === 'delete')
+      ? <DeviceDeleteContainer key="device-flyout-key" onClose={this.closeFlyout} devices={this.deviceGridApi.getSelectedRows()} />
+      : undefined;
+    return ([
+      <PcsGrid key="device-grid-key" {...gridProps} />,
+      openFlyout
+    ]);
   }
 }

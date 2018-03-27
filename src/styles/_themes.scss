@@ -39,7 +39,7 @@ $themes: (
     // Grid - END
 
     //Btn - START
-    colorBtnBorderFocus: $colorSmoke,
+    colorBtnOutlineFocus: $colorSmoke,
 
     colorBtnText: $colorWhite,
     colorBtnBackground: transparent,
@@ -56,8 +56,6 @@ $themes: (
     colorBtnTextDisabled: $colorAsh,
     colorBtnBackgroundDisabled: transparent,
     colorBtnSvgFillDisabled: $colorAsh,
-
-    colorBtnPrimaryBorderFocus: $colorNoir,
 
     colorBtnPrimaryText: $colorNoir,
     colorBtnPrimaryBackground: $colorSmoke,
