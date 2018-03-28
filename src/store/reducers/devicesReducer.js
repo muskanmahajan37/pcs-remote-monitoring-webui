@@ -67,7 +67,7 @@ const updateDevicesReducer = (state, { payload, fromAction }) => {
 };
 
 const deleteDeviceReducer = (state, { payload }) => {
-  const itemIdx = state.items.findIndex(deviceId => deviceId === payload);
+  const itemIdx = state.items.indexOf(payload);
   return update(state, {
     entities: { $unset: [payload] },
     items: { $splice: [[itemIdx, 1]] }

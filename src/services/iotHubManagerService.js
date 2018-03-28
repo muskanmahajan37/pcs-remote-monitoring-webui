@@ -18,6 +18,7 @@ export class IoTHubManagerService {
 
   /** Deletes a device */
   static deleteDevice(id) {
-    return HttpClient.delete(`${ENDPOINT}devices/${id}`);
+    return HttpClient.delete(`${ENDPOINT}devices/${id}`)
+      .map(() => ({ deletedDeviceId: id }));
   }
 }

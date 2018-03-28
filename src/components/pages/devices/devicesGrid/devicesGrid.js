@@ -18,9 +18,7 @@ export class DevicesGrid extends Component {
     super(props);
 
     // Set the initial state
-    this.state = {
-      ...closedFlyoutState
-    };
+    this.state = closedFlyoutState;
 
     // Bind to this
     this.closeFlyout = this.closeFlyout.bind(this);
@@ -48,11 +46,11 @@ export class DevicesGrid extends Component {
 
   closeFlyout = () => this.setState(closedFlyoutState);
 
-  openDeleteFlyout = () => this.setState({ openFlyoutName: "delete" });
+  openDeleteFlyout = () => this.setState({ openFlyoutName: 'delete' });
 
   componentWillReceiveProps(nextProps) {
     const { hardSelectedDevices } = nextProps;
-    if (!hardSelectedDevices || !this.deviceGridApi ) return;
+    if (!hardSelectedDevices || !this.deviceGridApi) return;
     const deviceIdSet = new Set((hardSelectedDevices || []).map(({ Id }) => Id));
 
     this.deviceGridApi.forEachNode(node => {
@@ -79,13 +77,14 @@ export class DevicesGrid extends Component {
   /**
    * Handles soft select props method
    *
-   * @param {Array} selectedDevices A list of currently selected devices
+   * @param device The currently soft selected device
+   * @param rowEvent The rowEvent to pass on to the underlying grid
    */
-  onSoftSelectChange = (rowEventData, rowEvent) => {
+  onSoftSelectChange = (device, rowEvent) => {
     const { onSoftSelectChange } = this.props;
     this.setState(closedFlyoutState);
     if (isFunc(onSoftSelectChange)) {
-      onSoftSelectChange(rowEventData, rowEvent);
+      onSoftSelectChange(device, rowEvent);
     }
   }
 
@@ -95,7 +94,7 @@ export class DevicesGrid extends Component {
    * @param {Array} selectedDevices A list of currently selected devices
    */
   onHardSelectChange = (selectedDevices) => {
-    const { onContextMenuChange, onHardSelectChange} = this.props;
+    const { onContextMenuChange, onHardSelectChange } = this.props;
     if (isFunc(onContextMenuChange)) {
       onContextMenuChange(selectedDevices.length > 0 ? this.contextBtns : null);
     }
@@ -121,7 +120,7 @@ export class DevicesGrid extends Component {
     };
     const openFlyout = (this.state.openFlyoutName === 'delete')
       ? <DeviceDeleteContainer key="device-flyout-key" onClose={this.closeFlyout} devices={this.deviceGridApi.getSelectedRows()} />
-      : undefined;
+      : null;
     return ([
       <PcsGrid key="device-grid-key" {...gridProps} />,
       openFlyout
