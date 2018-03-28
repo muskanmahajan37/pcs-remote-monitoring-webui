@@ -58,11 +58,11 @@ const ProvisionedDevice = ({ device, t }) => {
 
   return (
     <div>
-      <DeviceDetail label={t('devices.new.deviceId.label')} value={id} />
-      <DeviceDetail label={t('devices.new.authenticationKey.primaryKey')} value={primaryKey} />
-      <DeviceDetail label={t('devices.new.authenticationKey.secondaryKey')} value={secondaryKey} />
-      <DeviceConnectionString label={t('devices.new.authenticationKey.primaryKeyConnection')} deviceId={id} hostName={hostName} sharedAccessKey={primaryKey} />
-      <DeviceConnectionString label={t('devices.new.authenticationKey.secondaryKeyConnection')} deviceId={id} hostName={hostName} sharedAccessKey={secondaryKey} />
+      <DeviceDetail label={t('devices.flyouts.new.deviceId.label')} value={id} />
+      <DeviceDetail label={t('devices.flyouts.new.authenticationKey.primaryKey')} value={primaryKey} />
+      <DeviceDetail label={t('devices.flyouts.new.authenticationKey.secondaryKey')} value={secondaryKey} />
+      <DeviceConnectionString label={t('devices.flyouts.new.authenticationKey.primaryKeyConnection')} deviceId={id} hostName={hostName} sharedAccessKey={primaryKey} />
+      <DeviceConnectionString label={t('devices.flyouts.new.authenticationKey.secondaryKeyConnection')} deviceId={id} hostName={hostName} sharedAccessKey={secondaryKey} />
     </div>
   );
 };
@@ -175,22 +175,22 @@ export class DeviceNew extends LinkedComponent {
     const { t, onClose } = this.props;
     const { formData, provisionedDevice, isPending, error, successCount, changesApplied } = this.state;
 
-    const deviceName = this.deviceModelLink.value || t('devices.new.deviceIdExample.deviceName');
+    const deviceName = this.deviceModelLink.value || t('devices.flyouts.new.deviceIdExample.deviceName');
     const isX509 = this.authenticationTypeLink.value === '1';
     const summaryCount = changesApplied ? successCount : formData.count;
-    let summaryMessage = t('devices.new.affected');
+    let summaryMessage = t('devices.flyouts.new.affected');
     if (isPending) {
-      summaryMessage = t('devices.new.pending');
+      summaryMessage = t('devices.flyouts.new.pending');
     }
     else if (changesApplied) {
-      summaryMessage = t('devices.new.applySuccess');
+      summaryMessage = t('devices.flyouts.new.applySuccess');
     }
     const completedSuccessfully = changesApplied && successCount === formData.count;
 
     return (
       <Flyout>
         <FlyoutHeader>
-          <FlyoutTitle>{t('devices.new.title')}</FlyoutTitle>
+          <FlyoutTitle>{t('devices.flyouts.new.title')}</FlyoutTitle>
           <FlyoutCloseBtn onClick={onClose} />
         </FlyoutHeader>
         <FlyoutContent>
@@ -198,70 +198,70 @@ export class DeviceNew extends LinkedComponent {
             <form onSubmit={this.apply}>
 
               <FormGroup>
-                <FormLabel>{t('devices.new.deviceType.label')}</FormLabel>
+                <FormLabel>{t('devices.flyouts.new.deviceType.label')}</FormLabel>
                 <Radio link={this.deviceTypeLink} value="simulated">
-                  {t('devices.new.deviceType.simulated')}
+                  {t('devices.flyouts.new.deviceType.simulated')}
                 </Radio>
                 <Radio link={this.deviceTypeLink} value="physical">
-                  {t('devices.new.deviceType.physical')}
+                  {t('devices.flyouts.new.deviceType.physical')}
                 </Radio>
               </FormGroup>
 
               {
                 this.deviceTypeLink.value === "simulated" && [
                   <FormGroup>
-                    <FormLabel>{t('devices.new.count.label')}</FormLabel>
+                    <FormLabel>{t('devices.flyouts.new.count.label')}</FormLabel>
                     <FormControl link={this.countLink} type="number" />
 
                   </FormGroup>,
                   <FormGroup>
-                    <FormLabel>{t('devices.new.deviceIdExample.label')}</FormLabel>
-                    <div className="device-id-example">{t('devices.new.deviceIdExample.format', { deviceName })}</div>
+                    <FormLabel>{t('devices.flyouts.new.deviceIdExample.label')}</FormLabel>
+                    <div className="device-id-example">{t('devices.flyouts.new.deviceIdExample.format', { deviceName })}</div>
                   </FormGroup>,
                   <FormGroup>
-                    <FormLabel>{t('devices.new.deviceModel.label')}</FormLabel>
-                    <div className="device-model-temp">{t('devices.new.deviceModel.hint')} -- TODO: Add options</div>
+                    <FormLabel>{t('devices.flyouts.new.deviceModel.label')}</FormLabel>
+                    <div className="device-model-temp">{t('devices.flyouts.new.deviceModel.hint')} -- TODO: Add options</div>
                   </FormGroup>
                 ]
               }
               {
                 this.deviceTypeLink.value === "physical" && [
                   <FormGroup>
-                    <FormLabel>{t('devices.new.count.label')}</FormLabel>
+                    <FormLabel>{t('devices.flyouts.new.count.label')}</FormLabel>
                     <div className="device-count">{this.countLink.value}</div>
                   </FormGroup>,
                   <FormGroup>
-                    <FormLabel>{t('devices.new.authenticationType.label')}</FormLabel>
+                    <FormLabel>{t('devices.flyouts.new.authenticationType.label')}</FormLabel>
                     <Radio link={this.authenticationTypeLink} value="0">
-                      {t('devices.new.authenticationType.0')}
+                      {t('devices.flyouts.new.authenticationType.0')}
                     </Radio>
                     <Radio link={this.authenticationTypeLink} value="1">
-                      {t('devices.new.authenticationType.1')}
+                      {t('devices.flyouts.new.authenticationType.1')}
                     </Radio>
                   </FormGroup>,
                   <FormGroup>
-                    <FormLabel>{t('devices.new.authenticationKey.label')}</FormLabel>
+                    <FormLabel>{t('devices.flyouts.new.authenticationKey.label')}</FormLabel>
                     <Radio link={this.authenticationKeyLink} value="0" disabled={isX509}>
-                      {t('devices.new.authenticationKey.0')}
+                      {t('devices.flyouts.new.authenticationKey.0')}
                     </Radio>
                     <Radio link={this.authenticationKeyLink} value="1">
-                      {t('devices.new.authenticationKey.1')}
+                      {t('devices.flyouts.new.authenticationKey.1')}
                     </Radio>
                   </FormGroup>,
                   <FormGroup className="sub-settings">
-                    <FormLabel>{isX509 ? t('devices.new.authenticationKey.primaryThumbprint') : t('devices.new.authenticationKey.primaryKey')}</FormLabel>
-                    <FormControl link={this.primaryKeyLink} disabled={this.authenticationKeyLink.value === "0"} type="text" placeholder={t('devices.new.authenticationKey.hint')} />
+                    <FormLabel>{isX509 ? t('devices.flyouts.new.authenticationKey.primaryThumbprint') : t('devices.flyouts.new.authenticationKey.primaryKey')}</FormLabel>
+                    <FormControl link={this.primaryKeyLink} disabled={this.authenticationKeyLink.value === "0"} type="text" placeholder={t('devices.flyouts.new.authenticationKey.hint')} />
                   </FormGroup>,
                   <FormGroup className="sub-settings">
-                    <FormLabel>{t(isX509 ? t('devices.new.authenticationKey.secondaryThumbprint') : 'devices.new.authenticationKey.secondaryKey')}</FormLabel>
-                    <FormControl link={this.secondaryKeyLink} disabled={this.authenticationKeyLink.value === "0"} type="text" placeholder={t('devices.new.authenticationKey.hint')} />
+                    <FormLabel>{t(isX509 ? t('devices.flyouts.new.authenticationKey.secondaryThumbprint') : 'devices.flyouts.new.authenticationKey.secondaryKey')}</FormLabel>
+                    <FormControl link={this.secondaryKeyLink} disabled={this.authenticationKeyLink.value === "0"} type="text" placeholder={t('devices.flyouts.new.authenticationKey.hint')} />
                   </FormGroup>
                 ]
               }
 
             </form>
 
-            <SummarySection title={t('devices.new.summaryHeader')}>
+            <SummarySection title={t('devices.flyouts.new.summaryHeader')}>
               <SummaryCount>{summaryCount}</SummaryCount>
               <SectionDesc>{summaryMessage}</SectionDesc>
               {this.state.isPending && <Indicator />}
@@ -277,8 +277,8 @@ export class DeviceNew extends LinkedComponent {
             {
               !changesApplied &&
               <BtnToolbar className="tools-preApply">
-                <Btn svg={svgs.trash} primary={true} disabled={isPending || formData.count === 0} onClick={this.apply}>{t('devices.new.apply')}</Btn>
-                <Btn svg={svgs.cancelX} onClick={onClose}>{t('devices.new.cancel')}</Btn>
+                <Btn svg={svgs.trash} primary={true} disabled={isPending || formData.count === 0} onClick={this.apply}>{t('devices.flyouts.new.apply')}</Btn>
+                <Btn svg={svgs.cancelX} onClick={onClose}>{t('devices.flyouts.new.cancel')}</Btn>
               </BtnToolbar>
             }
             {
@@ -287,7 +287,7 @@ export class DeviceNew extends LinkedComponent {
                 <ProvisionedDevice device={provisionedDevice} t={t} />
 
                 <BtnToolbar className="tools-postApply">
-                  <Btn svg={svgs.cancelX} onClick={onClose}>{t('devices.new.close')}</Btn>
+                  <Btn svg={svgs.cancelX} onClick={onClose}>{t('devices.flyouts.new.close')}</Btn>
                 </BtnToolbar>
               </div>
             }

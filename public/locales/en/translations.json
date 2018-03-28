@@ -84,101 +84,103 @@
       "telemetry": "Telemetry",
       "yes": "yes"
     },
-    "details": {
-      "title": "Device Details",
-      "noDevice": "Oops, we were not able to find the device.",
-      "connected": "Connected",
-      "notConnected": "Disconnected",
-      "simulated": "Simulated",
-      "notSimulated": "Physical",
-      "diagnostics": {
-        "title": "Diagnostics",
-        "description": "Diagnostic information from device"
-      },
-      "methods": {
-        "title": "Methods",
-        "description": "All methods available for device",
-        "noneExist": "No methods found for this device."
-      },
-      "properties": {
-        "title": "Properties",
-        "description": "Selected properties on device",
-        "keyHeader": "Property",
-        "valueHeader": "Value",
-        "noneExist": "No properties found for this device."
-      },
-      "tags": {
-        "title": "Tags",
-        "description": "Tags applied to device",
-        "keyHeader": "Key",
-        "valueHeader": "Value",
-        "noneExist": "No tags found for this device."
-      },
-      "telemetry": {
-        "title": "Telemetry"
-      }
-    },
-    "delete": {
-      "title": "Delete",
-      "header": "Delete device",
-      "description": "This action will delete the devices permanently from the platform.",
-      "simulatedNotSupported": "Deleting simulated devices is not currently supported, this action will only be taken on the physical devices.",
-      "summaryHeader": "Summary",
-      "affected": "Affected devices",
-      "cancel": "Cancel",
-      "apply": "Delete",
-      "pending": "Deleting devices... ",
-      "applySuccess": "devices deleted successfully!",
-      "close": "Close"
-    },
-    "new": {
-      "contextMenuName": "New device",
-      "title": "New Device",
-      "summaryHeader": "Provision summary",
-      "affected": "devices to provision",
-      "cancel": "Cancel",
-      "apply": "Apply",
-      "pending": "Provisioning devices... ",
-      "applySuccess": "devices provisioned successfully!",
-      "close": "Close",
-      "count": {
-        "label": "Number of devices"
-      },
-      "deviceType": {
-        "label": "Device Type",
+    "flyouts": {
+      "details": {
+        "title": "Device Details",
+        "noDevice": "Oops, we were not able to find the device.",
+        "connected": "Connected",
+        "notConnected": "Disconnected",
         "simulated": "Simulated",
-        "physical": "Physical"
+        "notSimulated": "Physical",
+        "diagnostics": {
+          "title": "Diagnostics",
+          "description": "Diagnostic information from device"
+        },
+        "methods": {
+          "title": "Methods",
+          "description": "All methods available for device",
+          "noneExist": "No methods found for this device."
+        },
+        "properties": {
+          "title": "Properties",
+          "description": "Selected properties on device",
+          "keyHeader": "Property",
+          "valueHeader": "Value",
+          "noneExist": "No properties found for this device."
+        },
+        "tags": {
+          "title": "Tags",
+          "description": "Tags applied to device",
+          "keyHeader": "Key",
+          "valueHeader": "Value",
+          "noneExist": "No tags found for this device."
+        },
+        "telemetry": {
+          "title": "Telemetry"
+        }
       },
-      "deviceId": {
-        "label": "Device ID",
-        "hint": "Enter device ID prefix",
-        "sysGenerated": "System generated device IDs"
+      "delete": {
+        "title": "Delete",
+        "header": "Delete device",
+        "description": "This action will delete the devices permanently from the platform.",
+        "simulatedNotSupported": "Deleting simulated devices is not currently supported, this action will only be taken on the physical devices.",
+        "summaryHeader": "Summary",
+        "affected": "Affected devices",
+        "cancel": "Cancel",
+        "apply": "Delete",
+        "pending": "Deleting devices... ",
+        "applySuccess": "devices deleted successfully!",
+        "close": "Close"
       },
-      "deviceIdExample": {
-        "label": "Device ID Example",
-        "format": "Simulated-{{deviceName}}-{#####}",
-        "deviceName": "{Device Name}"
-      },
-      "deviceModel": {
-        "label": "Device model",
-        "hint": "Select existing device type"
-      },
-      "authenticationType": {
-        "label": "Authentication type",
-        "0": "Symmetric Key",
-        "1": "X.509"
-      },
-      "authenticationKey": {
-        "label": "Authentication key",
-        "0": "Auto generate keys",
-        "1": "Enter keys manually",
-        "hint": "Enter your key here",
-        "primaryKey": "Primary Key",
-        "primaryKeyConnection": "Connection string primary Key",
-        "secondaryKey": "Secondary Key",
-        "secondaryKeyConnection": "Connection string secondary Key",
-        "primaryThumbprint": "Primary Thumbprint",
-        "secondaryThumbprint": "Secondary Thumbprint"
+      "new": {
+        "contextMenuName": "New device",
+        "title": "New Device",
+        "summaryHeader": "Provision summary",
+        "affected": "devices to provision",
+        "cancel": "Cancel",
+        "apply": "Apply",
+        "pending": "Provisioning devices... ",
+        "applySuccess": "devices provisioned successfully!",
+        "close": "Close",
+        "count": {
+          "label": "Number of devices"
+        },
+        "deviceType": {
+          "label": "Device Type",
+          "simulated": "Simulated",
+          "physical": "Physical"
+        },
+        "deviceId": {
+          "label": "Device ID",
+          "hint": "Enter device ID prefix",
+          "sysGenerated": "System generated device IDs"
+        },
+        "deviceIdExample": {
+          "label": "Device ID Example",
+          "format": "Simulated-{{deviceName}}-{#####}",
+          "deviceName": "{Device Name}"
+        },
+        "deviceModel": {
+          "label": "Device model",
+          "hint": "Select existing device type"
+        },
+        "authenticationType": {
+          "label": "Authentication type",
+          "0": "Symmetric Key",
+          "1": "X.509"
+        },
+        "authenticationKey": {
+          "label": "Authentication key",
+          "0": "Auto generate keys",
+          "1": "Enter keys manually",
+          "hint": "Enter your key here",
+          "primaryKey": "Primary Key",
+          "primaryKeyConnection": "Connection string primary Key",
+          "secondaryKey": "Secondary Key",
+          "secondaryKeyConnection": "Connection string secondary Key",
+          "primaryThumbprint": "Primary Thumbprint",
+          "secondaryThumbprint": "Secondary Thumbprint"
+        }
       }
     }
   },

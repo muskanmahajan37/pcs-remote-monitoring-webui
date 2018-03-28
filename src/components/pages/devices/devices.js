@@ -68,7 +68,7 @@ export class Devices extends Component {
     return [
       <ContextMenu key="context-menu">
         { this.state.contextBtns }
-        <Btn svg={svgs.plus} onClick={this.openNewDeviceFlyout}>{t('devices.new.contextMenuName')}</Btn>
+        <Btn svg={svgs.plus} onClick={this.openNewDeviceFlyout}>{t('devices.flyouts.new.contextMenuName')}</Btn>
       </ContextMenu>,
       <PageContent className="devices-container" key="page-content">
         <RefreshBar refresh={fetchDevices} time={lastUpdated} isPending={isPending} t={t} />
