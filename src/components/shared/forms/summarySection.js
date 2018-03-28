@@ -4,9 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { joinClasses } from 'utilities';
-import {
-  SectionHeader
-} from 'components/shared';
+import { SectionHeader } from 'components/shared';
 
 import './styles/summarySection.css';
 

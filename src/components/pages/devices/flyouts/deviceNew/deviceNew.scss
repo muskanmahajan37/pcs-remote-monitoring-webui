@@ -5,20 +5,27 @@
 
 .devices-new-container {
   @include rem-font-size(14px);
+  @include rem-fallback(padding, 12px, 0px);
 
-  .devices-new-header { @include rem-fallback(padding, 12px, 0px); }
+  .form-group-label {
+    @include rem-fallback(font-size, 16px);
+  }
 
-  .simulated-device-selected {
-    display: flex;
-    align-items: flex-start;
-    border: 1px transparent solid;
-    @include rem-fallback(margin, 12px 0px);
-    @include rem-fallback(padding, 16px);
+  .radio-container {
+    margin-top: 0px;
 
-    .info-icon svg {
-      @include square-px-rem(16px);
-      @include rem-fallback(padding, 0px 8px);
+    .form-group-label { @include rem-fallback(font-size, 14px); }
+  }
+
+  .sub-settings {
+    @include rem-fallback(margin, 0px 44px);
+
+    .form-group-label {
+      @include rem-fallback(font-size, 14px);
+      @include rem-fallback(margin, 4px 0px);
     }
+
+    input { width: 100%; }
   }
 
   .devices-new-error {
@@ -38,6 +45,7 @@
     width: 100%;
 
     .section-header { font-size: inherit; }
+
     .device-detail-contents {
       display: flex;
       align-items: flex-start;
@@ -45,6 +53,7 @@
       flex-grow: 0;
 
       .device-detail-value { flex-basis: 90%; }
+
       .copy-icon {
         flex-basis: 10%;
 
@@ -64,18 +73,11 @@
   @include themify($themes) {
     color: themed('colorContentTextDim');
 
-    .devices-new-header { color: themed('colorContentText'); }
+    .radio-container .form-group-label { color: themed('colorContentTextDim'); }
 
-    .simulated-device-selected {
-      color: themed('colorContentText');
-      border-color: themed('colorContentTextDim');
+    .sub-settings .form-group-label { color: themed('colorContentTextDim'); }
 
-      .info-icon svg { fill: themed('colorContentText'); }
-    }
-
-    .devices-new-error {
-      border-color: themed('colorAlarm');
-    }
+    .devices-new-error { border-color: themed('colorAlarm'); }
 
     .summary-icon svg { fill: themed('colorContentText'); }
 

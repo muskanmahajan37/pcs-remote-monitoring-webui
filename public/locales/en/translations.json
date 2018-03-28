@@ -34,7 +34,9 @@
   },
   "dashboard": {
     "panels": {
-      "alarms": { "header": "System alarms" },
+      "alarms": {
+        "header": "System alarms"
+      },
       "kpis": {
         "header": "System KPIs",
         "topRule": "Top rules triggered",
@@ -57,7 +59,9 @@
         "connected": "Connected",
         "notConnected": "Offline"
       },
-      "telemetry": { "header": "Telemetry" }
+      "telemetry": {
+        "header": "Telemetry"
+      }
     }
   },
   "refreshBar": {
@@ -126,25 +130,56 @@
       "pending": "Deleting devices... ",
       "applySuccess": "devices deleted successfully!",
       "close": "Close"
-    }
-    ,
+    },
     "new": {
       "contextMenuName": "New device",
       "title": "New Device",
-      "header": "Provision new device",
-      "description": "This action will provision one or more devices in the platform.",
       "summaryHeader": "Provision summary",
       "affected": "devices to provision",
-      "cancel":"Cancel",
-      "apply":"Apply",
+      "cancel": "Cancel",
+      "apply": "Apply",
       "pending": "Provisioning devices... ",
       "applySuccess": "devices provisioned successfully!",
       "close": "Close",
-      "deviceId": "Device ID",
-      "primaryKey": "Primary Key",
-      "primaryKeyConnection": "Connection string primary Key",
-      "secondaryKey": "Secondary Key",
-      "secondaryKeyConnection": "Connection string secondary Key"
+      "count": {
+        "label": "Number of devices"
+      },
+      "deviceType": {
+        "label": "Device Type",
+        "simulated": "Simulated",
+        "physical": "Physical"
+      },
+      "deviceId": {
+        "label": "Device ID",
+        "hint": "Enter device ID prefix",
+        "sysGenerated": "System generated device IDs"
+      },
+      "deviceIdExample": {
+        "label": "Device ID Example",
+        "format": "Simulated-{{deviceName}}-{#####}",
+        "deviceName": "{Device Name}"
+      },
+      "deviceModel": {
+        "label": "Device model",
+        "hint": "Select existing device type"
+      },
+      "authenticationType": {
+        "label": "Authentication type",
+        "0": "Symmetric Key",
+        "1": "X.509"
+      },
+      "authenticationKey": {
+        "label": "Authentication key",
+        "0": "Auto generate keys",
+        "1": "Enter keys manually",
+        "hint": "Enter your key here",
+        "primaryKey": "Primary Key",
+        "primaryKeyConnection": "Connection string primary Key",
+        "secondaryKey": "Secondary Key",
+        "secondaryKeyConnection": "Connection string secondary Key",
+        "primaryThumbprint": "Primary Thumbprint",
+        "secondaryThumbprint": "Secondary Thumbprint"
+      }
     }
   },
   "rules": {

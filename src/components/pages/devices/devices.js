@@ -38,10 +38,10 @@ export class Devices extends Component {
 
   closeFlyout = () => this.setState(closedFlyoutState);
 
-  openNewDeviceFlyout = () => this.setState({ openFlyoutName: "new-device" });
+  openNewDeviceFlyout = () => this.setState({ openFlyoutName: 'new-device' });
 
   onSoftSelectChange = ({ id }) => this.setState({
-    openFlyoutName: "details",
+    openFlyoutName: 'details',
     selectedDeviceId: id
   });
 
@@ -62,8 +62,8 @@ export class Devices extends Component {
       getSoftSelectId: this.getSoftSelectId,
       t: this.props.t
     };
-    const detailsFlyoutOpen = this.state.openFlyoutName === "details";
-    const newDeviceFlyoutOpen = this.state.openFlyoutName === "new-device";
+    const detailsFlyoutOpen = this.state.openFlyoutName === 'details';
+    const newDeviceFlyoutOpen = this.state.openFlyoutName === 'new-device';
 
     return [
       <ContextMenu key="context-menu">
