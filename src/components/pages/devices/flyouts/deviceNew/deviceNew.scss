@@ -7,9 +7,11 @@
   @include rem-font-size(14px);
   @include rem-fallback(padding, 12px, 0px);
 
-  .form-group-label {
-    @include rem-fallback(font-size, 16px);
-  }
+  .form-group-label { @include rem-fallback(font-size, 16px); }
+
+  .device-count { @include rem-fallback(margin-left, 20px); }
+
+  .device-id.form-control { @include rem-fallback(margin, -4px 0px 8px 0px); }
 
   .radio-container {
     margin-top: 0px;

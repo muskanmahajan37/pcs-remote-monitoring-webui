@@ -152,7 +152,7 @@
         },
         "deviceId": {
           "label": "Device ID",
-          "hint": "Enter device ID prefix",
+          "hint": "Enter device ID ",
           "sysGenerated": "System generated device IDs"
         },
         "deviceIdExample": {
@@ -166,13 +166,13 @@
         },
         "authenticationType": {
           "label": "Authentication type",
-          "0": "Symmetric Key",
-          "1": "X.509"
+          "symmetric": "Symmetric Key",
+          "x509": "X.509"
         },
         "authenticationKey": {
           "label": "Authentication key",
-          "0": "Auto generate keys",
-          "1": "Enter keys manually",
+          "generateKeys": "Auto generate keys",
+          "manualKeys": "Enter keys manually",
           "hint": "Enter your key here",
           "primaryKey": "Primary Key",
           "primaryKeyConnection": "Connection string primary Key",
