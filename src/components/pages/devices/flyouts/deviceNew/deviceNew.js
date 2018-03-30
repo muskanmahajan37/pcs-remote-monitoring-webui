@@ -257,10 +257,7 @@ export class DeviceNew extends LinkedComponent {
   apply = () => {
     this.setState({ isPending: true });
 
-    const requestBody = this.toRequestBody(this.state.formData);
-    console.log(requestBody);
-
-    this.subscription = IoTHubManagerService.provisionDevice(requestBody)
+    this.subscription = IoTHubManagerService.provisionDevice(this.toRequestBody(this.state.formData))
       .subscribe(
         provisionedDevice => {
           this.setState({ provisionedDevice, successCount: this.state.formData.count, isPending: false, changesApplied: true });
@@ -299,8 +296,16 @@ export class DeviceNew extends LinkedComponent {
           <FlyoutCloseBtn onClick={onClose} />
         </FlyoutHeader>
         <FlyoutContent>
-          <div className="devices-new-container">
-            <form onSubmit={this.apply}>
+          <form className="devices-new-container" onSubmit={this.apply}>
+            <FormGroup>
+              <FormLabel key={DeviceTypeOptions.labelName}>{t(DeviceTypeOptions.labelName)}</FormLabel>
+              <Radio link={this.deviceTypeLink} key={DeviceTypeOptions.simulated.labelName} value={DeviceTypeOptions.simulated.value}>
+                {t(DeviceTypeOptions.simulated.labelName)}
+              </Radio>
+              <Radio link={this.deviceTypeLink} key={DeviceTypeOptions.physical.labelName} value={DeviceTypeOptions.physical.value}>
+                {t(DeviceTypeOptions.physical.labelName)}
+              </Radio>
+            </FormGroup>
               <FormGroup>
                 <FormLabel key={DeviceTypeOptions.labelName}>{t(DeviceTypeOptions.labelName)}</FormLabel>
                 <Radio link={this.deviceTypeLink} key={DeviceTypeOptions.simulated.labelName} value={DeviceTypeOptions.simulated.value}>
@@ -368,8 +373,6 @@ export class DeviceNew extends LinkedComponent {
                   </FormGroup>
                 ]
               }
-            </form>
-
             <SummarySection title={t('devices.flyouts.new.summaryHeader')}>
               <SummaryCount>{summaryCount}</SummaryCount>
               <SectionDesc>{summaryMessage}</SectionDesc>
@@ -401,9 +404,9 @@ export class DeviceNew extends LinkedComponent {
                 </BtnToolbar>
               </div>
             }
-          </div>
+          </form>
         </FlyoutContent>
-      </Flyout>
+      </Flyout >
     );
   }
 }
