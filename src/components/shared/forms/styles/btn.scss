@@ -24,9 +24,7 @@ $btnIconSize: 14px;
 
     svg { @include square-px-rem($btnIconSize); }
 
-    + .btn-text {
-      @include rem-fallback(padding-left, 5px);
-    }
+    + .btn-text { @include rem-fallback(padding-left, 5px); }
   }
 
   .btn-text {
@@ -47,9 +45,7 @@ $btnIconSize: 14px;
 
     .btn-icon svg { fill: themed('colorBtnSvgFill'); }
 
-    &:focus {
-      outline: 1px dashed themed('colorBtnOutlineFocus');
-    }
+    &:focus { outline: 1px dashed themed('colorBtnOutlineFocus'); }
 
     &:hover {
       color: themed('colorBtnTextHover');
