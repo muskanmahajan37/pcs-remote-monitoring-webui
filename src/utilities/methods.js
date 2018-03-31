@@ -10,7 +10,7 @@ export const isFunc = value => typeof value === 'function';
 export const isObject = value => typeof value === 'object';
 
 /** Tests if a value is an empty object */
-export const isEmptyObject = obj => Object.keys(obj).length == 0 && obj.constructor === Object;
+export const isEmptyObject = obj => Object.keys(obj).length === 0 && obj.constructor === Object;
 
 /** Converts a value to an integer */
 export const int = (num) => parseInt(num, 10);
