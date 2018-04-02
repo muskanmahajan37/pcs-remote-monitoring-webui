@@ -50,8 +50,8 @@ export class DeviceDelete extends Component {
   }
 
   populateDevicesState = (devices = []) => {
-    const physDevices = devices.filter(({ isSimulated }) => !isSimulated);
-    this.setState({ physicalDevices: physDevices, containsSimulatedDevices: (physDevices.length !== devices.length) });
+    const physicalDevices = devices.filter(({ isSimulated }) => !isSimulated);
+    this.setState({ physicalDevices, containsSimulatedDevices: (physicalDevices.length !== devices.length) });
   }
 
   deleteDevices = () => {

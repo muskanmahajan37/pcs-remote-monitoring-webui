@@ -12,7 +12,7 @@ $btnIconSize: 14px;
   flex-shrink: 0;
   align-items: center;
   background-color: transparent;
-  border: 0px;
+  border: 0;
   cursor: pointer;
   font-family: inherit;
   @include rem-fallback(padding, 0px, $btnHeight);
