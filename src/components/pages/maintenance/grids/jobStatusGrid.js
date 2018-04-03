@@ -23,7 +23,7 @@ export const columnDefs = [
   {
     headerName: 'maintenance.jobStatusGrid.lastReturnMsg',
     field: 'status',
-    valueFormatter: ({ value, data = {}, context: { t } }) => `${data.methodName} ${getStatusCode(value, t)}` // getStatusCode(value)
+    valueFormatter: ({ value, data = {}, context: { t } }) => `${data.methodName} ${getStatusCode(value, t)}`
   },
   {
     headerName: 'maintenance.jobGrid.startTime',
