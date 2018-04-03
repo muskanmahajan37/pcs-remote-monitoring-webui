@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft. All rights reserved.
-const baseUrl = process.env.REACT_APP_BASE_SERVICE_URL || 'https://maryellen-0226.azurewebsites.net';
+const baseUrl = process.env.REACT_APP_BASE_SERVICE_URL || '';
 
 const Config = {
   // TEMP: Base service urls
