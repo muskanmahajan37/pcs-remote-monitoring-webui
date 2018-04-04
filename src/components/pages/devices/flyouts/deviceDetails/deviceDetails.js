@@ -146,20 +146,17 @@ export class DeviceDetails extends Component {
 
               <Accordion title={t('devices.flyouts.details.methods.title')} description={t('devices.flyouts.details.methods.description')}>
                 {
-                  (methods.length === 0) &&
-                  t('devices.flyouts.details.methods.noneExist')
-                }
-                {
-                  (methods.length > 0) &&
-                  <Grid>
-                    {
-                      methods.map((methodName, idx) =>
-                        <Row key={idx}>
-                          <Cell>{methodName}</Cell>
-                        </Row>
-                      )
-                    }
-                  </Grid>
+                  (methods.length === 0)
+                    ? t('devices.flyouts.details.methods.noneExist')
+                    : <Grid>
+                      {
+                        methods.map((methodName, idx) =>
+                          <Row key={idx}>
+                            <Cell>{methodName}</Cell>
+                          </Row>
+                        )
+                      }
+                    </Grid>
                 }
               </Accordion>
 

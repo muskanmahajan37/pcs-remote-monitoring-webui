@@ -75,8 +75,7 @@
   @include themify($themes) {
     color: themed('colorContentTextDim');
 
-    .radio-container .form-group-label { color: themed('colorContentTextDim'); }
-
+    .radio-container .form-group-label,
     .sub-settings .form-group-label { color: themed('colorContentTextDim'); }
 
     .devices-new-error { border-color: themed('colorAlarm'); }

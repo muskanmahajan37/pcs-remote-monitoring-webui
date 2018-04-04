@@ -4,6 +4,7 @@ import React from 'react';
 import update from 'immutability-helper';
 
 import { IoTHubManagerService } from 'services';
+import { AuthenticationTypeOptions, toNewDeviceRequestModel } from 'services/models';
 import {
   copyToClipboard,
   int,
@@ -42,53 +43,52 @@ const nonInteger = x => !x.match(isIntRegex);
 const stringToInt = x => x === '' || x === '-' ? x : int(x);
 
 const DeviceTypeOptions = {
-  "labelName": "devices.flyouts.new.deviceType.label",
-  "simulated": {
-    "labelName": "devices.flyouts.new.deviceType.simulated",
-    "value": true
+  labelName: 'devices.flyouts.new.deviceType.label',
+  simulated: {
+    labelName: 'devices.flyouts.new.deviceType.simulated',
+    value: true
   },
-  "physical": {
-    "labelName": "devices.flyouts.new.deviceType.physical",
-    "value": false
+  physical: {
+    labelName: 'devices.flyouts.new.deviceType.physical',
+    value: false
   }
 };
 
 const DeviceIdTypeOptions = {
-  "labelName": "devices.flyouts.new.deviceId.label",
-  "manual": {
-    "hintName": "devices.flyouts.new.deviceId.hint",
-    "value": false
+  labelName: 'devices.flyouts.new.deviceId.label',
+  manual: {
+    hintName: 'devices.flyouts.new.deviceId.hint',
+    value: false
   },
-  "generate": {
-    "labelName": "devices.flyouts.new.deviceId.sysGenerated",
-    "value": true
+  generate: {
+    labelName: 'devices.flyouts.new.deviceId.sysGenerated',
+    value: true
   }
 };
 
 const AuthTypeOptions = {
-  "labelName": "devices.flyouts.new.authenticationType.label",
-  "symmetric": {
-    "labelName": "devices.flyouts.new.authenticationType.symmetric",
-    "value": 0
+  labelName: 'devices.flyouts.new.authenticationType.label',
+  symmetric: {
+    labelName: 'devices.flyouts.new.authenticationType.symmetric',
+    value: AuthenticationTypeOptions.symmetric
   },
-  "x509": {
-    "labelName": "devices.flyouts.new.authenticationType.x509",
-    "value": 1
+  x509: {
+    labelName: 'devices.flyouts.new.authenticationType.x509',
+    value: AuthenticationTypeOptions.x509
   }
 };
 
 const AuthKeyTypeOptions = {
-  "labelName": "devices.flyouts.new.authenticationKey.label",
-  "generate": {
-    "labelName": "devices.flyouts.new.authenticationKey.generateKeys",
-    "value": true
+  labelName: 'devices.flyouts.new.authenticationKey.label',
+  generate: {
+    labelName: 'devices.flyouts.new.authenticationKey.generateKeys',
+    value: true
   },
-  "manual": {
-    "labelName": "devices.flyouts.new.authenticationKey.manualKeys",
-    "value": false
+  manual: {
+    labelName: 'devices.flyouts.new.authenticationKey.manualKeys',
+    value: false
   }
 };
-
 
 const DeviceDetail = ({ label, value }) => (
   <FormSection className="device-detail">
@@ -188,7 +188,7 @@ export class DeviceNew extends LinkedComponent {
 
   shouldComponentUpdate(nextProps, nextState) {
     const { t } = nextProps;
-    const { formData, isPending, changesApplied, summaryMessage } = nextState;
+    const { formData, isPending, changesApplied } = nextState;
 
     // When the device type is Physical, only allow 1 to be created
     if (formData.isSimulated === DeviceTypeOptions.physical.value && formData.count !== 1) {
@@ -207,11 +207,9 @@ export class DeviceNew extends LinkedComponent {
     // Update the summary message
     if (isPending) {
       this.updateSummaryMessage(nextState, t('devices.flyouts.new.pending'));
-    }
-    else if (changesApplied) {
+    } else if (changesApplied) {
       this.updateSummaryMessage(nextState, t('devices.flyouts.new.applySuccess'));
-    }
-    else if (summaryMessage !== t('devices.flyouts.new.affected')) {
+    } else {
       this.updateSummaryMessage(nextState, t('devices.flyouts.new.affected'));
     }
 
@@ -239,32 +237,11 @@ export class DeviceNew extends LinkedComponent {
     ].every(link => !link.error);
   }
 
-  toRequestBody(formData) {
-    const isX509 = formData.authenticationType === AuthTypeOptions.x509.value;
-    const isGenerateKeys = this.isGenerateKeysLink.value === AuthKeyTypeOptions.generate.value;
-
-    return {
-      //Using Pascal Case names here because that is what the request to the server needs
-      Id: formData.isGenerateId ? '' : formData.deviceId,
-      IsSimulated: formData.isSimulated,
-      Authentication:
-        isGenerateKeys
-          ? {}
-          : {
-            AuthenticationType: formData.authenticationType,
-            PrimaryKey: isX509 ? null : formData.primaryKey,
-            SecondaryKey: isX509 ? null : formData.secondaryKey,
-            PrimaryThumbprint: isX509 ? formData.primaryKey : null,
-            SecondaryThumbprint: isX509 ? formData.secondaryKey : null
-          }
-    };
-  }
-
   apply = () => {
     if (this.formIsValid()) {
       this.setState({ isPending: true });
 
-      this.subscription = IoTHubManagerService.provisionDevice(this.toRequestBody(this.state.formData))
+      this.subscription = IoTHubManagerService.provisionDevice(toNewDeviceRequestModel(this.state.formData))
         .subscribe(
           provisionedDevice => {
             this.setState({ provisionedDevice, successCount: this.state.formData.count, isPending: false, changesApplied: true });
@@ -306,11 +283,11 @@ export class DeviceNew extends LinkedComponent {
         <FlyoutContent>
           <form className="devices-new-container" onSubmit={this.apply}>
             <FormGroup>
-              <FormLabel key={DeviceTypeOptions.labelName}>{t(DeviceTypeOptions.labelName)}</FormLabel>
-              <Radio link={this.deviceTypeLink} key={DeviceTypeOptions.simulated.labelName} value={DeviceTypeOptions.simulated.value}>
+              <FormLabel >{t(DeviceTypeOptions.labelName)}</FormLabel>
+              <Radio link={this.deviceTypeLink} value={DeviceTypeOptions.simulated.value}>
                 {t(DeviceTypeOptions.simulated.labelName)}
               </Radio>
-              <Radio link={this.deviceTypeLink} key={DeviceTypeOptions.physical.labelName} value={DeviceTypeOptions.physical.value}>
+              <Radio link={this.deviceTypeLink} value={DeviceTypeOptions.physical.value}>
                 {t(DeviceTypeOptions.physical.labelName)}
               </Radio>
             </FormGroup>
@@ -339,36 +316,38 @@ export class DeviceNew extends LinkedComponent {
                 </FormGroup>,
                 <FormGroup key="deviceId">
                   <FormLabel>{t('devices.flyouts.new.deviceId.label')}</FormLabel>
-                  <Radio link={this.isGenerateIdLink} key={DeviceIdTypeOptions.manual.hintName} value={DeviceIdTypeOptions.manual.value}>
+                  <Radio link={this.isGenerateIdLink} value={DeviceIdTypeOptions.manual.value}>
                     <FormControl className="device-id" link={this.deviceIdLink} disabled={isGenerateId} type="text" placeholder={t(DeviceIdTypeOptions.manual.hintName)} />
                   </Radio>
-                  <Radio link={this.isGenerateIdLink} key={DeviceIdTypeOptions.generate.labelName} value={DeviceIdTypeOptions.generate.value}>
+                  <Radio link={this.isGenerateIdLink} value={DeviceIdTypeOptions.generate.value}>
                     {t(DeviceIdTypeOptions.generate.labelName)}
                   </Radio>
                 </FormGroup>,
                 <FormGroup key="authType">
-                  <FormLabel key={AuthTypeOptions.labelName}>{t(AuthTypeOptions.labelName)}</FormLabel>
-                  <Radio link={this.authenticationTypeLink} key={AuthTypeOptions.symmetric.labelName} value={AuthTypeOptions.symmetric.value}>
+                  <FormLabel >{t(AuthTypeOptions.labelName)}</FormLabel>
+                  <Radio link={this.authenticationTypeLink} value={AuthTypeOptions.symmetric.value}>
                     {t(AuthTypeOptions.symmetric.labelName)}
                   </Radio>
-                  <Radio link={this.authenticationTypeLink} key={AuthTypeOptions.x509.labelName} value={AuthTypeOptions.x509.value}>
+                  <Radio link={this.authenticationTypeLink} value={AuthTypeOptions.x509.value}>
                     {t(AuthTypeOptions.x509.labelName)}
                   </Radio>
                 </FormGroup>,
                 <FormGroup key="authKeyType">
-                  <FormLabel key={AuthKeyTypeOptions.labelName}>{t(AuthKeyTypeOptions.labelName)}</FormLabel>
-                  <Radio link={this.isGenerateKeysLink} key={AuthKeyTypeOptions.generate.labelName} value={AuthKeyTypeOptions.generate.value} disabled={isX509}>
+                  <FormLabel >{t(AuthKeyTypeOptions.labelName)}</FormLabel>
+                  <Radio link={this.isGenerateKeysLink} value={AuthKeyTypeOptions.generate.value} disabled={isX509}>
                     {t(AuthKeyTypeOptions.generate.labelName)}
                   </Radio>
-                  <Radio link={this.isGenerateKeysLink} key={AuthKeyTypeOptions.manual.labelName} value={AuthKeyTypeOptions.manual.value}>
+                  <Radio link={this.isGenerateKeysLink} value={AuthKeyTypeOptions.manual.value}>
                     {t(AuthKeyTypeOptions.manual.labelName)}
                   </Radio>
-                  <div className="sub-settings">
+                  <FormGroup className="sub-settings">
                     <FormLabel>{isX509 ? t('devices.flyouts.new.authenticationKey.primaryThumbprint') : t('devices.flyouts.new.authenticationKey.primaryKey')}</FormLabel>
                     <FormControl link={this.primaryKeyLink} disabled={isGenerateKeys} type="text" placeholder={t('devices.flyouts.new.authenticationKey.hint')} />
-                    <FormLabel>{t(isX509 ? t('devices.flyouts.new.authenticationKey.secondaryThumbprint') : 'devices.flyouts.new.authenticationKey.secondaryKey')}</FormLabel>
+                  </FormGroup>
+                  <FormGroup className="sub-settings">
+                    <FormLabel>{isX509 ? t('devices.flyouts.new.authenticationKey.secondaryThumbprint') : t('devices.flyouts.new.authenticationKey.secondaryKey')}</FormLabel>
                     <FormControl link={this.secondaryKeyLink} disabled={isGenerateKeys} type="text" placeholder={t('devices.flyouts.new.authenticationKey.hint')} />
-                  </div>
+                  </FormGroup>
                 </FormGroup>
               ]
             }
@@ -381,31 +360,27 @@ export class DeviceNew extends LinkedComponent {
 
             {
               error &&
-              <div className="devices-new-error">
-                <ErrorMsg>{error}</ErrorMsg>
-              </div>
+              <ErrorMsg className="devices-new-error">{error}</ErrorMsg>
             }
             {
               !changesApplied &&
-              <BtnToolbar className="tools-preApply">
+              <BtnToolbar>
                 {/* TODO: Temporarily disable the Apply button for simulated devices. That'll be implemented in another PR. */}
                 <Btn svg={svgs.trash} primary={true} disabled={isPending || !this.formIsValid() || isSimulatedDevice} onClick={this.apply}>{t('devices.flyouts.new.apply')}</Btn>
                 <Btn svg={svgs.cancelX} onClick={onClose}>{t('devices.flyouts.new.cancel')}</Btn>
               </BtnToolbar>
             }
             {
-              !!changesApplied &&
-              <div>
-                <ProvisionedDevice device={provisionedDevice} t={t} />
-
-                <BtnToolbar className="tools-postApply">
+              !!changesApplied && [
+                <ProvisionedDevice device={provisionedDevice} t={t} />,
+                <BtnToolbar>
                   <Btn svg={svgs.cancelX} onClick={onClose}>{t('devices.flyouts.new.close')}</Btn>
                 </BtnToolbar>
-              </div>
+              ]
             }
           </form>
         </FlyoutContent>
-      </Flyout >
+      </Flyout>
     );
   }
 }

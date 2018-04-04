@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { Observable } from 'rxjs';
+import update from 'immutability-helper';
 
 import { IoTHubManagerService } from 'services';
 import { svgs } from 'utilities';
@@ -32,7 +33,8 @@ export class DeviceDelete extends Component {
       isPending: false,
       error: undefined,
       successCount: 0,
-      changesApplied: false
+      changesApplied: false,
+      summaryMessage: props.t('devices.flyouts.delete.affected'),
     };
   }
 
@@ -45,6 +47,29 @@ export class DeviceDelete extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.devices && (this.props.devices || []).length !== nextProps.devices.length) {
       this.populateDevicesState(nextProps.devices);
+    }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { t } = nextProps;
+    const { isPending, changesApplied } = nextState;
+
+    // Update the summary message
+    if (isPending) {
+      this.updateSummaryMessage(nextState, t('devices.flyouts.delete.pending'));
+    } else if (changesApplied) {
+      this.updateSummaryMessage(nextState, t('devices.flyouts.delete.applySuccess'));
+    } else {
+      this.updateSummaryMessage(nextState, t('devices.flyouts.delete.affected'));
+    }
+
+    // Update normally
+    return true;
+  }
+
+  updateSummaryMessage(nextState, message) {
+    if (nextState.summaryMessage !== message) {
+      this.setState(update(nextState, { summaryMessage: { $set: message } }));
     }
   }
 
@@ -66,7 +91,7 @@ export class DeviceDelete extends Component {
           .map(() => id)
       )
       .subscribe(
-        deletedDeviceId  => {
+        deletedDeviceId => {
           this.setState({ successCount: this.state.successCount + 1 });
           this.props.deleteDevice(deletedDeviceId);
         },
@@ -84,11 +109,11 @@ export class DeviceDelete extends Component {
       isPending,
       error,
       successCount,
-      changesApplied
+      changesApplied,
+      summaryMessage
     } = this.state;
 
     const summaryCount = changesApplied ? successCount : physicalDevices.length;
-    const summaryMessage = isPending ? t('devices.flyouts.delete.pending') : changesApplied ? t('devices.flyouts.delete.applySuccess') : t('devices.flyouts.delete.affected');
     const completedSuccessfully = changesApplied && successCount === physicalDevices.length;
 
     return (
@@ -113,7 +138,7 @@ export class DeviceDelete extends Component {
               <SummaryCount>{summaryCount}</SummaryCount>
               <SectionDesc>{summaryMessage}</SectionDesc>
               {this.state.isPending && <Indicator />}
-              {completedSuccessfully && <Svg className="summary-icon" path={svgs.apply}/>}
+              {completedSuccessfully && <Svg className="summary-icon" path={svgs.apply} />}
             </SummarySection>
 
             {
@@ -121,23 +146,23 @@ export class DeviceDelete extends Component {
               <div className="device-delete-error">
                 <ErrorMsg>{error}</ErrorMsg>
               </div>
-              }
+            }
             {
-                !changesApplied &&
-                <BtnToolbar className="tools-preApply">
-                  <Btn svg={svgs.trash} primary={true} disabled={isPending || physicalDevices.length === 0} onClick={this.deleteDevices}>{t('devices.flyouts.delete.apply')}</Btn>
-                  <Btn svg={svgs.cancelX} onClick={onClose}>{t('devices.flyouts.delete.cancel')}</Btn>
-                </BtnToolbar>
-              }
-              {
-                !!changesApplied &&
-                <BtnToolbar className="tools-postApply">
-                  <Btn svg={svgs.cancelX} onClick={onClose}>{t('devices.flyouts.delete.close')}</Btn>
-                </BtnToolbar>
-              }
+              !changesApplied &&
+              <BtnToolbar>
+                <Btn svg={svgs.trash} primary={true} disabled={isPending || physicalDevices.length === 0} onClick={this.deleteDevices}>{t('devices.flyouts.delete.apply')}</Btn>
+                <Btn svg={svgs.cancelX} onClick={onClose}>{t('devices.flyouts.delete.cancel')}</Btn>
+              </BtnToolbar>
+            }
+            {
+              !!changesApplied &&
+              <BtnToolbar>
+                <Btn svg={svgs.cancelX} onClick={onClose}>{t('devices.flyouts.delete.close')}</Btn>
+              </BtnToolbar>
+            }
           </div>
         </FlyoutContent>
       </Flyout>
-        );
-      }
-    }
+    );
+  }
+}

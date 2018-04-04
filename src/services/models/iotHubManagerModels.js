@@ -57,3 +57,37 @@ export const toJobStatusModel = (response = {}) => reshape(response, {
   'status': 'status',
   'type': 'type'
 });
+
+export const AuthenticationTypeOptions = {
+  symmetric: 0,
+  x509: 1
+};
+
+export const toNewDeviceRequestModel = ({
+    count,
+    deviceId,
+    isGenerateId,
+    isSimulated,
+    deviceModel,
+    authenticationType,
+    isGenerateKeys,
+    primaryKey,
+    secondaryKey
+  }) => {
+  const isX509 = authenticationType === AuthenticationTypeOptions.x509;
+
+  return {
+    Id: isGenerateId ? '' : deviceId,
+    IsSimulated: isSimulated,
+    Authentication:
+      isGenerateKeys
+        ? {}
+        : {
+          AuthenticationType: authenticationType,
+          PrimaryKey: isX509 ? null : primaryKey,
+          SecondaryKey: isX509 ? null : secondaryKey,
+          PrimaryThumbprint: isX509 ? primaryKey : null,
+          SecondaryThumbprint: isX509 ? secondaryKey : null
+        }
+  };
+}
