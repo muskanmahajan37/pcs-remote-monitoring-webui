@@ -33,8 +33,7 @@ export class DeviceDelete extends Component {
       isPending: false,
       error: undefined,
       successCount: 0,
-      changesApplied: false,
-      summaryMessage: props.t('devices.flyouts.delete.affected'),
+      changesApplied: false
     };
   }
 
@@ -48,23 +47,6 @@ export class DeviceDelete extends Component {
     if (nextProps.devices && (this.props.devices || []).length !== nextProps.devices.length) {
       this.populateDevicesState(nextProps.devices);
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    const { t } = nextProps;
-    const { isPending, changesApplied } = nextState;
-
-    // Update the summary message
-    if (isPending) {
-      this.updateSummaryMessage(nextState, t('devices.flyouts.delete.pending'));
-    } else if (changesApplied) {
-      this.updateSummaryMessage(nextState, t('devices.flyouts.delete.applySuccess'));
-    } else {
-      this.updateSummaryMessage(nextState, t('devices.flyouts.delete.affected'));
-    }
-
-    // Update normally
-    return true;
   }
 
   updateSummaryMessage(nextState, message) {
@@ -101,6 +83,19 @@ export class DeviceDelete extends Component {
 
   }
 
+  getSummaryMessage() {
+    const { t } = this.props;
+    const { isPending, changesApplied } = this.state;
+
+    if (isPending) {
+      return t('devices.flyouts.delete.pending');
+    } else if (changesApplied) {
+      return t('devices.flyouts.delete.applySuccess');
+    } else {
+      return t('devices.flyouts.delete.affected');
+    }
+  }
+
   render() {
     const { t, onClose } = this.props;
     const {
@@ -109,12 +104,12 @@ export class DeviceDelete extends Component {
       isPending,
       error,
       successCount,
-      changesApplied,
-      summaryMessage
+      changesApplied
     } = this.state;
 
     const summaryCount = changesApplied ? successCount : physicalDevices.length;
     const completedSuccessfully = changesApplied && successCount === physicalDevices.length;
+    const summaryMessage = this.getSummaryMessage();
 
     return (
       <Flyout>

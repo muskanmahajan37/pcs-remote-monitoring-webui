@@ -27,6 +27,7 @@ import './deviceDetails.css';
 export class DeviceDetails extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       alarms: undefined,
       isAlarmsPending: false,
@@ -148,7 +149,8 @@ export class DeviceDetails extends Component {
                 {
                   (methods.length === 0)
                     ? t('devices.flyouts.details.methods.noneExist')
-                    : <Grid>
+                    :
+                    <Grid>
                       {
                         methods.map((methodName, idx) =>
                           <Row key={idx}>

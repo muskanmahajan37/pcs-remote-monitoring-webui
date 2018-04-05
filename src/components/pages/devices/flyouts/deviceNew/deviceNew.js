@@ -134,7 +134,6 @@ export class DeviceNew extends LinkedComponent {
       error: undefined,
       successCount: 0,
       changesApplied: false,
-      summaryMessage: props.t('devices.flyouts.new.affected'),
       formData: {
         count: 1,
         deviceId: '',
@@ -204,23 +203,8 @@ export class DeviceNew extends LinkedComponent {
       }));
     }
 
-    // Update the summary message
-    if (isPending) {
-      this.updateSummaryMessage(nextState, t('devices.flyouts.new.pending'));
-    } else if (changesApplied) {
-      this.updateSummaryMessage(nextState, t('devices.flyouts.new.applySuccess'));
-    } else {
-      this.updateSummaryMessage(nextState, t('devices.flyouts.new.affected'));
-    }
-
     // Update normally
     return true;
-  }
-
-  updateSummaryMessage(nextState, message) {
-    if (nextState.summaryMessage !== message) {
-      this.setState(update(nextState, { summaryMessage: { $set: message } }));
-    }
   }
 
   formIsValid() {
@@ -254,6 +238,20 @@ export class DeviceNew extends LinkedComponent {
     }
   }
 
+  getSummaryMessage() {
+    const { t } = this.props;
+    const { isPending, changesApplied } = this.state;
+
+    if (isPending) {
+      return t('devices.flyouts.new.pending');
+    } else if (changesApplied) {
+      return t('devices.flyouts.new.applySuccess');
+    } else {
+      return t('devices.flyouts.new.affected');
+    }
+  }
+
+
   render() {
     const { t, onClose } = this.props;
     const {
@@ -262,8 +260,7 @@ export class DeviceNew extends LinkedComponent {
       isPending,
       error,
       successCount,
-      changesApplied,
-      summaryMessage
+      changesApplied
     } = this.state;
 
     const isGenerateId = this.isGenerateIdLink.value === DeviceIdTypeOptions.generate.value;
@@ -273,6 +270,7 @@ export class DeviceNew extends LinkedComponent {
     const isGenerateKeys = this.isGenerateKeysLink.value === AuthKeyTypeOptions.generate.value;
     const summaryCount = changesApplied ? successCount : formData.count;
     const completedSuccessfully = changesApplied && successCount === formData.count;
+    const summaryMessage = this.getSummaryMessage();
 
     return (
       <Flyout>
@@ -283,7 +281,7 @@ export class DeviceNew extends LinkedComponent {
         <FlyoutContent>
           <form className="devices-new-container" onSubmit={this.apply}>
             <FormGroup>
-              <FormLabel >{t(DeviceTypeOptions.labelName)}</FormLabel>
+              <FormLabel>{t(DeviceTypeOptions.labelName)}</FormLabel>
               <Radio link={this.deviceTypeLink} value={DeviceTypeOptions.simulated.value}>
                 {t(DeviceTypeOptions.simulated.labelName)}
               </Radio>
