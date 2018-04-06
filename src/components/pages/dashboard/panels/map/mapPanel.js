@@ -17,7 +17,7 @@ import './mapPanel.css';
 
 const AzureMaps = window.atlas;
 const nominalDeviceLayer = 'devices-nominal-layer';
-const warningDevicesLayer = 'devices-critical-layer';
+const warningDevicesLayer = 'devices-warning-layer';
 const criticalDevicesLayer = 'devices-critical-layer';
 
 const deviceToMapPin = ({ id, properties, type }) =>
