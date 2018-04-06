@@ -241,14 +241,18 @@ export class Dashboard extends Component {
 
   render () {
     const {
-      t,
-      rules,
+      azureMapsKey,
+      azureMapsKeyError,
+      azureMapsKeyIsPending,
+
       devices,
-      rulesIsPending,
-      devicesIsPending,
-      rulesError,
       devicesError,
-      azureMapsKey
+      devicesIsPending,
+
+      rules,
+      rulesError,
+      rulesIsPending,
+      t
     } = this.props;
     const {
       chartColors,
@@ -330,8 +334,9 @@ export class Dashboard extends Component {
                 azureMapsKey={azureMapsKey}
                 devices={devices}
                 devicesInAlarm={devicesInAlarm}
+                mapKeyIsPending={azureMapsKeyIsPending}
                 isPending={devicesIsPending || kpisIsPending}
-                error={devicesError || kpisError}
+                error={azureMapsKeyError || devicesError || kpisError}
                 t={t} />
             </PanelErrorBoundary>
           </Cell>

@@ -29,6 +29,7 @@ export const epics = createEpicScenario({
     type: 'APP_INITIALIZE',
     epic: () => [
       epics.actions.fetchDeviceGroups(),
+      epics.actions.fetchAzureMapsKey(),
       redux.actions.updateActiveDeviceGroup()
     ]
   },
@@ -39,6 +40,15 @@ export const epics = createEpicScenario({
     epic: fromAction =>
       ConfigService.getDeviceGroups()
         .map(toActionCreator(redux.actions.updateDeviceGroups, fromAction))
+        .catch(handleError(fromAction))
+  },
+
+  /** Get the account's device groups */
+  fetchAzureMapsKey: {
+    type: 'APP_AZURE_MAPS_KEY_FETCH',
+    epic: fromAction =>
+      ConfigService.getAzureMapKey()
+        .map(toActionCreator(redux.actions.updateAzureMapsKeyGroup, fromAction))
         .catch(handleError(fromAction))
   },
 
@@ -79,6 +89,13 @@ const updateDeviceGroupsReducer = (state, { payload, fromAction }) => {
   });
 };
 
+const updateAzureMapsKeyReducer = (state, { payload, fromAction }) => update(state,
+  {
+    azureMapsKey: { $set: payload },
+    ...setPending(fromAction.type, false)
+  }
+);
+
 const updateActiveDeviceGroupsReducer = (state, { payload }) => update(state,
   { activeDeviceGroupId: { $set: payload } }
 );
@@ -89,11 +106,13 @@ const updateThemeReducer = (state, { payload }) => update(state,
 
 /* Action types that cause a pending flag */
 const fetchableTypes = [
-  epics.actionTypes.fetchDeviceGroups
+  epics.actionTypes.fetchDeviceGroups,
+  epics.actionTypes.fetchAzureMapsKey
 ];
 
 export const redux = createReducerScenario({
   updateDeviceGroups: { type: 'APP_DEVICE_GROUP_UPDATE', reducer: updateDeviceGroupsReducer },
+  updateAzureMapsKeyGroup: { type: 'APP_AZURE_MAPS_KEY_UPDATE', reducer: updateAzureMapsKeyReducer },
   updateActiveDeviceGroup: { type: 'APP_ACTIVE_DEVICE_GROUP_UPDATE', reducer: updateActiveDeviceGroupsReducer },
   changeTheme: { type: 'APP_CHANGE_THEME', reducer: updateThemeReducer },
   registerError: { type: 'APP_REDUCER_ERROR', reducer: errorReducer },
@@ -114,6 +133,10 @@ export const getDeviceGroupsError = state =>
   getError(getAppReducer(state), epics.actionTypes.fetchDeviceGroups);
 export const getDeviceGroupsPendingStatus = state =>
   getPending(getAppReducer(state), epics.actionTypes.fetchDeviceGroups);
+export const getAzureMapsKeyError = state =>
+  getError(getAppReducer(state), epics.actionTypes.fetchAzureMapsKey);
+export const getAzureMapsKeyPendingStatus = state =>
+  getPending(getAppReducer(state), epics.actionTypes.fetchAzureMapsKey);
 export const getDeviceGroups = createSelector(
   getDeviceGroupEntities,
   deviceGroups => Object.keys(deviceGroups).map(id => deviceGroups[id])
