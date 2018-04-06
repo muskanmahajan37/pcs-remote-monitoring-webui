@@ -19,7 +19,7 @@ export class ConfigService {
 
   /** Returns the azure map key for the account */
   static getAzureMapKey() {
-    return Observable.of('')
+    return Observable.of('') // TODO: Implement the real service call
       .delay(2000);
   }
 }
