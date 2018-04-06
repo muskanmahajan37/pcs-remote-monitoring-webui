@@ -51,9 +51,12 @@ const initialState = {
   kpisIsPending: true,
   kpisError: null,
 
-  // Map data
+  // Summary data
   openWarningCount: undefined,
   openCriticalCount: undefined,
+
+  // Map data
+  devicesInAlarm: {},
 
   lastRefreshed: undefined
 };
@@ -116,7 +119,6 @@ export class Dashboard extends Component {
           currentAlarms,
           previousAlarms
         ]) => {
-
           // Process all the data out of the currentAlarms list
           const currentAlarmsStats = currentAlarms.reduce((acc, alarm) => {
               const isOpen = alarm.status === 'open';
@@ -169,6 +171,16 @@ export class Dashboard extends Component {
             previousCount: previousTopAlarmsMap[ruleId] || 0
           }));
           // ================== Top Alarms - END
+
+          const devicesInAlarm = currentAlarms
+            .filter(({ status }) => status === 'open')
+            .reduce((acc, { deviceId, severity, ruleId}) => {
+              return {
+                ...acc,
+                [deviceId]: { severity, ruleId }
+              };
+            }, {});
+
           return ({
             kpisIsPending: false,
 
@@ -178,9 +190,12 @@ export class Dashboard extends Component {
             criticalAlarmsChange,
             alarmsPerDeviceId: currentAlarmsStats.alarmsPerDeviceId,
 
-            // Map data
+            // Summary data
             openWarningCount: currentAlarmsStats.openWarningCount,
-            openCriticalCount: currentAlarmsStats.openCriticalCount
+            openCriticalCount: currentAlarmsStats.openCriticalCount,
+
+            // Map data
+            devicesInAlarm
           });
         });
       // KPI stream - END
@@ -252,6 +267,8 @@ export class Dashboard extends Component {
       openWarningCount,
       openCriticalCount,
 
+      devicesInAlarm,
+
       lastRefreshed
     } = this.state;
 
@@ -312,7 +329,8 @@ export class Dashboard extends Component {
               <MapPanel
                 azureMapsKey={azureMapsKey}
                 devices={devices}
-                isPending={devicesIsPending}
+                devicesInAlarm={devicesInAlarm}
+                isPending={devicesIsPending || kpisIsPending}
                 error={devicesError || kpisError}
                 t={t} />
             </PanelErrorBoundary>

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved.
 
 import React, { Component } from 'react';
+import update from 'immutability-helper';
 
 import { Indicator } from 'components/shared';
 import {
@@ -15,7 +16,19 @@ import {
 import './mapPanel.css';
 
 const atlas = window.atlas;
-const deviceLayer = 'devices-layer';
+const nominalDeviceLayer = 'devices-nominal-layer';
+const warningDevicesLayer = 'devices-critical-layer';
+const criticalDevicesLayer = 'devices-critical-layer';
+
+const deviceToMapPin = ({ id, properties, type }) =>
+  new atlas.data.Feature(
+    new atlas.data.Point([properties.longitude, properties.latitude]),
+    {
+      name: id,
+      address: properties.location || '',
+      type
+    }
+  );
 
 export class MapPanel extends Component {
 
@@ -29,10 +42,26 @@ export class MapPanel extends Component {
       });
 
       this.map.addPins([], {
-        name: deviceLayer,
+        name: nominalDeviceLayer,
         cluster: true,
         icon: 'pin-blue'
       });
+
+      this.map.addPins([], {
+        name: warningDevicesLayer,
+        cluster: true,
+        icon: 'pin-darkblue'
+      });
+
+      this.map.addPins([], {
+        name: criticalDevicesLayer,
+        cluster: true,
+        icon: 'pin-red'
+      });
+
+      // this.map.addEventListener("click", deviceLayer, ({ features: [ pin ] }) => {
+      //   console.log("Clicked on ", pin);
+      // });
 
       this.calculatePins(this.props, true);
     }
@@ -44,40 +73,62 @@ export class MapPanel extends Component {
 
   calculatePins(props, initialCall = false) {
     const deviceIds = Object.keys(props.devices);
-    if (!initialCall && deviceIds.join() === Object.keys(this.props.devices).join()) return;
+    const prevDeviceIds = Object.keys(this.props.devices);
+    const alarmDeviceIds = Object.keys(props.devicesInAlarm);
+    const prevAlarmDeviceIds = Object.keys(this.props.devicesInAlarm);
+    const noNewDevices = deviceIds.join() === prevDeviceIds.join();
+    if (
+      !initialCall
+      && noNewDevices
+      && alarmDeviceIds.join() === prevAlarmDeviceIds.join()
+    ) return;
 
-    const devicePins = deviceIds
+    const geoLocatedDevices = deviceIds
       .map(key => props.devices[key])
-      .filter(({ properties }) => properties.latitude && properties.longitude)
-      .map(({ id, properties }) =>
-        new atlas.data.Feature(new atlas.data.Point([properties.longitude, properties.latitude]), {
-          name: id,
-          address: properties.location || ''
-        })
+      .filter(({ properties }) => properties.latitude && properties.longitude);
+
+    const splitDevices  = geoLocatedDevices
+      .reduce(
+        (acc, device) => {
+          if (device.id in props.devicesInAlarm) {
+            return update(acc, {
+              [props.devicesInAlarm[device.id].severity]: { $push: [deviceToMapPin(device)] }
+            });
+          } else {
+            return update(acc, {
+              normal: { $push: [deviceToMapPin(device)] }
+            });
+          }
+        },
+        { normal: [], warning: [], critical: [] }
       );
 
+    const devicePins = geoLocatedDevices.map(deviceToMapPin);
+
     if (this.map && devicePins.length) {
-      this.map.addPins(devicePins, {
-        name: deviceLayer
-      });
+      this.map.addPins(splitDevices.normal, { name: nominalDeviceLayer, overwrite: true });
+      this.map.addPins(splitDevices.warning, { name: warningDevicesLayer, overwrite: true });
+      this.map.addPins(splitDevices.critical, { name: criticalDevicesLayer, overwrite: true });
 
-      const lons = [];
-      const lats = [];
-      devicePins.forEach(({ geometry: { coordinates: [ longitude, latitude ] } }) => {
-        lons.push(longitude);
-        lats.push(latitude);
-      });
+      if (!noNewDevices) {
+        const lons = [];
+        const lats = [];
+        devicePins.forEach(({ geometry: { coordinates: [ longitude, latitude ] } }) => {
+          lons.push(longitude);
+          lats.push(latitude);
+        });
 
-      const swLon = Math.min.apply(null, lons);
-      const swLat = Math.min.apply(null, lats);
-      const neLon = Math.max.apply(null, lons);
-      const neLat = Math.max.apply(null, lats);
+        const swLon = Math.min.apply(null, lons);
+        const swLat = Math.min.apply(null, lats);
+        const neLon = Math.max.apply(null, lons);
+        const neLat = Math.max.apply(null, lats);
 
-      // Zoom the map to the bounding box of the devices
-      this.map.setCameraBounds({
-        bounds: [swLon, swLat, neLon, neLat],
-        padding: 50
-      });
+        // Zoom the map to the bounding box of the devices
+        this.map.setCameraBounds({
+          bounds: [swLon, swLat, neLon, neLat],
+          padding: 50
+        });
+      }
     }
   }
 
@@ -96,8 +147,8 @@ export class MapPanel extends Component {
   }
 
   render() {
-    const { t, isPending, error } = this.props;
-    const showOverlay = isPending;
+    const { t, isPending, devices, error } = this.props;
+    const showOverlay = isPending && !Object.keys(devices).length;
     return (
       <Panel className="map-panel-container">
         <PanelHeader>
