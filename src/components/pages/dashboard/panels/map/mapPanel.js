@@ -159,7 +159,7 @@ export class MapPanel extends Component {
   render() {
     const { t, isPending, devices, azureMapsKey, mapKeyIsPending, error } = this.props;
     console.log('mapKeyIsPending', mapKeyIsPending);
-    const showOverlay = isPending && mapKeyIsPending;
+    const showOverlay = !error && isPending && mapKeyIsPending;
     return (
       <Panel className="map-panel-container">
         <PanelHeader>
