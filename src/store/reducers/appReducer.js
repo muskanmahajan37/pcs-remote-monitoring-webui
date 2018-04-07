@@ -122,12 +122,10 @@ const updateDeviceGroupsReducer = (state, { payload, fromAction }) => {
   });
 };
 
-const updateAzureMapsKeyReducer = (state, { payload, fromAction }) => update(state,
-  {
-    azureMapsKey: { $set: payload },
-    ...setPending(fromAction.type, false)
-  }
-);
+const updateAzureMapsKeyReducer = (state, { payload, fromAction }) => update(state, {
+  azureMapsKey: { $set: payload },
+  ...setPending(fromAction.type, false)
+});
 
 const updateActiveDeviceGroupsReducer = (state, { payload }) => update(state,
   { activeDeviceGroupId: { $set: payload } }
@@ -138,15 +136,15 @@ const updateThemeReducer = (state, { payload }) => update(state,
 );
 
 const logoReducer = (state, { payload }) => update(state, {
-    logo: { $set: payload.logo ? payload.logo : svgs.contoso },
-    name: { $set: payload.name ? payload.name : 'Contoso' },
-    isDefaultLogo: { $set: payload.logo ? false : true }
-  });
+  logo: { $set: payload.logo ? payload.logo : svgs.contoso },
+  name: { $set: payload.name ? payload.name : 'Contoso' },
+  isDefaultLogo: { $set: payload.logo ? false : true }
+});
 
 const releaseReducer = (state, { payload }) => update(state, {
-    version: { $set: payload.version },
-    releaseNotesUrl: { $set: payload.releaseNotesUrl }
-  });
+  version: { $set: payload.version },
+  releaseNotesUrl: { $set: payload.releaseNotesUrl }
+});
 
 /* Action types that cause a pending flag */
 const fetchableTypes = [
