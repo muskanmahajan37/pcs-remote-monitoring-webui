@@ -37,9 +37,6 @@ export class MapPanel extends Component {
       this.initializeMap(this.props.azureMapsKey);
     }
     this.calculatePins(this.props, true);
-    // this.map.addEventListener("click", deviceLayer, ({ features: [ pin ] }) => {
-    //   console.log("Clicked on ", pin);
-    // });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -79,6 +76,12 @@ export class MapPanel extends Component {
   calculatePins(props, mounting = false) {
     const deviceIds = Object.keys(props.devices);
     const prevDeviceIds = Object.keys(this.props.devices);
+    /*
+    Zoom to the bounding box of devices only, when
+      1) When devices become available for the first time
+      2) When the map key becomes available for the first time
+      3) When the component is mounting and the devices and map key are already loaded
+    */
     const boundZoomToDevices =
       (deviceIds.length > 0 && prevDeviceIds.length === 0)
       || (props.azureMapsKey && !this.props.azureMapsKey)
@@ -89,7 +92,7 @@ export class MapPanel extends Component {
 
       const { normal, warning, critical }  = this.devicesToPins(geoLocatedDevices, props.devicesInAlarm)
 
-      if (this.map && (normal.length || warning.length || critical.length)) {
+      if (this.map) {
         this.map.addPins(normal, { name: nominalDeviceLayer, overwrite: true });
         this.map.addPins(warning, { name: warningDevicesLayer, overwrite: true });
         this.map.addPins(critical, { name: criticalDevicesLayer, overwrite: true });
