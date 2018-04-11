@@ -5,6 +5,7 @@
 export * from './dashboard/dashboard.container';
 export * from './devices/devices.container';
 export * from './rules/rules.container';
+export * from './profiles/profiles.container';
 export * from './maintenance/maintenance.container';
 export * from './pageNotFound/pageNotFound';
 export * from './pageNotFound/pageNotFound.container';

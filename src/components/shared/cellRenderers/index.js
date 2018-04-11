@@ -6,5 +6,6 @@ export * from './isSimulatedRenderer/isSimulatedRenderer';
 export * from './lastTriggerRenderer/lastTriggerRenderer';
 export * from './linkRenderer/linkRenderer';
 export * from './ruleStatusRenderer/ruleStatusRenderer';
+export * from './profileStatusRenderer/profileStatusRenderer';
 export * from './severityRenderer/severityRenderer';
 export * from './timeRenderer/timeRenderer';

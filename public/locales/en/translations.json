@@ -12,6 +12,7 @@
     "dashboard": "dashboard",
     "devices": "devices",
     "rules": "rules",
+    "profiles": "profiles",
     "maintenance": "maintenance"
   },
   "errorFormat": "Error: {{message}}",
@@ -214,6 +215,11 @@
       "maintenanceLog": "Maintenance log",
       "unknown": "Unknown",
       "explore": "Explore"
+    }
+  },
+  "profiles": {
+    "grid": {
+      "displayName": "Name"
     }
   },
   "fileInput" : {
