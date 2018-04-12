@@ -15,6 +15,7 @@ import  {
   DashboardContainer as DashboardPage,
   DevicesContainer as DevicesPage,
   RulesContainer as RulesPage,
+  ProfilesContainer as ProfilesPage,
   MaintenanceContainer as MaintenancePage,
   PageNotFoundContainer as PageNotFound
 } from 'components/pages';
@@ -27,8 +28,9 @@ import './app.css';
 const dashboardTab   = { to: '/dashboard',   svg: svgs.tabs.dashboard,   labelId: 'tabs.dashboard' };
 const devicesTab     = { to: '/devices',     svg: svgs.tabs.devices,     labelId: 'tabs.devices' };
 const rulesTab       = { to: '/rules',       svg: svgs.tabs.rules,       labelId: 'tabs.rules' };
+const profilesTab    = { to: '/profiles',    svg: svgs.tabs.rules,       labelId: 'tabs.profiles' };
 const maintenanceTab = { to: '/maintenance', svg: svgs.tabs.maintenance, labelId: 'tabs.maintenance' };
-const tabConfigs = [ dashboardTab, devicesTab, rulesTab, maintenanceTab ];
+const tabConfigs = [ dashboardTab, devicesTab, rulesTab, profilesTab, maintenanceTab ];
 
 /** The base component for the app */
 class App extends Component {
@@ -61,6 +63,7 @@ class App extends Component {
               <Route exact path={dashboardTab.to} component={DashboardPage} />
               <Route exact path={devicesTab.to} component={DevicesPage} />
               <Route exact path={rulesTab.to} component={RulesPage} />
+              <Route exact path={profilesTab.to} component={ProfilesPage} />
               <Route path={maintenanceTab.to} component={MaintenancePage} />
               <Route component={PageNotFound} />
             </Switch>

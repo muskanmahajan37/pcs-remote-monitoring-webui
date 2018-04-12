@@ -10,8 +10,16 @@ export const toDeviceGroupsModel = (response = {}) => (response.items || [])
     'eTag': 'eTag'
   }));
 
-  export const toSolutionSettingThemeModel = (response = {}) => reshape(response, {
+export const toSolutionSettingThemeModel = (response = {}) => reshape(response, {
     'AzureMapsKey': 'azureMapsKey',
     'description': 'description',
     'name': 'name'
-  });
+});
+
+export const toProfilesModel = (response = {}) => (response.items || [])
+    .map((profile = {}) => reshape(profile, {
+        'id': 'id',
+        'displayName': 'displayName',
+        'desiredProperties': 'desiredProperties',
+        'eTag': 'eTag'
+    }));

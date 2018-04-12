@@ -2,7 +2,7 @@
 
 import Config from 'app.config';
 import { HttpClient } from './httpClient';
-import { toDeviceGroupsModel, toSolutionSettingThemeModel } from './models';
+import { toDeviceGroupsModel, toProfilesModel, toSolutionSettingThemeModel } from './models';
 import { stringToBoolean } from 'utilities';
 
 const ENDPOINT = Config.serviceUrls.config;
@@ -64,5 +64,9 @@ export class ConfigService {
       }
     }
     return returnObj;
+  }
+
+  static getProfiles() {
+      return HttpClient.get(`${ENDPOINT}profiles`).map(toProfilesModel);
   }
 }

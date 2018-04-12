@@ -6,6 +6,7 @@ import { combineEpics } from 'redux-observable';
 import { epics as appEpics } from './reducers/appReducer';
 import { epics as devicesEpics } from './reducers/devicesReducer';
 import { epics as rulesEpics } from './reducers/rulesReducer';
+import { epics as profilesEpics } from './reducers/profilesReducer';
 import { epics as simulationEpics } from './reducers/deviceSimulationReducer';
 
 // Extract the epic function from each property object
@@ -13,6 +14,7 @@ const epics = [
   ...appEpics.getEpics(),
   ...devicesEpics.getEpics(),
   ...rulesEpics.getEpics(),
+  ...profilesEpics.getEpics(),
   ...simulationEpics.getEpics()
 ];
 
